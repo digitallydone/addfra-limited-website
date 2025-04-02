@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Badge } from "@/components/ui/badge"
 import { useMobile } from "@/hooks/use-mobile"
+import { useCart } from "@/context/cart-context"
+import { useSession } from "next-auth/react"
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -25,6 +27,8 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   const isMobile = useMobile()
+  const { itemCount } = useCart()
+  const { data: session } = useSession()
 
   // Determine if the current path is active
   const isActive = (path: string) => {
@@ -66,7 +70,11 @@ export default function Header() {
           <Link href="/shop/cart">
             <Button variant="ghost" size="icon" className="relative">
               <ShoppingCart className="h-5 w-5" />
-              <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0">0</Badge>
+              {itemCount > 0 && (
+                <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0">
+                  {itemCount}
+                </Badge>
+              )}
             </Button>
           </Link>
 
@@ -77,16 +85,40 @@ export default function Header() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem asChild>
-                <Link href="/auth/login" className="w-full cursor-pointer">
-                  Login
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem asChild>
-                <Link href="/auth/register" className="w-full cursor-pointer">
-                  Register
-                </Link>
-              </DropdownMenuItem>
+              {session ? (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link href="/dashboard" className="w-full cursor-pointer">
+                      Dashboard
+                    </Link>
+                  </DropdownMenuItem>
+                  {session.user.role === "admin" && (
+                    <DropdownMenuItem asChild>
+                      <Link href="/admin" className="w-full cursor-pointer">
+                        Admin Panel
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuItem asChild>
+                    <Link href="/api/auth/signout" className="w-full cursor-pointer">
+                      Logout
+                    </Link>
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <>
+                  <DropdownMenuItem asChild>
+                    <Link href="/auth/login" className="w-full cursor-pointer">
+                      Login
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild>
+                    <Link href="/auth/register" className="w-full cursor-pointer">
+                      Register
+                    </Link>
+                  </DropdownMenuItem>
+                </>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
 

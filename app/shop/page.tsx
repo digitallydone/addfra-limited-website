@@ -14,120 +14,31 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import { getProducts } from "@/app/actions/product"
 
-// Sample product data
-const products = [
-  {
-    id: 1,
-    title: "Refrigeration Unit",
-    image: "/placeholder.svg?height=300&width=300",
-    price: "$1,200",
-    category: "Parts",
-    rating: 4.5,
-    description: "High-quality refrigeration unit for commercial vehicles, energy-efficient and reliable.",
-  },
-  {
-    id: 2,
-    title: "Heavy-Duty Toolbox",
-    image: "/placeholder.svg?height=300&width=300",
-    price: "$250",
-    category: "Accessories",
-    rating: 4.8,
-    description: "Durable toolbox designed for commercial vehicles, with secure locking mechanism.",
-  },
-  {
-    id: 3,
-    title: "LED Work Light Kit",
-    image: "/placeholder.svg?height=300&width=300",
-    price: "$85",
-    category: "Accessories",
-    rating: 4.7,
-    description: "Bright LED work lights for improved visibility during night operations.",
-  },
-  {
-    id: 4,
-    title: "Hydraulic Lift System",
-    image: "/placeholder.svg?height=300&width=300",
-    price: "$1,800",
-    category: "Parts",
-    rating: 4.6,
-    description: "Powerful hydraulic lift system for loading and unloading heavy cargo.",
-  },
-  {
-    id: 5,
-    title: "Digital Temperature Controller",
-    image: "/placeholder.svg?height=300&width=300",
-    price: "$320",
-    category: "Parts",
-    rating: 4.4,
-    description: "Precise digital temperature controller for refrigerated vehicles.",
-  },
-  {
-    id: 6,
-    title: "Vehicle Tracking System",
-    image: "/placeholder.svg?height=300&width=300",
-    price: "$450",
-    category: "Electronics",
-    rating: 4.9,
-    description: "Advanced GPS tracking system for fleet management and vehicle security.",
-  },
-  {
-    id: 7,
-    title: "Heavy-Duty Floor Mats",
-    image: "/placeholder.svg?height=300&width=300",
-    price: "$120",
-    category: "Accessories",
-    rating: 4.3,
-    description: "Durable rubber floor mats designed for commercial vehicles.",
-  },
-  {
-    id: 8,
-    title: "Cargo Securing Kit",
-    image: "/placeholder.svg?height=300&width=300",
-    price: "$180",
-    category: "Accessories",
-    rating: 4.7,
-    description: "Complete kit for securing cargo during transport, includes straps and hooks.",
-  },
-  {
-    id: 9,
-    title: "Backup Camera System",
-    image: "/placeholder.svg?height=300&width=300",
-    price: "$280",
-    category: "Electronics",
-    rating: 4.8,
-    description: "High-resolution backup camera system for improved safety during reversing.",
-  },
-  {
-    id: 10,
-    title: "Air Compressor",
-    image: "/placeholder.svg?height=300&width=300",
-    price: "$350",
-    category: "Tools",
-    rating: 4.6,
-    description: "Portable air compressor for tire inflation and pneumatic tool operation.",
-  },
-  {
-    id: 11,
-    title: "Insulation Material (Roll)",
-    image: "/placeholder.svg?height=300&width=300",
-    price: "$95",
-    category: "Materials",
-    rating: 4.5,
-    description: "High-quality insulation material for refrigerated vehicle customization.",
-  },
-  {
-    id: 12,
-    title: "Power Inverter",
-    image: "/placeholder.svg?height=300&width=300",
-    price: "$220",
-    category: "Electronics",
-    rating: 4.7,
-    description: "Reliable power inverter for converting DC to AC power in vehicles.",
-  },
-]
+export default async function ShopPage({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
+  // Parse search parameters
+  const category = typeof searchParams.category === "string" ? searchParams.category : undefined
+  const status = typeof searchParams.status === "string" ? searchParams.status : undefined
+  const search = typeof searchParams.search === "string" ? searchParams.search : undefined
+  const sort = typeof searchParams.sort === "string" ? searchParams.sort : "newest"
+  const page = typeof searchParams.page === "string" ? Number.parseInt(searchParams.page) : 1
+  const limit = 12
 
-export default function ShopPage() {
+  // Fetch products from database
+  const { products, pagination } = await getProducts({
+    category,
+    status: "active", // Only show active products
+    search,
+    sort,
+    page,
+    limit,
+  })
+
   return (
     <main className="flex min-h-screen flex-col">
       {/* Hero Section */}
@@ -152,7 +63,7 @@ export default function ShopPage() {
                 <Filter className="h-4 w-4" /> Filters <ChevronDown className="h-4 w-4" />
               </Button>
 
-              <Select>
+              <Select defaultValue={category || "all"}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
@@ -185,15 +96,16 @@ export default function ShopPage() {
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
                 <Input type="search" placeholder="Search products..." className="pl-9" />
               </div>
-              <Select>
+              <Select defaultValue={sort}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="featured">Featured</SelectItem>
+                  <SelectItem value="newest">Featured</SelectItem>
                   <SelectItem value="price-asc">Price: Low to High</SelectItem>
                   <SelectItem value="price-desc">Price: High to Low</SelectItem>
-                  <SelectItem value="rating">Highest Rated</SelectItem>
+                  <SelectItem value="name-asc">Name: A to Z</SelectItem>
+                  <SelectItem value="name-desc">Name: Z to A</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -205,79 +117,97 @@ export default function ShopPage() {
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((product) => (
-              <Card key={product.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={product.image || "/placeholder.svg"}
-                    alt={product.title}
-                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                  />
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="absolute top-2 right-2 bg-white/80 hover:bg-white rounded-full"
-                  >
-                    <Heart className="h-4 w-4 text-slate-700" />
-                  </Button>
-                </div>
-                <CardContent className="pt-6">
-                  <div className="flex justify-between items-start mb-2">
-                    <CardTitle className="text-lg">{product.title}</CardTitle>
-                    <Badge variant="outline" className="ml-2">
-                      {product.category}
-                    </Badge>
-                  </div>
-                  <p className="text-slate-700 text-sm mb-2 line-clamp-2">{product.description}</p>
-                  <div className="flex justify-between items-center mt-4">
-                    <p className="text-xl font-bold text-primary">{product.price}</p>
-                    <div className="flex items-center">
-                      <span className="text-yellow-400">★</span>
-                      <span className="text-sm ml-1">{product.rating}</span>
-                    </div>
-                  </div>
-                </CardContent>
-                <CardFooter className="flex justify-between">
-                  <Link href={`/shop/products/${product.id}`}>
-                    <Button variant="outline" size="sm">
-                      View Details
+            {products.length > 0 ? (
+              products.map((product) => (
+                <Card key={product.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={product.images?.[0] || "/placeholder.svg?height=300&width=300"}
+                      alt={product.name}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    />
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="absolute top-2 right-2 bg-white/80 hover:bg-white rounded-full"
+                    >
+                      <Heart className="h-4 w-4 text-slate-700" />
                     </Button>
-                  </Link>
-                  <Button size="sm" className="flex items-center gap-1">
-                    <ShoppingCart className="h-4 w-4" /> Add to Cart
-                  </Button>
-                </CardFooter>
-              </Card>
-            ))}
+                  </div>
+                  <CardContent className="pt-6">
+                    <div className="flex justify-between items-start mb-2">
+                      <CardTitle className="text-lg">{product.name}</CardTitle>
+                      <Badge variant="outline" className="ml-2">
+                        {product.category}
+                      </Badge>
+                    </div>
+                    <p className="text-slate-700 text-sm mb-2 line-clamp-2">{product.description}</p>
+                    <div className="flex justify-between items-center mt-4">
+                      <p className="text-xl font-bold text-primary">${product.price.toFixed(2)}</p>
+                      <div className="flex items-center">
+                        <span className="text-sm ml-1">{product.quantity > 0 ? "In Stock" : "Out of Stock"}</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                  <CardFooter className="flex justify-between">
+                    <Link href={`/shop/products/${product.id}`}>
+                      <Button variant="outline" size="sm">
+                        View Details
+                      </Button>
+                    </Link>
+                    <Button size="sm" className="flex items-center gap-1" disabled={product.quantity <= 0}>
+                      <ShoppingCart className="h-4 w-4" /> Add to Cart
+                    </Button>
+                  </CardFooter>
+                </Card>
+              ))
+            ) : (
+              <div className="col-span-4 text-center py-12">
+                <p className="text-lg text-slate-500">No products found. Try adjusting your filters.</p>
+              </div>
+            )}
           </div>
 
           {/* Pagination */}
-          <div className="mt-12">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious href="#" />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#" isActive>
-                    1
-                  </PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">2</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationLink href="#">3</PaginationLink>
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationEllipsis />
-                </PaginationItem>
-                <PaginationItem>
-                  <PaginationNext href="#" />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
+          {pagination && pagination.totalPages > 1 && (
+            <div className="mt-12">
+              <Pagination>
+                <PaginationContent>
+                  {page > 1 && (
+                    <PaginationItem>
+                      <PaginationPrevious
+                        href={`/shop?page=${page - 1}&sort=${sort}${category ? `&category=${category}` : ""}${search ? `&search=${search}` : ""}`}
+                      />
+                    </PaginationItem>
+                  )}
+
+                  {Array.from({ length: Math.min(5, pagination.totalPages) }, (_, i) => {
+                    const pageNumber = i + 1
+                    return (
+                      <PaginationItem key={pageNumber}>
+                        <PaginationLink
+                          href={`/shop?page=${pageNumber}&sort=${sort}${category ? `&category=${category}` : ""}${search ? `&search=${search}` : ""}`}
+                          isActive={pageNumber === page}
+                        >
+                          {pageNumber}
+                        </PaginationLink>
+                      </PaginationItem>
+                    )
+                  })}
+
+                  {pagination.totalPages > 5 && <PaginationEllipsis />}
+
+                  {page < pagination.totalPages && (
+                    <PaginationItem>
+                      <PaginationNext
+                        href={`/shop?page=${page + 1}&sort=${sort}${category ? `&category=${category}` : ""}${search ? `&search=${search}` : ""}`}
+                      />
+                    </PaginationItem>
+                  )}
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </div>
       </section>
 
@@ -296,7 +226,7 @@ export default function ShopPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent flex flex-col justify-end p-6">
                 <h3 className="text-xl font-bold text-white mb-2">Vehicle Parts</h3>
                 <p className="text-slate-200 mb-4">High-quality parts for all types of commercial vehicles</p>
-                <Link href="/shop/category/parts">
+                <Link href="/shop?category=parts">
                   <Button variant="secondary" size="sm">
                     Browse Parts
                   </Button>
@@ -313,7 +243,7 @@ export default function ShopPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent flex flex-col justify-end p-6">
                 <h3 className="text-xl font-bold text-white mb-2">Accessories</h3>
                 <p className="text-slate-200 mb-4">Enhance your vehicle with our range of accessories</p>
-                <Link href="/shop/category/accessories">
+                <Link href="/shop?category=accessories">
                   <Button variant="secondary" size="sm">
                     Browse Accessories
                   </Button>
@@ -330,7 +260,7 @@ export default function ShopPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent flex flex-col justify-end p-6">
                 <h3 className="text-xl font-bold text-white mb-2">Tools & Equipment</h3>
                 <p className="text-slate-200 mb-4">Professional tools for maintenance and repairs</p>
-                <Link href="/shop/category/tools">
+                <Link href="/shop?category=tools">
                   <Button variant="secondary" size="sm">
                     Browse Tools
                   </Button>
