@@ -4,6 +4,7 @@ import "./globals.css"
 import { Providers } from "@/components/providers/providers"
 import Header from "@/components/header"
 import Footer from "@/components/footer"
+import './globals.css'
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -11,7 +12,6 @@ export const metadata = {
   title: "ADDFRA Limited - Custom Automobile Solutions",
   description:
     "Specializing in customized automobiles, refrigerated trucks, trailers, and vans in Ghana and internationally.",
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -33,5 +33,3 @@ export default function RootLayout({
 }
 
 
-
-import './globals.css'
