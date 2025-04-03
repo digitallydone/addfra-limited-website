@@ -11,8 +11,8 @@
     "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@auth/core": "latest",
-    "@auth/prisma-adapter": "latest",
+    "@auth/core": "^0.34.2",
+    "@auth/prisma-adapter": "^2.0.0",
     "@hookform/resolvers": "^3.9.1",
     "@prisma/client": "latest",
     "@radix-ui/react-accordion": "^1.2.2",
@@ -54,7 +54,7 @@
     "input-otp": "1.4.1",
     "lucide-react": "^0.454.0",
     "next": "15.2.4",
-    "next-auth": "latest",
+    "next-auth": "^4.24.11",
     "next-themes": "^0.4.4",
     "nodemailer": "latest",
     "prisma": "latest",
