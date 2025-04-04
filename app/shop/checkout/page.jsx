@@ -23,7 +23,7 @@ export default function CheckoutPage() {
   const [paymentMethod, setPaymentMethod] = useState("paystack")
   const [step, setStep] = useState(1)
   const [loading, setLoading] = useState(false)
-  const [orderId, setOrderId] = useState<string | null>(null)
+  const [orderId, setOrderId] = useState(null)
 
   // Calculate shipping and total
   const shipping = subtotal > 0 ? 50 : 0
