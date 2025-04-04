@@ -623,10 +623,10 @@ function LoginForm() {
 
   return (
     <Tabs defaultValue="email" className="w-full">
-      <TabsList className="grid w-full grid-cols-2 mb-6">
+      {/* <TabsList className="grid w-full grid-cols-2 mb-6">
         <TabsTrigger value="email">Email</TabsTrigger>
         <TabsTrigger value="phone">Phone</TabsTrigger>
-      </TabsList>
+      </TabsList> */}
 
       <TabsContent value="email">
         <form className="space-y-4" onSubmit={handleEmailLogin}>
@@ -844,7 +844,7 @@ export default function LoginPage() {
             <LoginForm />
           </Suspense>
 
-          <div className="relative my-6">
+          {/* <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-slate-200"></div>
             </div>
@@ -888,7 +888,7 @@ export default function LoginPage() {
                 "Facebook"
               )}
             </Button>
-          </div>
+          </div> */}
         </CardContent>
         <CardFooter className="text-center text-sm">
           Don't have an account?{" "}
