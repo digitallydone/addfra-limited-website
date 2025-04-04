@@ -478,8 +478,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { toast } from "@/components/ui/use-toast";
+// import { toast } from "@/components/ui/use-toast";
 import { login } from "@/app/actions/auth";
+import { toast } from "@/hooks/use-toast";
 
 function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
