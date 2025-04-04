@@ -8,7 +8,7 @@ export default function AboutPage() {
     <main className="flex min-h-screen flex-col">
       {/* Hero Section */}
       <section className="relative h-[40vh] w-full bg-gradient-to-r from-slate-900 to-slate-800 flex items-center">
-        <div className="absolute inset-0 opacity-30 bg-[url('/placeholder.svg?height=800&width=1600')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 opacity-30 bg-[url('/worker-about1.jpg?height=800&width=1600')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 z-10">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">About ADDFRA Limited</h1>
@@ -42,7 +42,7 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="rounded-lg overflow-hidden shadow-xl">
-              <img src="/placeholder.svg?height=600&width=800" alt="ADDFRA workshop" className="w-full h-auto" />
+              <img src="/worker-about2.jpg?height=600&width=800" alt="ADDFRA workshop" className="w-full h-auto" />
             </div>
           </div>
         </div>
@@ -256,7 +256,7 @@ export default function AboutPage() {
                   </div>
                   <div className="md:pl-12">
                     <img
-                      src="/placeholder.svg?height=300&width=400"
+                      src="/team1.jpg?height=300&width=400"
                       alt="Company founding"
                       className="rounded-lg shadow-md"
                     />
@@ -272,7 +272,7 @@ export default function AboutPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="md:text-right md:pr-12 md:order-1 order-2">
                     <img
-                      src="/placeholder.svg?height=300&width=400"
+                      src="/trunk-1st.jpg?height=300&width=400"
                       alt="First refrigerated truck"
                       className="rounded-lg shadow-md md:ml-auto"
                     />
@@ -304,7 +304,7 @@ export default function AboutPage() {
                   </div>
                   <div className="md:pl-12">
                     <img
-                      src="/placeholder.svg?height=300&width=400"
+                      src="/site-facilty1.jpg?height=300&width=400"
                       alt="Expanded facility"
                       className="rounded-lg shadow-md"
                     />
@@ -320,7 +320,7 @@ export default function AboutPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="md:text-right md:pr-12 md:order-1 order-2">
                     <img
-                      src="/placeholder.svg?height=300&width=400"
+                      src="/team-int1.jpg?height=300&width=400"
                       alt="International expansion"
                       className="rounded-lg shadow-md md:ml-auto"
                     />
@@ -352,7 +352,7 @@ export default function AboutPage() {
                   </div>
                   <div className="md:pl-12">
                     <img
-                      src="/placeholder.svg?height=300&width=400"
+                      src="/trunk-ecom1.jpg?height=300&width=400"
                       alt="E-commerce launch"
                       className="rounded-lg shadow-md"
                     />
@@ -368,7 +368,7 @@ export default function AboutPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="md:text-right md:pr-12 md:order-1 order-2">
                     <img
-                      src="/placeholder.svg?height=300&width=400"
+                      src="/worker-about3.jpg?height=300&width=400"
                       alt="Present day"
                       className="rounded-lg shadow-md md:ml-auto"
                     />

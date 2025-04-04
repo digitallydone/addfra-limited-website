@@ -169,7 +169,7 @@ export default function FAQPage() {
     <main className="flex min-h-screen flex-col">
       {/* Hero Section */}
       <section className="relative h-[40vh] w-full bg-gradient-to-r from-slate-900 to-slate-800 flex items-center">
-        <div className="absolute inset-0 opacity-30 bg-[url('/placeholder.svg?height=800&width=1600')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 opacity-30 bg-[url('/faqs.jpg?height=800&width=1600')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 z-10">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Frequently Asked Questions</h1>

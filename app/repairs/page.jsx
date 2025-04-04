@@ -10,7 +10,7 @@ export default function RepairsPage() {
     <main className="flex min-h-screen flex-col">
       {/* Hero Section */}
       <section className="relative h-[40vh] w-full bg-gradient-to-r from-slate-900 to-slate-800 flex items-center">
-        <div className="absolute inset-0 opacity-30 bg-[url('/placeholder.svg?height=800&width=1600')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 opacity-30 bg-[url('/trunk-rep2.jpg?height=800&width=1600')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 z-10">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Vehicle Repairs & Maintenance</h1>
@@ -212,7 +212,7 @@ export default function RepairsPage() {
       </section>
 
       {/* Service Plans */}
-      <section className="py-16 bg-white">
+      {/* <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold mb-4">Maintenance Plans</h2>
@@ -385,7 +385,7 @@ export default function RepairsPage() {
             </TabsContent>
           </Tabs>
         </div>
-      </section>
+      </section> */}
 
       {/* FAQ Section */}
       <section className="py-16 bg-slate-50">

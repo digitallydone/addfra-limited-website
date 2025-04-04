@@ -10,7 +10,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col">
       {/* Hero Section */}
       <section className="relative h-[80vh] w-full bg-gradient-to-r from-slate-900 to-slate-800 flex items-center">
-        <div className="absolute inset-0 opacity-30 bg-[url('/placeholder.svg?height=1080&width=1920')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 opacity-30 bg-[url('/trunk-sm.jpg?height=1080&width=1920')] bg-cover bg-center"></div>
         <div className="container mx-auto px-4 z-10">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">Customized Automobile Solutions</h1>
@@ -53,7 +53,7 @@ export default function Home() {
               </Link>
             </div>
             <div className="rounded-lg overflow-hidden shadow-xl">
-              <img src="/placeholder.svg?height=600&width=800" alt="ADDFRA workshop" className="w-full h-auto" />
+              <img src="/trunk1.jpg" alt="ADDFRA workshop" className="w-full h-auto" />
             </div>
           </div>
         </div>
