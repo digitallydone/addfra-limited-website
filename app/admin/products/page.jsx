@@ -296,8 +296,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   Select,
-  SelectContent,
-  SelectItem,
+  // SelectContent,
+  // SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -311,7 +311,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-// import { getProducts } from "@/app/actions/product";
+import { getProducts } from "@/app/actions/product";
 
 export default function ProductsPage() {
   // State for filters and pagination
