@@ -307,10 +307,10 @@ import {
   PaginationEllipsis,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
+  // PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-// import { getProducts } from "@/app/actions/product";
+import { getProducts } from "@/app/actions/product";
 
 export default function ProductsPage() {
   // State for filters and pagination
