@@ -301,16 +301,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-// import {
-//   Pagination,
-//   PaginationContent,
-//   PaginationEllipsis,
-//   PaginationItem,
-//   PaginationLink,
-//   PaginationNext,
-//   PaginationPrevious,
-// } from "@/components/ui/pagination";
-// import { getProducts } from "@/app/actions/product";
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { getProducts } from "@/app/actions/product";
 
 export default function ProductsPage() {
   // State for filters and pagination
@@ -326,8 +327,8 @@ export default function ProductsPage() {
     totalPages: 1,
     total: 0,
   });
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [products, setProducts] = useState([]);
+  // const [isLoading, setIsLoading] = useState(true);
 
   // Fetch products when filters or pagination changes
   useEffect(() => {
