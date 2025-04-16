@@ -311,16 +311,16 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { getProducts } from "@/app/actions/product";
+// import { getProducts } from "@/app/actions/product";
 
 export default function ProductsPage() {
   // State for filters and pagination
-  // const [filters, setFilters] = useState({
-  //   category: "all",
-  //   status: "all",
-  //   search: "",
-  //   sort: "newest",
-  // });
+  const [filters, setFilters] = useState({
+    category: "all",
+    status: "all",
+    search: "",
+    sort: "newest",
+  });
   const [pagination, setPagination] = useState({
     page: 1,
     limit: 10,
