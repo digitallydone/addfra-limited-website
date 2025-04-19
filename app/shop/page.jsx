@@ -1,4 +1,7 @@
-import Link from "next/link";
+"use client";
+
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Filter, Search, ChevronDown, ShoppingCart, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -20,35 +23,91 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import Link from "next/link";
 import { getProducts } from "@/app/actions/product";
+import ProductCard from "../../components/ProductCard";
 
-export default async function ShopPage({ searchParams }) {
-  // Parse search parameters
-  const category =
-    typeof searchParams.category === "string"
-      ? searchParams.category
-      : undefined;
-  const status =
-    typeof searchParams.status === "string" ? searchParams.status : undefined;
-  const search =
-    typeof searchParams.search === "string" ? searchParams.search : undefined;
-  const sort =
-    typeof searchParams.sort === "string" ? searchParams.sort : "newest";
-  const page =
-    typeof searchParams.page === "string"
-      ? Number.parseInt(searchParams.page)
-      : 1;
+export default function ShopPage() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [products, setProducts] = useState([]);
+  const [pagination, setPagination] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [searchInput, setSearchInput] = useState("");
+
+  // Get current search params
+  const category = searchParams.get("category") || "";
+  const status = searchParams.get("status") || "active";
+  const search = searchParams.get("search") || "";
+  const sort = searchParams.get("sort") || "newest";
+  const page = parseInt(searchParams.get("page")) || 1;
+  const price = searchParams.get("price") || "";
   const limit = 12;
 
-  // Fetch products from database
-  const { products, pagination } = await getProducts({
-    category,
-    status: "active", // Only show active products
-    search,
-    sort,
-    page,
-    limit,
-  });
+  // Build URL with search params
+  const buildUrl = (newParams) => {
+    const params = new URLSearchParams();
+
+    // Keep existing params unless they're being overwritten
+    if (category && !newParams.category) params.set("category", category);
+    if (search && !newParams.search) params.set("search", search);
+    if (sort && !newParams.sort) params.set("sort", sort);
+    if (price && !newParams.price) params.set("price", price);
+    if (page && !newParams.page) params.set("page", page);
+
+    // Add new params
+    Object.entries(newParams).forEach(([key, value]) => {
+      if (value) params.set(key, value);
+      else params.delete(key);
+    });
+
+    return `/shop?${params.toString()}`;
+  };
+
+  // Fetch products using server action
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      const { products, pagination } = await getProducts({
+        category,
+        status,
+        search,
+        sort,
+        page,
+        limit,
+        price,
+      });
+
+      setProducts(products);
+      setPagination(pagination);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handle search submit
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    router.push(buildUrl({ search: searchInput, page: "" }));
+  };
+
+  // Handle filter changes
+  const handleFilterChange = (name, value) => {
+    router.push(buildUrl({ [name]: value, page: "" }));
+  };
+
+  // Handle sort change
+  const handleSortChange = (value) => {
+    router.push(buildUrl({ sort: value }));
+  };
+
+  // Initial fetch
+  useEffect(() => {
+    fetchProducts();
+    if (search) setSearchInput(search);
+  }, [category, status, search, sort, page, price]);
 
   return (
     <main className="flex min-h-screen flex-col">
@@ -66,9 +125,8 @@ export default async function ShopPage({ searchParams }) {
             </p>
           </div>
         </div>
-      </section>
-
-      {/* Filters and Search */}
+      </section>{" "}
+      {/* Filters Section */}
       <section className="py-8 bg-slate-50 border-b">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
@@ -78,7 +136,12 @@ export default async function ShopPage({ searchParams }) {
                 <ChevronDown className="h-4 w-4" />
               </Button>
 
-              <Select defaultValue={category || "all"}>
+              <Select
+                value={category || "all"}
+                onValueChange={(value) =>
+                  handleFilterChange("category", value === "all" ? "" : value)
+                }
+              >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
@@ -92,7 +155,12 @@ export default async function ShopPage({ searchParams }) {
                 </SelectContent>
               </Select>
 
-              <Select>
+              <Select
+                value={price || "all"}
+                onValueChange={(value) =>
+                  handleFilterChange("price", value === "all" ? "" : value)
+                }
+              >
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Price Range" />
                 </SelectTrigger>
@@ -107,15 +175,20 @@ export default async function ShopPage({ searchParams }) {
             </div>
 
             <div className="w-full md:w-auto flex items-center gap-2">
-              <div className="relative w-full md:w-64">
+              <form
+                onSubmit={handleSearchSubmit}
+                className="relative w-full md:w-64"
+              >
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
                 <Input
                   type="search"
                   placeholder="Search products..."
                   className="pl-9"
+                  value={searchInput}
+                  onChange={(e) => setSearchInput(e.target.value)}
                 />
-              </div>
-              <Select defaultValue={sort}>
+              </form>
+              <Select value={sort} onValueChange={handleSortChange}>
                 <SelectTrigger className="w-[180px]">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
@@ -131,132 +204,74 @@ export default async function ShopPage({ searchParams }) {
           </div>
         </div>
       </section>
-
       {/* Products Grid */}
       <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.length > 0 ? (
-              products.map((product) => (
-                <Card
-                  key={product.id}
-                  className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
-                >
-                  <div className="relative h-48 overflow-hidden">
-                    <img
-                      src={
-                        product.images?.[0] ||
-                        "/placeholder.svg?height=300&width=300"
-                      }
-                      alt={product.name}
-                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-                    />
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="absolute top-2 right-2 bg-white/80 hover:bg-white rounded-full"
-                    >
-                      <Heart className="h-4 w-4 text-slate-700" />
-                    </Button>
-                  </div>
-                  <CardContent className="pt-6">
-                    <div className="flex justify-between items-start mb-2">
-                      <CardTitle className="text-lg">{product.name}</CardTitle>
-                      <Badge variant="outline" className="ml-2">
-                        {product.category}
-                      </Badge>
-                    </div>
-                    <p className="text-slate-700 text-sm mb-2 line-clamp-2">
-                      {product.description}
-                    </p>
-                    <div className="flex justify-between items-center mt-4">
-                      <p className="text-xl font-bold text-primary">
-                        ${product.price.toFixed(2)}
-                      </p>
-                      <div className="flex items-center">
-                        <span className="text-sm ml-1">
-                          {product.quantity > 0 ? "In Stock" : "Out of Stock"}
-                        </span>
-                      </div>
-                    </div>
-                  </CardContent>
-                  <CardFooter className="flex justify-between">
-                    <Link href={`/shop/products/${product.id}`}>
-                      <Button variant="outline" size="sm">
-                        View Details
-                      </Button>
-                    </Link>
-                    <Button
-                      size="sm"
-                      className="flex items-center gap-1"
-                      disabled={product.quantity <= 0}
-                    >
-                      <ShoppingCart className="h-4 w-4" /> Add to Cart
-                    </Button>
-                  </CardFooter>
-                </Card>
-              ))
-            ) : (
-              <div className="col-span-4 text-center py-12">
-                <p className="text-lg text-slate-500">
-                  No products found. Try adjusting your filters.
-                </p>
-              </div>
-            )}
-          </div>
-
-          {/* Pagination */}
-          {pagination && pagination.totalPages > 1 && (
-            <div className="mt-12">
-              <Pagination>
-                <PaginationContent>
-                  {page > 1 && (
-                    <PaginationItem>
-                      <PaginationPrevious
-                        href={`/shop?page=${page - 1}&sort=${sort}${
-                          category ? `&category=${category}` : ""
-                        }${search ? `&search=${search}` : ""}`}
-                      />
-                    </PaginationItem>
-                  )}
-
-                  {Array.from(
-                    { length: Math.min(5, pagination.totalPages) },
-                    (_, i) => {
-                      const pageNumber = i + 1;
-                      return (
-                        <PaginationItem key={pageNumber}>
-                          <PaginationLink
-                            href={`/shop?page=${pageNumber}&sort=${sort}${
-                              category ? `&category=${category}` : ""
-                            }${search ? `&search=${search}` : ""}`}
-                            isActive={pageNumber === page}
-                          >
-                            {pageNumber}
-                          </PaginationLink>
-                        </PaginationItem>
-                      );
-                    }
-                  )}
-
-                  {pagination.totalPages > 5 && <PaginationEllipsis />}
-
-                  {page < pagination.totalPages && (
-                    <PaginationItem>
-                      <PaginationNext
-                        href={`/shop?page=${page + 1}&sort=${sort}${
-                          category ? `&category=${category}` : ""
-                        }${search ? `&search=${search}` : ""}`}
-                      />
-                    </PaginationItem>
-                  )}
-                </PaginationContent>
-              </Pagination>
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <p>Loading products...</p>
             </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {products.length > 0 ? (
+                  products.map((product) => (
+                   <ProductCard key={product.id} product={product} />
+                  ))
+                ) : (
+                  <div className="col-span-4 text-center py-12">
+                    <p className="text-lg text-slate-500">
+                      No products found. Try adjusting your filters.
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Pagination */}
+              {pagination && pagination.totalPages > 1 && (
+                <div className="mt-12">
+                  <Pagination>
+                    <PaginationContent>
+                      {page > 1 && (
+                        <PaginationItem>
+                          <PaginationPrevious
+                            href={buildUrl({ page: page - 1 })}
+                          />
+                        </PaginationItem>
+                      )}
+
+                      {Array.from(
+                        { length: Math.min(5, pagination.totalPages) },
+                        (_, i) => {
+                          const pageNumber = i + 1;
+                          return (
+                            <PaginationItem key={pageNumber}>
+                              <PaginationLink
+                                href={buildUrl({ page: pageNumber })}
+                                isActive={pageNumber === page}
+                              >
+                                {pageNumber}
+                              </PaginationLink>
+                            </PaginationItem>
+                          );
+                        }
+                      )}
+
+                      {pagination.totalPages > 5 && <PaginationEllipsis />}
+
+                      {page < pagination.totalPages && (
+                        <PaginationItem>
+                          <PaginationNext href={buildUrl({ page: page + 1 })} />
+                        </PaginationItem>
+                      )}
+                    </PaginationContent>
+                  </Pagination>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
-
       {/* Featured Categories */}
       <section className="py-12 bg-slate-50">
         <div className="container mx-auto px-4">
@@ -330,7 +345,6 @@ export default async function ShopPage({ searchParams }) {
           </div>
         </div>
       </section>
-
       {/* Newsletter */}
       <section className="py-16 bg-primary text-white">
         <div className="container mx-auto px-4 text-center">

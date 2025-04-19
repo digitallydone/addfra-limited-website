@@ -156,12 +156,12 @@ export default function AboutPage() {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 bg-slate-50">
+      {/* <section className="py-20 bg-slate-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold mb-12 text-center text-slate-900">Our Leadership Team</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {/* Team Member 1 */}
+            Team Member 1
             <div className="bg-white shadow-lg rounded-lg overflow-hidden">
               <div className="h-64 overflow-hidden">
                 <img src="/placeholder.svg?height=400&width=300" alt="CEO" className="w-full h-full object-cover" />
@@ -176,7 +176,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Team Member 2 */}
+            Team Member 2
             <div className="bg-white shadow-lg rounded-lg overflow-hidden">
               <div className="h-64 overflow-hidden">
                 <img src="/placeholder.svg?height=400&width=300" alt="CTO" className="w-full h-full object-cover" />
@@ -191,7 +191,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Team Member 3 */}
+            Team Member 3
             <div className="bg-white shadow-lg rounded-lg overflow-hidden">
               <div className="h-64 overflow-hidden">
                 <img
@@ -209,7 +209,7 @@ export default function AboutPage() {
               </div>
             </div>
 
-            {/* Team Member 4 */}
+            Team Member 4
             <div className="bg-white shadow-lg rounded-lg overflow-hidden">
               <div className="h-64 overflow-hidden">
                 <img
@@ -228,7 +228,7 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Milestones */}
       <section className="py-20 bg-white">
