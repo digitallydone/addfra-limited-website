@@ -8,6 +8,7 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import prisma from "@/lib/prisma"
 import { redirect } from "next/navigation"
 import { formatPrice } from "@/lib/utils"
+import ProductCard from "@/components/ProductCard"
 
 export default async function WishlistPage() {
   // Get current user
@@ -56,67 +57,7 @@ export default async function WishlistPage() {
       {wishlist.items.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {wishlist.items.map((item) => (
-            <Card key={item.id} className="overflow-hidden">
-              <div className="relative h-48 overflow-hidden">
-                <img
-                  src={item.product.images?.[0] || "/placeholder.svg?height=400&width=600&text=No+Image"}
-                  alt={item.product.name}
-                  className="w-full h-full object-cover"
-                />
-                {item.product.comparePrice && item.product.comparePrice > item.product.price && (
-                  <Badge className="absolute top-2 left-2 bg-red-500">Sale</Badge>
-                )}
-                {item.product.quantity <= 0 && (
-                  <Badge className="absolute top-2 right-2 bg-gray-500">Out of Stock</Badge>
-                )}
-              </div>
-              <CardContent className="p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="font-semibold text-lg line-clamp-1">{item.product.name}</h3>
-                  <div className="flex items-center">
-                    {item.product.comparePrice && item.product.comparePrice > item.product.price ? (
-                      <div className="flex flex-col items-end">
-                        <span className="text-red-500 font-bold">{formatPrice(item.product.price)}</span>
-                        <span className="text-gray-500 text-sm line-through">
-                          {formatPrice(item.product.comparePrice)}
-                        </span>
-                      </div>
-                    ) : (
-                      <span className="font-bold">{formatPrice(item.product.price)}</span>
-                    )}
-                  </div>
-                </div>
-                <p className="text-gray-500 text-sm mb-4 line-clamp-2">{item.product.description}</p>
-                <div className="flex justify-between items-center">
-                  <div className="flex space-x-2">
-                    <form action={`/api/wishlist/remove?id=${item.id}`} method="POST">
-                      <Button variant="outline" size="sm" type="submit" className="text-red-500">
-                        <Trash2 className="h-4 w-4 mr-2" />
-                        Remove
-                      </Button>
-                    </form>
-                    <Link href={`/shop/products/${item.product.id}`}>
-                      <Button variant="outline" size="sm">
-                        <Eye className="h-4 w-4 mr-2" />
-                        View
-                      </Button>
-                    </Link>
-                  </div>
-                  <form action={`/api/cart/add?id=${item.product.id}`} method="POST">
-                    <input type="hidden" name="quantity" value="1" />
-                    <Button
-                      size="sm"
-                      type="submit"
-                      disabled={item.product.quantity <= 0}
-                      className={item.product.quantity <= 0 ? "opacity-50 cursor-not-allowed" : ""}
-                    >
-                      <ShoppingCart className="h-4 w-4 mr-2" />
-                      Add to Cart
-                    </Button>
-                  </form>
-                </div>
-              </CardContent>
-            </Card>
+            <ProductCard key={item.id} product={item.product} />
           ))}
         </div>
       ) : (

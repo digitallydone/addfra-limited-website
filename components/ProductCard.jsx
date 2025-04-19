@@ -9,40 +9,41 @@ import AddToCartButton from "./add-to-cart-button";
 import WishlistButton from "./WishlistButton";
 
 const ProductCard = ({ product }) => {
+  console.log("ProductCard", product);
   return (
     <Card
-      key={product.id}
+      key={product?.id}
       className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
     >
       <div className="relative h-48 overflow-hidden">
         <img
-          src={product.images?.[0] || "/placeholder.svg?height=300&width=300"}
-          alt={product.name}
+          src={product?.images?.[0] || "/placeholder.svg?height=300&width=300"}
+          alt={product?.name}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
         <div className="absolute top-2 right-2 bg-white/80 hover:bg-white rounded-full">
-          <WishlistButton variant="ghost" productId={product.id} size="icon" />
+          <WishlistButton variant="ghost" productId={product?.id} size="icon" />
         </div>
       </div>
       <CardContent className="pt-6">
         <div className="flex justify-between items-start mb-2">
-          <CardTitle className="text-lg">{product.name}</CardTitle>
+          <CardTitle className="text-lg">{product?.name}</CardTitle>
           <Badge variant="outline" className="ml-2">
-            {product.category}
+            {product?.category}
           </Badge>
         </div>
         <p className="text-slate-700 text-sm mb-2 line-clamp-2">
-          {product.description.length > 50
-            ? `${product.description.slice(0, 50)}...`
-            : product.description}
+          {product?.description?.length > 50
+            ? `${product?.description?.slice(0, 50)}...`
+            : product?.description}
         </p>
         <div className="flex justify-between items-center mt-4">
           <p className="text-base font-bold text-primary">
-            $ {product.price.toFixed(2)}
+            $ {product?.price.toFixed(2)}
           </p>
           <div className="flex items-center">
             <span className="text-sm ml-1">
-              {product.quantity > 0 ? "In Stock" : "Out of Stock"}
+              {product?.quantity > 0 ? "In Stock" : "Out of Stock"}
             </span>
           </div>
         </div>
