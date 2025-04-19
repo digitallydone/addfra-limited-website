@@ -1,4 +1,3 @@
-// app/actions/cart.js
 "use server"
 
 import { revalidatePath } from "next/cache"
@@ -8,6 +7,21 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import prisma from "@/lib/prisma";
 
+// Add this new function to get cart items
+export async function getCartItems() {
+  try {
+    const cartCookie = cookies().get('cart')
+    
+    if (!cartCookie || !cartCookie.value) {
+      return []
+    }
+    
+    return JSON.parse(cartCookie.value)
+  } catch (error) {
+    console.error('Error getting cart items:', error)
+    return []
+  }
+}
 // import { Cart } from "@/models/cart" // Assuming you have a Cart model
 
 /**

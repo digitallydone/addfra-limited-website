@@ -7,6 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getProductById } from "@/app/actions/product";
 import AddToCartButton from "../../../../components/add-to-cart-button";
+import WishlistButton from "@/components/WishlistButton";
 
 export default async function ProductDetailPage({ params }) {
   const product = await getProductById(params.id).catch(() => null);
@@ -143,11 +144,10 @@ export default async function ProductDetailPage({ params }) {
                 </span>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-4 justify-end items-end">
                 <AddToCartButton product={product} />
-                <Button variant="outline" className="flex-1">
-                  <Heart className="mr-2 h-4 w-4" /> Add to Wishlist
-                </Button>
+             
+                <WishlistButton variant="outline" text="Add to Wishlist" productId={product.id}/>
               </div>
             </div>
 
@@ -183,7 +183,7 @@ export default async function ProductDetailPage({ params }) {
             <TabsList className="w-full justify-start">
               <TabsTrigger value="specifications">Specifications</TabsTrigger>
               <TabsTrigger value="shipping">Shipping & Returns</TabsTrigger>
-              <TabsTrigger value="reviews">Reviews</TabsTrigger>
+              {/* <TabsTrigger value="reviews">Reviews</TabsTrigger> */}
             </TabsList>
             <TabsContent
               value="specifications"
@@ -280,7 +280,7 @@ export default async function ProductDetailPage({ params }) {
                 </div>
               </div>
             </TabsContent>
-            <TabsContent value="reviews" className="p-6 border rounded-md mt-4">
+            {/* <TabsContent value="reviews" className="p-6 border rounded-md mt-4">
               <div className="text-center py-8">
                 <h3 className="text-lg font-semibold mb-2">No Reviews Yet</h3>
                 <p className="text-slate-700 mb-4">
@@ -288,7 +288,7 @@ export default async function ProductDetailPage({ params }) {
                 </p>
                 <Button>Write a Review</Button>
               </div>
-            </TabsContent>
+            </TabsContent> */}
           </Tabs>
         </div>
       </div>

@@ -175,10 +175,10 @@ export function CartProvider({ children, initialItems = [] }) {
       if (result.success) {
         setItems(prevItems => prevItems.filter(item => item.id !== productId))
         
-        toast({
-          title: "Item removed",
-          description: "Item successfully removed from your cart.",
-        })
+        // toast({
+        //   title: "Item removed",
+        //   description: "Item successfully removed from your cart.",
+        // })
       }
     } catch (error) {
       console.error("Error removing item from cart:", error)
@@ -199,10 +199,10 @@ export function CartProvider({ children, initialItems = [] }) {
       
       setItems([])
       
-      toast({
-        title: "Cart cleared",
-        description: "All items have been removed from your cart.",
-      })
+      // toast({
+      //   title: "Cart cleared",
+      //   description: "All items have been removed from your cart.",
+      // })
     } catch (error) {
       console.error("Error clearing cart:", error)
       toast({

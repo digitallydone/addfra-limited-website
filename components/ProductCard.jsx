@@ -6,6 +6,7 @@ import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { Heart, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 import AddToCartButton from "./add-to-cart-button";
+import WishlistButton from "./WishlistButton";
 
 const ProductCard = ({ product }) => {
   return (
@@ -19,13 +20,9 @@ const ProductCard = ({ product }) => {
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
         />
-        <Button
-          variant="ghost"
-          size="icon"
-          className="absolute top-2 right-2 bg-white/80 hover:bg-white rounded-full"
-        >
-          <Heart className="h-4 w-4 text-slate-700" />
-        </Button>
+        <div className="absolute top-2 right-2 bg-white/80 hover:bg-white rounded-full">
+          <WishlistButton variant="ghost" productId={product.id} size="icon" />
+        </div>
       </div>
       <CardContent className="pt-6">
         <div className="flex justify-between items-start mb-2">
@@ -35,11 +32,13 @@ const ProductCard = ({ product }) => {
           </Badge>
         </div>
         <p className="text-slate-700 text-sm mb-2 line-clamp-2">
-          {product.description}
+          {product.description.length > 50
+            ? `${product.description.slice(0, 50)}...`
+            : product.description}
         </p>
         <div className="flex justify-between items-center mt-4">
-          <p className="text-xl font-bold text-primary">
-            GHS {product.price.toFixed(2)}
+          <p className="text-base font-bold text-primary">
+            $ {product.price.toFixed(2)}
           </p>
           <div className="flex items-center">
             <span className="text-sm ml-1">
@@ -50,14 +49,13 @@ const ProductCard = ({ product }) => {
       </CardContent>
       <CardFooter className="">
         <div className="flex flex-col gap-4 w-full">
-        <AddToCartButton product={product} />
+          <AddToCartButton product={product} />
           <Link className="w-full" href={`/shop/products/${product.id}`}>
             <Button className="w-full" variant="outline" size="sm">
               View Details
             </Button>
           </Link>
         </div>
-      
       </CardFooter>
     </Card>
   );
