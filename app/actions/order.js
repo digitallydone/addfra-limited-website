@@ -184,6 +184,33 @@ export async function updatePaymentStatus(orderId, paymentStatus, paymentId) {
   }
 }
 
+export async function addOrderNote(orderId, content) {
+  try {
+    // Check if user is admin
+    const session = await getServerSession(authOptions)
+    if (!session?.user || session.user.role !== "admin") {
+      return { success: false, errors: { _form: ["You don't have permission to add notes"] } }
+    }
+
+    // Add note
+    await prisma.orderNote.create({
+      data: {
+        orderId,
+        content,
+        type: "manual",
+        userId: session.user.id,
+      },
+    })
+
+    revalidatePath(`/admin/orders/${orderId}`)
+    return { success: true }
+  } catch (error) {
+    console.error("Add order note error:", error)
+    return { success: false, errors: { _form: ["An unexpected error occurred"] } }
+  }
+}
+
+
 export async function verifyPayment(reference) {
   try {
     const verification = await verifyPaystackPayment(reference)
