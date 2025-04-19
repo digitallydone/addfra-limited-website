@@ -23,7 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
-import { createOrder } from "@/app/actions/order";
+import { createOrder, verifyPayment } from "@/app/actions/order";
 import PaystackCheckout from "@/components/paystack-checkout";
 import { useSession } from "next-auth/react";
 import { useCart } from "@/context/cart-context";
@@ -233,7 +233,7 @@ export default function CheckoutPage() {
           </Link>
         </p>
         <div className="flex justify-center mt-4"></div>
-          <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
+        <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
       </div>
     );
   }

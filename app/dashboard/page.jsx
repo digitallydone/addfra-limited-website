@@ -1,18 +1,34 @@
-import Link from "next/link"
-import { ShoppingBag, Heart, User, CreditCard, Package, Truck, CheckCircle, Clock, ArrowRight } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { getServerSession } from "next-auth/next"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
-import prisma from "@/lib/prisma"
-import { redirect } from "next/navigation"
+import Link from "next/link";
+import {
+  ShoppingBag,
+  Heart,
+  User,
+  CreditCard,
+  Package,
+  Truck,
+  CheckCircle,
+  Clock,
+  ArrowRight,
+} from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import prisma from "@/lib/prisma";
+import { redirect } from "next/navigation";
 
 export default async function UserDashboard() {
   // Get current user
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
-    redirect("/auth/login?callbackUrl=/dashboard")
+    redirect("/auth/login?callbackUrl=/dashboard");
   }
 
   // Fetch user data
@@ -31,26 +47,30 @@ export default async function UserDashboard() {
       addresses: true,
       paymentMethods: true,
     },
-  })
+  });
 
   if (!user) {
-    redirect("/auth/login?callbackUrl=/dashboard")
+    redirect("/auth/login?callbackUrl=/dashboard");
   }
 
   // Calculate account summary
   const accountSummary = {
     totalOrders: user.orders.length,
     wishlistItems: user.wishlist?.items.length || 0,
-    pendingOrders: user.orders.filter((order) => order.status === "pending" || order.status === "processing").length,
+    pendingOrders: user.orders.filter(
+      (order) => order.status === "pending" || order.status === "processing"
+    ).length,
     savedAddresses: user.addresses.length,
     savedPaymentMethods: user.paymentMethods.length,
-  }
+  };
 
-  // Get recent orders
-  const recentOrders = user.orders.slice(0, 3)
+  // Get recent orders  
+  const recentOrders = user.orders.slice(0, 3);
 
   // Get processing order for status display
-  const processingOrder = user.orders.find((order) => order.status === "processing")
+  const processingOrder = user.orders.find(
+    (order) => order.status === "processing"
+  );
 
   return (
     <div className="space-y-6">
@@ -63,10 +83,16 @@ export default async function UserDashboard() {
         <CardContent className="p-6">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold mb-2">Welcome back, {user.name?.split(" ")[0] || "User"}!</h2>
-              <p className="text-slate-600">
+              <h2 className="text-2xl font-bold mb-2">
+                Welcome back, {user.name?.split(" ")[0] || "User"}!
+              </h2>
+              {/* <p className="text-slate-600">
                 From your account dashboard you can view your recent orders, manage your shipping and billing addresses,
                 and edit your password and account details.
+              </p> */}
+              <p className="text-slate-600">
+                From your account dashboard you can view your recent orders, and
+                edit your password and account details.
               </p>
             </div>
             <Link href="/shop" className="mt-4 md:mt-0">
@@ -79,7 +105,7 @@ export default async function UserDashboard() {
       </Card>
 
       {/* Account Summary */}
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:gri d-cols-5 gap-4">
         <Card>
           <CardContent className="p-6 flex flex-col items-center text-center">
             <ShoppingBag className="h-8 w-8 text-primary mb-2" />
@@ -91,7 +117,9 @@ export default async function UserDashboard() {
         <Card>
           <CardContent className="p-6 flex flex-col items-center text-center">
             <Heart className="h-8 w-8 text-primary mb-2" />
-            <h3 className="font-bold text-2xl">{accountSummary.wishlistItems}</h3>
+            <h3 className="font-bold text-2xl">
+              {accountSummary.wishlistItems}
+            </h3>
             <p className="text-slate-600">Wishlist Items</p>
           </CardContent>
         </Card>
@@ -99,26 +127,28 @@ export default async function UserDashboard() {
         <Card>
           <CardContent className="p-6 flex flex-col items-center text-center">
             <Clock className="h-8 w-8 text-primary mb-2" />
-            <h3 className="font-bold text-2xl">{accountSummary.pendingOrders}</h3>
+            <h3 className="font-bold text-2xl">
+              {accountSummary.pendingOrders}
+            </h3>
             <p className="text-slate-600">Pending Orders</p>
           </CardContent>
         </Card>
 
-        <Card>
+        {/* <Card>
           <CardContent className="p-6 flex flex-col items-center text-center">
             <User className="h-8 w-8 text-primary mb-2" />
             <h3 className="font-bold text-2xl">{accountSummary.savedAddresses}</h3>
             <p className="text-slate-600">Saved Addresses</p>
           </CardContent>
-        </Card>
+        </Card> */}
 
-        <Card>
+        {/* <Card>
           <CardContent className="p-6 flex flex-col items-center text-center">
             <CreditCard className="h-8 w-8 text-primary mb-2" />
             <h3 className="font-bold text-2xl">{accountSummary.savedPaymentMethods}</h3>
             <p className="text-slate-600">Payment Methods</p>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
 
       {/* Recent Orders */}
@@ -138,31 +168,41 @@ export default async function UserDashboard() {
           <div className="space-y-4">
             {recentOrders.length > 0 ? (
               recentOrders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0">
+                <div
+                  key={order.id}
+                  className="flex items-center justify-between border-b pb-4 last:border-0 last:pb-0"
+                >
                   <div>
                     <div className="font-medium">{order.orderNumber}</div>
-                    <div className="text-sm text-slate-500">{new Date(order.createdAt).toLocaleDateString()}</div>
+                    <div className="text-sm text-slate-500">
+                      {new Date(order.createdAt).toLocaleDateString()}
+                    </div>
                   </div>
                   <div className="flex items-center space-x-3">
                     <div className="text-right">
-                      <div className="font-medium">${order.total.toFixed(2)}</div>
+                      <div className="font-medium">
+                        ${order.total.toFixed(2)}
+                      </div>
                     </div>
                     <Badge
                       className={
                         order.status === "completed"
                           ? "bg-green-500"
                           : order.status === "processing"
-                            ? "bg-blue-500"
-                            : "bg-amber-500"
+                          ? "bg-blue-500"
+                          : "bg-amber-500"
                       }
                     >
-                      {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                      {order.status.charAt(0).toUpperCase() +
+                        order.status.slice(1)}
                     </Badge>
                   </div>
                 </div>
               ))
             ) : (
-              <div className="text-center py-4 text-slate-500">You haven't placed any orders yet.</div>
+              <div className="text-center py-4 text-slate-500">
+                You haven't placed any orders yet.
+              </div>
             )}
           </div>
         </CardContent>
@@ -180,9 +220,12 @@ export default async function UserDashboard() {
               <div className="relative">
                 <div className="flex items-center mb-2">
                   <div className="flex-1">
-                    <h3 className="font-medium">{processingOrder.orderNumber}</h3>
+                    <h3 className="font-medium">
+                      {processingOrder.orderNumber}
+                    </h3>
                     <p className="text-sm text-slate-500">
-                      Placed on {new Date(processingOrder.createdAt).toLocaleDateString()}
+                      Placed on{" "}
+                      {new Date(processingOrder.createdAt).toLocaleDateString()}
                     </p>
                   </div>
                   <Badge className="bg-blue-500">Processing</Badge>
@@ -225,11 +268,15 @@ export default async function UserDashboard() {
                 </div>
 
                 <div className="mt-4 text-sm text-slate-600">
-                  <p>Your order is currently being processed and will be shipped soon.</p>
+                  <p>
+                    Your order is currently being processed and will be shipped
+                    soon.
+                  </p>
                   <p>
                     Estimated delivery:{" "}
                     {new Date(
-                      new Date(processingOrder.createdAt).getTime() + 7 * 24 * 60 * 60 * 1000,
+                      new Date(processingOrder.createdAt).getTime() +
+                        7 * 24 * 60 * 60 * 1000
                     ).toLocaleDateString()}
                   </p>
                 </div>
@@ -239,6 +286,5 @@ export default async function UserDashboard() {
         </Card>
       )}
     </div>
-  )
+  );
 }
-
