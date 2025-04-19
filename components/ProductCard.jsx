@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { Heart, ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import AddToCartButton from "../app/shop/products/[id]/add-to-cart-button";
+import AddToCartButton from "./add-to-cart-button";
 
 const ProductCard = ({ product }) => {
   return (

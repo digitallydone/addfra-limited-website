@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getProductById } from "@/app/actions/product";
-import AddToCartButton from "./add-to-cart-button";
+import AddToCartButton from "../../../../components/add-to-cart-button";
 
 export default async function ProductDetailPage({ params }) {
   const product = await getProductById(params.id).catch(() => null);
