@@ -1,13 +1,16 @@
 // app/api/cart/route.js
 import { NextResponse } from "next/server"
-import { auth } from "@/lib/auth"
-import { db } from "@/lib/db"
+// import { auth } from "@/lib/auth"
+// import { db } from "@/lib/db"
 import { cookies } from "next/headers"
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 
 // Get cart items
 export async function GET() {
   try {
-    const session = await auth()
+    const session = await getServerSession(authOptions);
     const userId = session?.user?.id
     
     // For logged-in users
@@ -55,7 +58,7 @@ export async function GET() {
 // app/lib/cart.js
 export async function getCartItems() {
   // Get current session
-  const session = await auth()
+  const session = await getServerSession(authOptions);
   const userId = session?.user?.id
   
   // For logged-in users, get cart from database
