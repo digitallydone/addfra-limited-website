@@ -10,7 +10,7 @@ export default function DashboardLayout({ children }) {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
-        <UserHeader />
+        {/* <UserHeader /> */}
         <main className="flex-1 p-6 overflow-auto">{children}</main>
       </div>
     </div>
@@ -66,12 +66,12 @@ function UserHeader() {
         </Button>
         <span className="text-xl font-bold">My Account</span>
       </div>
-      <div className="flex items-center space-x-4">
+      {/* <div className="flex items-center space-x-4">
         <div className="text-sm text-slate-600">Welcome, John Doe</div>
         <div className="h-8 w-8 rounded-full bg-primary text-white flex items-center justify-center">
           <span className="text-sm font-medium">JD</span>
         </div>
-      </div>
+      </div> */}
     </header>
   )
 }
