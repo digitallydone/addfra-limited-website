@@ -36,7 +36,7 @@ export default async function ProfilePage() {
       <Tabs defaultValue="personal" className="w-full">
         <TabsList className="grid w-full grid-cols-3 mb-8">
           <TabsTrigger value="personal">Personal Information</TabsTrigger>
-          <TabsTrigger value="addresses">Addresses</TabsTrigger>
+          {/* <TabsTrigger value="addresses">Addresses</TabsTrigger> */}
           <TabsTrigger value="password">Password</TabsTrigger>
         </TabsList>
 
@@ -52,7 +52,7 @@ export default async function ProfilePage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="addresses">
+        {/* <TabsContent value="addresses">
           <Card>
             <CardHeader>
               <CardTitle>Addresses</CardTitle>
@@ -62,7 +62,7 @@ export default async function ProfilePage() {
               <AddressesForm addresses={user.addresses} />
             </CardContent>
           </Card>
-        </TabsContent>
+        </TabsContent> */}
 
         <TabsContent value="password">
           <Card>

@@ -23,7 +23,7 @@ function UserSidebar() {
     { icon: ShoppingBag, label: "Orders", href: "/dashboard/orders" },
     { icon: Heart, label: "Wishlist", href: "/dashboard/wishlist" },
     { icon: User, label: "Profile", href: "/dashboard/profile" },
-    { icon: CreditCard, label: "Payment Methods", href: "/dashboard/payment-methods" },
+    // { icon: CreditCard, label: "Payment Methods", href: "/dashboard/payment-methods" },
   ]
 
   return (
