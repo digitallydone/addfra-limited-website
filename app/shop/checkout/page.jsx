@@ -332,7 +332,7 @@ export default function CheckoutPage() {
                           Paystack
                         </Label>
                       </div>
-
+{/* Uncomment this section if you want to add more payment methods
                       <div className="flex items-center space-x-2 border rounded-md p-4">
                         <RadioGroupItem value="mobilemoney" id="mobilemoney" />
                         <Label htmlFor="mobilemoney" className="flex items-center">
@@ -347,7 +347,7 @@ export default function CheckoutPage() {
                           </svg>
                           Mobile Money
                         </Label>
-                      </div>
+                      </div> */}
                     </RadioGroup>
 
                     {paymentMethod === "paystack" && (
