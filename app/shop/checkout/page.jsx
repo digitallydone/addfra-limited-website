@@ -208,6 +208,8 @@ export default function CheckoutPage() {
     // setOrderId(response.orderId || null);
     await verifyPayment(response.reference);
 
+    
+
     // Redirect to order confirmation page
     router.push(`/dashboard/orders?success=true`);
   };

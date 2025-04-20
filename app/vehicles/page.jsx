@@ -1,301 +1,272 @@
-// import Link from "next/link"
-// import { Filter, Search, ChevronDown } from "lucide-react"
-// import { Button } from "@/components/ui/button"
-// import { Input } from "@/components/ui/input"
-// import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card"
-// import { Badge } from "@/components/ui/badge"
-// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-// import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import Link from "next/link"
+import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Search, Filter } from "lucide-react"
+import { Input } from "@/components/ui/input"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+import prisma from "@/lib/prisma"
 
-// // Sample vehicle data
-// const vehicles = [
-//   {
-//     id: 1,
-//     title: "Refrigerated Delivery Van",
-//     image: "/placeholder.svg?height=400&width=600",
-//     price: "$45,000",
-//     status: "Available",
-//     category: "Refrigerated",
-//     year: 2023,
-//     description: "Custom-built refrigerated van with temperature control system, perfect for food delivery businesses.",
-//   },
-//   {
-//     id: 2,
-//     title: "Heavy Duty Trailer",
-//     image: "/placeholder.svg?height=400&width=600",
-//     price: "$78,500",
-//     status: "Available",
-//     category: "Trailer",
-//     year: 2023,
-//     description: "Durable trailer designed for heavy loads with reinforced chassis and advanced braking system.",
-//   },
-//   {
-//     id: 3,
-//     title: "Mobile Workshop Truck",
-//     image: "/placeholder.svg?height=400&width=600",
-//     price: "$62,000",
-//     status: "Available",
-//     category: "Specialized",
-//     year: 2022,
-//     description: "Fully equipped mobile workshop with integrated tools, power supply, and storage compartments.",
-//   },
-//   {
-//     id: 4,
-//     title: "Insulated Transport Truck",
-//     image: "/placeholder.svg?height=400&width=600",
-//     price: "$55,000",
-//     status: "Available",
-//     category: "Refrigerated",
-//     year: 2023,
-//     description: "Medium-sized transport truck with insulated cargo area, ideal for temperature-sensitive goods.",
-//   },
-//   {
-//     id: 5,
-//     title: "Customized Delivery Van",
-//     image: "/placeholder.svg?height=400&width=600",
-//     price: "$38,000",
-//     status: "Available",
-//     category: "Van",
-//     year: 2022,
-//     description: "Compact delivery van with customizable interior layout and fuel-efficient engine.",
-//   },
-//   {
-//     id: 6,
-//     title: "Flatbed Trailer",
-//     image: "/placeholder.svg?height=400&width=600",
-//     price: "$42,000",
-//     status: "Available",
-//     category: "Trailer",
-//     year: 2023,
-//     description: "Versatile flatbed trailer suitable for transporting construction materials and equipment.",
-//   },
-//   {
-//     id: 7,
-//     title: "Refrigerated Box Truck",
-//     image: "/placeholder.svg?height=400&width=600",
-//     price: "$68,000",
-//     status: "Available",
-//     category: "Refrigerated",
-//     year: 2022,
-//     description: "Large refrigerated box truck with dual temperature zones for transporting various perishable goods.",
-//   },
-//   {
-//     id: 8,
-//     title: "Cargo Van",
-//     image: "/placeholder.svg?height=400&width=600",
-//     price: "$35,000",
-//     status: "Available",
-//     category: "Van",
-//     year: 2023,
-//     description: "Spacious cargo van with reinforced interior and easy-access rear and side doors.",
-//   },
-//   {
-//     id: 9,
-//     title: "Tanker Trailer",
-//     image: "/placeholder.svg?height=400&width=600",
-//     price: "$82,000",
-//     status: "Available",
-//     category: "Trailer",
-//     year: 2022,
-//     description:
-//       "Specialized tanker trailer for liquid transport with advanced safety features and corrosion-resistant materials.",
-//   },
-// ]
+export default async function VehiclesPage({ searchParams }) {
+  const page = Number(searchParams.page) || 1
+  const limit = 9
+  const skip = (page - 1) * limit
 
-// export default function VehiclesPage() {
-//   return (
-//     <main className="flex min-h-screen flex-col">
-//       {/* Hero Section */}
-//       <section className="relative h-[40vh] w-full bg-gradient-to-r from-slate-900 to-slate-800 flex items-center">
-//         <div className="absolute inset-0 opacity-30 bg-[url('/trunk-v.jpg?height=800&width=1600')] bg-cover bg-center"></div>
-//         <div className="container mx-auto px-4 z-10">
-//           <div className="max-w-3xl">
-//             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Our Vehicle Fleet</h1>
-//             <p className="text-xl text-slate-200">
-//               Browse our selection of custom-built vehicles designed for your specific needs.
-//             </p>
-//           </div>
-//         </div>
-//       </section>
+  const make = searchParams.make || ""
+  const bodyType = searchParams.bodyType || ""
+  const minPrice = Number(searchParams.minPrice) || 0
+  const maxPrice = Number(searchParams.maxPrice) || 1000000
+  const sort = searchParams.sort || "newest"
 
-//       {/* Filters and Search */}
-//       <section className="py-8 bg-slate-50 border-b">
-//         <div className="container mx-auto px-4">
-//           <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-//             <div className="w-full md:w-auto flex items-center gap-2">
-//               <Button variant="outline" className="flex items-center gap-2">
-//                 <Filter className="h-4 w-4" /> Filters <ChevronDown className="h-4 w-4" />
-//               </Button>
+  // Build filter conditions
+  const where = {
+    status: "available",
+  }
 
-//               <Select>
-//                 <SelectTrigger className="w-[180px]">
-//                   <SelectValue placeholder="Category" />
-//                 </SelectTrigger>
-//                 <SelectContent>
-//                   <SelectItem value="all">All Categories</SelectItem>
-//                   <SelectItem value="refrigerated">Refrigerated</SelectItem>
-//                   <SelectItem value="trailer">Trailer</SelectItem>
-//                   <SelectItem value="van">Van</SelectItem>
-//                   <SelectItem value="specialized">Specialized</SelectItem>
-//                 </SelectContent>
-//               </Select>
+  if (make) {
+    where.make = {
+      contains: make,
+      mode: "insensitive",
+    }
+  }
 
-//               <Select>
-//                 <SelectTrigger className="w-[180px]">
-//                   <SelectValue placeholder="Year" />
-//                 </SelectTrigger>
-//                 <SelectContent>
-//                   <SelectItem value="all">All Years</SelectItem>
-//                   <SelectItem value="2023">2023</SelectItem>
-//                   <SelectItem value="2022">2022</SelectItem>
-//                   <SelectItem value="2021">2021</SelectItem>
-//                 </SelectContent>
-//               </Select>
-//             </div>
+  if (bodyType) {
+    where.bodyType = bodyType
+  }
 
-//             <div className="w-full md:w-auto flex items-center gap-2">
-//               <div className="relative w-full md:w-64">
-//                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
-//                 <Input type="search" placeholder="Search vehicles..." className="pl-9" />
-//               </div>
-//               <Select>
-//                 <SelectTrigger className="w-[180px]">
-//                   <SelectValue placeholder="Sort by" />
-//                 </SelectTrigger>
-//                 <SelectContent>
-//                   <SelectItem value="newest">Newest First</SelectItem>
-//                   <SelectItem value="oldest">Oldest First</SelectItem>
-//                   <SelectItem value="price-asc">Price: Low to High</SelectItem>
-//                   <SelectItem value="price-desc">Price: High to Low</SelectItem>
-//                 </SelectContent>
-//               </Select>
-//             </div>
-//           </div>
-//         </div>
-//       </section>
+  where.price = {
+    gte: minPrice,
+    lte: maxPrice,
+  }
 
-//       {/* Vehicles Grid */}
-//       <section className="py-12 bg-white">
-//         <div className="container mx-auto px-4">
-//           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-//             {vehicles.map((vehicle) => (
-//               <Card key={vehicle.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-//                 <div className="relative h-48 overflow-hidden">
-//                   <img
-//                     src={vehicle.image || "/placeholder.svg"}
-//                     alt={vehicle.title}
-//                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-//                   />
-//                   <Badge className="absolute top-3 right-3 bg-green-500">{vehicle.status}</Badge>
-//                 </div>
-//                 <CardContent className="pt-6">
-//                   <div className="flex justify-between items-start mb-2">
-//                     <CardTitle className="text-xl">{vehicle.title}</CardTitle>
-//                     <Badge variant="outline" className="ml-2">
-//                       {vehicle.category}
-//                     </Badge>
-//                   </div>
-//                   <p className="text-slate-700 mb-2">{vehicle.description}</p>
-//                   <div className="flex justify-between items-center mt-4">
-//                     {/* <p className="text-xl font-bold text-primary">{vehicle.price}</p> */}
-//                     <Badge variant="secondary">Year: {vehicle.year}</Badge>
-//                   </div>
-//                 </CardContent>
-//                 <CardFooter className="flex justify-between">
-//                   <Link href={`/vehicles/${vehicle.id}`}>
-//                     <Button variant="outline">View Details</Button>
-//                   </Link>
-//                   <Link href={`/contact?inquiry=${vehicle.id}`}>
-//                     <Button>Inquire Now</Button>
-//                   </Link>
-//                 </CardFooter>
-//               </Card>
-//             ))}
-//           </div>
-//         </div>
-//       </section>
+  // Build sort options
+  let orderBy = {}
 
-//       {/* FAQ Section */}
-//       <section className="py-12 bg-slate-50">
-//         <div className="container mx-auto px-4">
-//           <h2 className="text-3xl font-bold mb-8 text-center">Frequently Asked Questions</h2>
+  switch (sort) {
+    case "newest":
+      orderBy = { createdAt: "desc" }
+      break
+    case "oldest":
+      orderBy = { createdAt: "asc" }
+      break
+    case "price-high":
+      orderBy = { price: "desc" }
+      break
+    case "price-low":
+      orderBy = { price: "asc" }
+      break
+    default:
+      orderBy = { createdAt: "desc" }
+  }
 
-//           <div className="max-w-3xl mx-auto">
-//             <Accordion type="single" collapsible className="w-full">
-//               <AccordionItem value="item-1">
-//                 <AccordionTrigger>Do you offer customization for all vehicles?</AccordionTrigger>
-//                 <AccordionContent>
-//                   Yes, we offer customization services for all types of vehicles in our inventory. Our team works
-//                   closely with you to understand your specific requirements and implements the necessary modifications
-//                   to meet your needs.
-//                 </AccordionContent>
-//               </AccordionItem>
+  // Get vehicles with pagination
+  const vehicles = await prisma.vehicle.findMany({
+    where,
+    orderBy,
+    skip,
+    take: limit,
+  })
 
-//               <AccordionItem value="item-2">
-//                 <AccordionTrigger>What is the warranty period for your vehicles?</AccordionTrigger>
-//                 <AccordionContent>
-//                   All our vehicles come with a standard 1-year warranty covering manufacturing defects and workmanship.
-//                   Extended warranty options are available for purchase. Please contact our sales team for more details.
-//                 </AccordionContent>
-//               </AccordionItem>
+  // Get total count for pagination
+  const total = await prisma.vehicle.count({ where })
+  const totalPages = Math.ceil(total / limit)
 
-//               <AccordionItem value="item-3">
-//                 <AccordionTrigger>Do you offer financing options?</AccordionTrigger>
-//                 <AccordionContent>
-//                   Yes, we work with several financial institutions to provide flexible financing options for our
-//                   customers. Our team can help you find the best financing solution based on your budget and
-//                   requirements.
-//                 </AccordionContent>
-//               </AccordionItem>
+  // Get unique makes for filter
+  const makes = await prisma.vehicle.findMany({
+    where: { status: "available" },
+    select: { make: true },
+    distinct: ["make"],
+  })
 
-//               <AccordionItem value="item-4">
-//                 <AccordionTrigger>Can you deliver vehicles internationally?</AccordionTrigger>
-//                 <AccordionContent>
-//                   Yes, we offer international shipping and delivery services. The cost and timeline depend on the
-//                   destination country. Our logistics team will handle all the necessary paperwork and arrangements for a
-//                   smooth delivery process.
-//                 </AccordionContent>
-//               </AccordionItem>
-
-//               <AccordionItem value="item-5">
-//                 <AccordionTrigger>What is the lead time for custom vehicle orders?</AccordionTrigger>
-//                 <AccordionContent>
-//                   The lead time for custom vehicle orders typically ranges from 4 to 12 weeks, depending on the
-//                   complexity of the customization and the availability of parts. We provide a detailed timeline during
-//                   the initial consultation.
-//                 </AccordionContent>
-//               </AccordionItem>
-//             </Accordion>
-//           </div>
-//         </div>
-//       </section>
-
-//       {/* CTA Section */}
-//       <section className="py-16 bg-primary text-white">
-//         <div className="container mx-auto px-4 text-center">
-//           <h2 className="text-3xl font-bold mb-6">Can't Find What You're Looking For?</h2>
-//           <p className="text-xl mb-8 max-w-2xl mx-auto">
-//             Contact our team to discuss custom vehicle solutions tailored to your specific requirements.
-//           </p>
-//           <Link href="/contact">
-//             <Button size="lg" variant="secondary" className="bg-white text-primary hover:bg-slate-100">
-//               Contact Us Today
-//             </Button>
-//           </Link>
-//         </div>
-//       </section>
-//     </main>
-//   )
-// }
-
-import React from 'react'
-
-const page = () => {
   return (
-    <div>
-      
+    <div className="container mx-auto py-12">
+      <div className="text-center mb-12">
+        <h1 className="text-4xl font-bold mb-4">Our Vehicles</h1>
+        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          Browse our selection of quality vehicles available for purchase
+        </p>
+      </div>
+
+      {/* Filters */}
+      <div className="mb-8">
+        <form className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-slate-500" />
+            <Input
+              type="search"
+              name="make"
+              placeholder="Search by make or model..."
+              className="pl-9"
+              defaultValue={make}
+            />
+          </div>
+
+          <Select name="bodyType" defaultValue={bodyType}>
+            <SelectTrigger>
+              <SelectValue placeholder="Body Type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Body Types</SelectItem>
+              <SelectItem value="sedan">Sedan</SelectItem>
+              <SelectItem value="suv">SUV</SelectItem>
+              <SelectItem value="hatchback">Hatchback</SelectItem>
+              <SelectItem value="coupe">Coupe</SelectItem>
+              <SelectItem value="convertible">Convertible</SelectItem>
+              <SelectItem value="wagon">Wagon</SelectItem>
+              <SelectItem value="van">Van</SelectItem>
+              <SelectItem value="truck">Truck</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Select name="sort" defaultValue={sort}>
+            <SelectTrigger>
+              <SelectValue placeholder="Sort by" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="newest">Newest First</SelectItem>
+              <SelectItem value="oldest">Oldest First</SelectItem>
+              <SelectItem value="price-high">Price: High to Low</SelectItem>
+              <SelectItem value="price-low">Price: Low to High</SelectItem>
+            </SelectContent>
+          </Select>
+
+          <Button type="submit">
+            <Filter className="h-4 w-4 mr-2" />
+            Apply Filters
+          </Button>
+        </form>
+      </div>
+
+      {/* Vehicles Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {vehicles.length > 0 ? (
+          vehicles.map((vehicle) => (
+            <Card key={vehicle.id} className="overflow-hidden">
+              <div className="aspect-video w-full overflow-hidden bg-slate-100">
+                {vehicle.images && vehicle.images.length > 0 ? (
+                  <img
+                    src={vehicle.images[0] || "/placeholder.svg"}
+                    alt={`${vehicle.make} ${vehicle.model}`}
+                    className="h-full w-full object-cover transition-transform hover:scale-105"
+                  />
+                ) : (
+                  <div className="h-full w-full flex items-center justify-center bg-slate-200 text-slate-400">
+                    No Image
+                  </div>
+                )}
+              </div>
+              <CardContent className="p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-bold text-lg">
+                    {vehicle.make} {vehicle.model}
+                  </h3>
+                  <Badge className="bg-green-500">${vehicle.price.toLocaleString()}</Badge>
+                </div>
+                <div className="text-sm text-slate-500 mb-3">
+                  {vehicle.year} • {vehicle.mileage.toLocaleString()} km •{" "}
+                  {vehicle.transmission.charAt(0).toUpperCase() + vehicle.transmission.slice(1)} •{" "}
+                  {vehicle.fuelType.charAt(0).toUpperCase() + vehicle.fuelType.slice(1)}
+                </div>
+                <p className="text-sm text-slate-600 mb-4 line-clamp-2">{vehicle.description}</p>
+                <div className="flex flex-wrap gap-1 mb-4">
+                  {vehicle.features.slice(0, 3).map((feature, index) => (
+                    <Badge key={index} variant="outline" className="text-xs">
+                      {feature}
+                    </Badge>
+                  ))}
+                  {vehicle.features.length > 3 && (
+                    <Badge variant="outline" className="text-xs">
+                      +{vehicle.features.length - 3} more
+                    </Badge>
+                  )}
+                </div>
+                <div className="flex justify-between">
+                  <Link href={`/vehicles/${vehicle.id}`}>
+                    <Button variant="outline">View Details</Button>
+                  </Link>
+                  <Link href={`/vehicles/${vehicle.id}/enquire`}>
+                    <Button>Enquire Now</Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <div className="col-span-3 text-center py-12 text-slate-500">
+            <p className="text-lg mb-4">No vehicles found matching your criteria</p>
+            <Link href="/vehicles">
+              <Button>View All Vehicles</Button>
+            </Link>
+          </div>
+        )}
+      </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-12">
+          <Pagination>
+            <PaginationContent>
+              {page > 1 && (
+                <PaginationItem>
+                  <PaginationPrevious
+                    href={`/vehicles?page=${page - 1}&make=${make}&bodyType=${bodyType}&sort=${sort}`}
+                  />
+                </PaginationItem>
+              )}
+
+              {Array.from({ length: Math.min(totalPages, 3) }, (_, i) => {
+                const pageNumber = i + 1
+                const isCurrentPage = pageNumber === page
+
+                return (
+                  <PaginationItem key={pageNumber}>
+                    <PaginationLink
+                      href={`/vehicles?page=${pageNumber}&make=${make}&bodyType=${bodyType}&sort=${sort}`}
+                      isActive={isCurrentPage}
+                    >
+                      {pageNumber}
+                    </PaginationLink>
+                  </PaginationItem>
+                )
+              })}
+
+              {totalPages > 3 && (
+                <>
+                  {page < totalPages - 2 && (
+                    <PaginationItem>
+                      <PaginationEllipsis />
+                    </PaginationItem>
+                  )}
+                  {page < totalPages && (
+                    <PaginationItem>
+                      <PaginationLink
+                        href={`/vehicles?page=${totalPages}&make=${make}&bodyType=${bodyType}&sort=${sort}`}
+                      >
+                        {totalPages}
+                      </PaginationLink>
+                    </PaginationItem>
+                  )}
+                </>
+              )}
+
+              {page < totalPages && (
+                <PaginationItem>
+                  <PaginationNext href={`/vehicles?page=${page + 1}&make=${make}&bodyType=${bodyType}&sort=${sort}`} />
+                </PaginationItem>
+              )}
+            </PaginationContent>
+          </Pagination>
+        </div>
+      )}
     </div>
   )
 }
-
-export default page
