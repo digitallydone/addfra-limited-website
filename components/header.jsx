@@ -14,7 +14,7 @@ import { useSession } from "next-auth/react"
 const navigation = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
-  { name: "Vehicles", href: "/vehicles" },
+  // { name: "Vehicles", href: "/vehicles" },
   { name: "Repairs", href: "/repairs" },
   // { name: "Projects", href: "/projects" },
   // { name: "Blog", href: "/blog" },
