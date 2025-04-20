@@ -39,11 +39,10 @@ export default function ContactPage() {
                   <Phone className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">Phone</h3>
-                <p className="text-slate-700">+233 123 456 789</p>
-                <p className="text-slate-700">+233 987 654 321</p>
+                <p className="text-slate-700"> +233 243858008</p>
+                <p className="text-slate-700"></p>
               </CardContent>
             </Card>
-
             <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
               <CardContent className="p-6 flex flex-col items-center text-center">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
@@ -51,10 +50,9 @@ export default function ContactPage() {
                 </div>
                 <h3 className="text-lg font-semibold mb-2">Email</h3>
                 <p className="text-slate-700">info@addfra.com</p>
-                <p className="text-slate-700">sales@addfra.com</p>
+                <p className="text-slate-700"> addfra2@yahoo.com</p>
               </CardContent>
             </Card>
-
             <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
               <CardContent className="p-6 flex flex-col items-center text-center">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
@@ -66,7 +64,6 @@ export default function ContactPage() {
                 <p className="text-slate-700">Accra, Ghana</p>
               </CardContent>
             </Card>
-
             <Card className="bg-white shadow-md hover:shadow-lg transition-shadow">
               <CardContent className="p-6 flex flex-col items-center text-center">
                 <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
@@ -171,7 +168,7 @@ export default function ContactPage() {
 
             {/* Map */}
             <div>
-              <h2 className="text-2xl font-bold mb-6">Our Location</h2>]
+              <h2 className="text-2xl font-bold mb-6">Our Location</h2>
               <div className="aspect-video overflow-hidden rounded-xl">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3971.0209959115814!2d-0.25397392501478405!3d5.563905494416596!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf97b82c735065%3A0x8a8c9acd75a08eef!2sADDFRA%20LTD!5e0!3m2!1sen!2sgh!4v1745015267750!5m2!1sen!2sgh"

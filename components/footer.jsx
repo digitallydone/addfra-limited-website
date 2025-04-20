@@ -150,11 +150,14 @@ export default function Footer() {
               </li>
               <li className="flex items-center">
                 {/* <Phone className="h-5 w-5 mr-2 text-primary shrink-0" /> */}
-                <span className="text-slate-300">+233 123 456 789</span>
+                <span className="text-slate-300">+233 243858008</span>
               </li>
               <li className="flex items-center">
                 {/* <Mail className="h-5 w-5 mr-2 text-primary shrink-0" /> */}
                 <span className="text-slate-300">info@addfra.com</span>
+              </li>
+              <li className="flex items-center">
+                <span className="text-slate-300"> addfra2@yahoo.com</span>
               </li>
             </ul>
           </div>
