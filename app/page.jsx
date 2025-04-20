@@ -143,7 +143,7 @@ export default function Home() {
       </section>
 
       {/* Featured Vehicles */}
-      <section className="py-20 bg-white">
+      {/* <section className="py-20 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4 text-slate-900">Featured Vehicles</h2>
@@ -162,7 +162,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Testimonials */}
       <section className="py-20 bg-slate-50">
