@@ -44,7 +44,7 @@ export default async function VehicleEnquiryPage({ params }) {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <EnquiryForm vehicle={vehicle} />
+              <EnquiryForm vehicleId={id} vehicle={vehicle} />
             </CardContent>
           </Card>
         </div>

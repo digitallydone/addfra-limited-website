@@ -28,10 +28,10 @@ export async function POST(request) {
         phone: data.phone,
         enquiryType: data.enquiryType,
         message: data.message,
-        vehicle: data.vehicleId,
-        // vehicle: {
-        //   connect: { id: data.vehicleId },
-        // },
+        // vehicle: data.vehicleId,
+        vehicle: {
+          connect: { id: data.vehicleId },
+        },
       },
     });
 

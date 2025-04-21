@@ -1,19 +1,26 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Loader2, Upload } from "lucide-react"
-import { toast } from "@/hooks/use-toast"
-import { uploadImage } from "@/app/actions/upload"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Loader2, Upload } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { uploadImage } from "@/app/actions/upload";
+import { uploadToCloudinary } from "@/lib/cloudinary";
 
 export default function BlogPostForm({ post = null, userId }) {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: post?.title || "",
     slug: post?.slug || "",
@@ -22,61 +29,63 @@ export default function BlogPostForm({ post = null, userId }) {
     status: post?.status || "draft",
     featuredImage: post?.featuredImage || "",
     authorId: post?.authorId || userId,
-  })
-  const [imageFile, setImageFile] = useState(null)
-  const [imagePreview, setImagePreview] = useState(post?.featuredImage || "")
+  });
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(post?.featuredImage || "");
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
 
     // Auto-generate slug from title if slug field is empty
     if (name === "title" && !formData.slug) {
       const slug = value
         .toLowerCase()
         .replace(/[^\w\s]/gi, "")
-        .replace(/\s+/g, "-")
+        .replace(/\s+/g, "-");
 
       setFormData({
         ...formData,
         title: value,
         slug,
-      })
+      });
     } else {
       setFormData({
         ...formData,
         [name]: value,
-      })
+      });
     }
-  }
+  };
 
   const handleSelectChange = (name, value) => {
     setFormData({
       ...formData,
       [name]: value,
-    })
-  }
+    });
+  };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0]
+    const file = e.target.files[0];
     if (file) {
-      setImageFile(file)
-      setImagePreview(URL.createObjectURL(file))
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
       // Upload image if selected
-      let featuredImage = formData.featuredImage
+      let featuredImage = formData.featuredImage;
       if (imageFile) {
-        const uploadResult = await uploadImage(imageFile)
+        // const uploadResult = await uploadImage(imageFile)
+        const uploadResult = await uploadToCloudinary(imageFile);
+
         if (uploadResult.success) {
-          featuredImage = uploadResult.url
+          featuredImage = uploadResult.url;
         } else {
-          throw new Error("Failed to upload image")
+          throw new Error("Failed to upload image");
         }
       }
 
@@ -84,39 +93,44 @@ export default function BlogPostForm({ post = null, userId }) {
       const postData = {
         ...formData,
         featuredImage,
-      }
+      };
 
       // Submit to API
-      const response = await fetch(post ? `/api/blog/${post.id}` : "/api/blog", {
-        method: post ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(postData),
-      })
+      const response = await fetch(
+        post ? `/api/blog/${post.id}` : "/api/blog",
+        {
+          method: post ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(postData),
+        }
+      );
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (response.ok) {
         toast({
           title: "Success",
-          description: post ? "Blog post updated successfully" : "Blog post created successfully",
-        })
-        router.push("/admin/blog")
+          description: post
+            ? "Blog post updated successfully"
+            : "Blog post created successfully",
+        });
+        router.push("/admin/blog");
       } else {
-        throw new Error(data.message || "Something went wrong")
+        throw new Error(data.message || "Something went wrong");
       }
     } catch (error) {
-      console.error("Error saving blog post:", error)
+      console.error("Error saving blog post:", error);
       toast({
         title: "Error",
         description: error.message || "Failed to save blog post",
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -142,7 +156,9 @@ export default function BlogPostForm({ post = null, userId }) {
           placeholder="enter-url-slug"
           required
         />
-        <p className="text-sm text-slate-500">This will be used in the URL: https://yourdomain.com/blog/your-slug</p>
+        <p className="text-sm text-slate-500">
+          This will be used in the URL: https://yourdomain.com/blog/your-slug
+        </p>
       </div>
 
       <div className="space-y-2">
@@ -174,7 +190,10 @@ export default function BlogPostForm({ post = null, userId }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="space-y-2">
           <Label htmlFor="status">Status</Label>
-          <Select value={formData.status} onValueChange={(value) => handleSelectChange("status", value)}>
+          <Select
+            value={formData.status}
+            onValueChange={(value) => handleSelectChange("status", value)}
+          >
             <SelectTrigger id="status">
               <SelectValue placeholder="Select status" />
             </SelectTrigger>
@@ -191,7 +210,11 @@ export default function BlogPostForm({ post = null, userId }) {
           <div className="flex items-center gap-4">
             {imagePreview && (
               <div className="h-20 w-20 rounded-md overflow-hidden bg-slate-100">
-                <img src={imagePreview || "/placeholder.svg"} alt="Preview" className="h-full w-full object-cover" />
+                <img
+                  src={imagePreview || "/placeholder.svg"}
+                  alt="Preview"
+                  className="h-full w-full object-cover"
+                />
               </div>
             )}
             <div className="flex-1">
@@ -201,7 +224,13 @@ export default function BlogPostForm({ post = null, userId }) {
               >
                 <Upload className="h-4 w-4" />
                 <span>Upload Image</span>
-                <Input id="image-upload" type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+                <Input
+                  id="image-upload"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="hidden"
+                />
               </Label>
             </div>
           </div>
@@ -209,7 +238,11 @@ export default function BlogPostForm({ post = null, userId }) {
       </div>
 
       <div className="flex justify-end gap-2">
-        <Button type="button" variant="outline" onClick={() => router.push("/admin/blog")}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => router.push("/admin/blog")}
+        >
           Cancel
         </Button>
         <Button type="submit" disabled={isLoading}>
@@ -226,5 +259,5 @@ export default function BlogPostForm({ post = null, userId }) {
         </Button>
       </div>
     </form>
-  )
+  );
 }

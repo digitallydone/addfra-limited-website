@@ -12,6 +12,8 @@ import { createEnquiry } from "@/app/actions/enquiry"
 
 export default function EnquiryForm({ vehicleId, vehicleName }) {
   const router = useRouter()
+  console.log("EnquiryForm vehicleId:", vehicleId);
+  
   const [isLoading, setIsLoading] = useState(false)
 
   const handleSubmit = async (e) => {

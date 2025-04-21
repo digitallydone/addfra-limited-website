@@ -1,19 +1,26 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Loader2, Upload, X } from "lucide-react"
-import { toast } from "@/hooks/use-toast"
-import { uploadImage } from "@/app/actions/upload"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Loader2, Upload, X } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
+import { uploadImage } from "@/app/actions/upload";
+import { uploadToCloudinary } from "@/lib/cloudinary";
 
 export default function VehicleForm({ vehicle = null }) {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     make: vehicle?.make || "",
     model: vehicle?.model || "",
@@ -28,97 +35,101 @@ export default function VehicleForm({ vehicle = null }) {
     features: vehicle?.features || [],
     status: vehicle?.status || "available",
     images: vehicle?.images || [],
-  })
-  const [newFeature, setNewFeature] = useState("")
-  const [imageFiles, setImageFiles] = useState([])
-  const [imagePreviewUrls, setImagePreviewUrls] = useState(vehicle?.images || [])
+  });
+  const [newFeature, setNewFeature] = useState("");
+  const [imageFiles, setImageFiles] = useState([]);
+  const [imagePreviewUrls, setImagePreviewUrls] = useState(
+    vehicle?.images || []
+  );
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData({
       ...formData,
       [name]: value,
-    })
-  }
+    });
+  };
 
   const handleSelectChange = (name, value) => {
     setFormData({
       ...formData,
       [name]: value,
-    })
-  }
+    });
+  };
 
   const handleAddFeature = () => {
     if (newFeature.trim()) {
       setFormData({
         ...formData,
         features: [...formData.features, newFeature.trim()],
-      })
-      setNewFeature("")
+      });
+      setNewFeature("");
     }
-  }
+  };
 
   const handleRemoveFeature = (index) => {
-    const updatedFeatures = [...formData.features]
-    updatedFeatures.splice(index, 1)
+    const updatedFeatures = [...formData.features];
+    updatedFeatures.splice(index, 1);
     setFormData({
       ...formData,
       features: updatedFeatures,
-    })
-  }
+    });
+  };
 
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files)
-    setImageFiles([...imageFiles, ...files])
+    const files = Array.from(e.target.files);
+    setImageFiles([...imageFiles, ...files]);
 
     // Create preview URLs
-    const newPreviewUrls = files.map((file) => URL.createObjectURL(file))
-    setImagePreviewUrls([...imagePreviewUrls, ...newPreviewUrls])
-  }
+    const newPreviewUrls = files.map((file) => URL.createObjectURL(file));
+    setImagePreviewUrls([...imagePreviewUrls, ...newPreviewUrls]);
+  };
 
   const handleRemoveImage = (index) => {
     // Remove from preview
-    const updatedPreviewUrls = [...imagePreviewUrls]
-    updatedPreviewUrls.splice(index, 1)
-    setImagePreviewUrls(updatedPreviewUrls)
+    const updatedPreviewUrls = [...imagePreviewUrls];
+    updatedPreviewUrls.splice(index, 1);
+    setImagePreviewUrls(updatedPreviewUrls);
 
     // If it's a new image, remove from files array
     if (index >= (formData.images?.length || 0)) {
-      const newFileIndex = index - (formData.images?.length || 0)
-      const updatedFiles = [...imageFiles]
-      updatedFiles.splice(newFileIndex, 1)
-      setImageFiles(updatedFiles)
+      const newFileIndex = index - (formData.images?.length || 0);
+      const updatedFiles = [...imageFiles];
+      updatedFiles.splice(newFileIndex, 1);
+      setImageFiles(updatedFiles);
     } else {
       // If it's an existing image, remove from formData.images
-      const updatedImages = [...formData.images]
-      updatedImages.splice(index, 1)
+      const updatedImages = [...formData.images];
+      updatedImages.splice(index, 1);
       setFormData({
         ...formData,
         images: updatedImages,
-      })
+      });
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
       // Upload new images if any
-      const uploadedImageUrls = []
+      const uploadedImageUrls = [];
       if (imageFiles.length > 0) {
         for (const file of imageFiles) {
-          const uploadResult = await uploadImage(file)
+          // const uploadResult = await uploadImage(file)
+          const uploadResult = await uploadToCloudinary(file);
+
           if (uploadResult.success) {
-            uploadedImageUrls.push(uploadResult.url)
+            uploadedImageUrls.push(uploadResult.url);
           } else {
-            throw new Error("Failed to upload image")
+            throw new Error("Failed to upload image");
           }
         }
       }
 
       // Combine existing and new image URLs
-      const allImages = [...(formData.images || []), ...uploadedImageUrls]
+      const allImages = [...(formData.images || []), ...uploadedImageUrls];
 
       // Prepare data for submission
       const vehicleData = {
@@ -126,39 +137,44 @@ export default function VehicleForm({ vehicle = null }) {
         price: Number.parseFloat(formData.price),
         mileage: Number.parseFloat(formData.mileage),
         images: allImages,
-      }
+      };
 
       // Submit to API
-      const response = await fetch(vehicle ? `/api/vehicles/${vehicle.id}` : "/api/vehicles", {
-        method: vehicle ? "PUT" : "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(vehicleData),
-      })
+      const response = await fetch(
+        vehicle ? `/api/vehicles/${vehicle.id}` : "/api/vehicles",
+        {
+          method: vehicle ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(vehicleData),
+        }
+      );
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (response.ok) {
         toast({
           title: "Success",
-          description: vehicle ? "Vehicle updated successfully" : "Vehicle added successfully",
-        })
-        router.push("/admin/vehicles")
+          description: vehicle
+            ? "Vehicle updated successfully"
+            : "Vehicle added successfully",
+        });
+        router.push("/admin/vehicles");
       } else {
-        throw new Error(data.message || "Something went wrong")
+        throw new Error(data.message || "Something went wrong");
       }
     } catch (error) {
-      console.error("Error saving vehicle:", error)
+      console.error("Error saving vehicle:", error);
       toast({
         title: "Error",
         description: error.message || "Failed to save vehicle",
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -189,7 +205,14 @@ export default function VehicleForm({ vehicle = null }) {
 
         <div className="space-y-2">
           <Label htmlFor="year">Year</Label>
-          <Input id="year" name="year" value={formData.year} onChange={handleChange} placeholder="e.g. 2022" required />
+          <Input
+            id="year"
+            name="year"
+            value={formData.year}
+            onChange={handleChange}
+            placeholder="e.g. 2022"
+            required
+          />
         </div>
       </div>
 
@@ -236,7 +259,10 @@ export default function VehicleForm({ vehicle = null }) {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="space-y-2">
           <Label htmlFor="transmission">Transmission</Label>
-          <Select value={formData.transmission} onValueChange={(value) => handleSelectChange("transmission", value)}>
+          <Select
+            value={formData.transmission}
+            onValueChange={(value) => handleSelectChange("transmission", value)}
+          >
             <SelectTrigger id="transmission">
               <SelectValue placeholder="Select transmission" />
             </SelectTrigger>
@@ -251,7 +277,10 @@ export default function VehicleForm({ vehicle = null }) {
 
         <div className="space-y-2">
           <Label htmlFor="fuelType">Fuel Type</Label>
-          <Select value={formData.fuelType} onValueChange={(value) => handleSelectChange("fuelType", value)}>
+          <Select
+            value={formData.fuelType}
+            onValueChange={(value) => handleSelectChange("fuelType", value)}
+          >
             <SelectTrigger id="fuelType">
               <SelectValue placeholder="Select fuel type" />
             </SelectTrigger>
@@ -267,7 +296,10 @@ export default function VehicleForm({ vehicle = null }) {
 
         <div className="space-y-2">
           <Label htmlFor="bodyType">Body Type</Label>
-          <Select value={formData.bodyType} onValueChange={(value) => handleSelectChange("bodyType", value)}>
+          <Select
+            value={formData.bodyType}
+            onValueChange={(value) => handleSelectChange("bodyType", value)}
+          >
             <SelectTrigger id="bodyType">
               <SelectValue placeholder="Select body type" />
             </SelectTrigger>
@@ -302,7 +334,10 @@ export default function VehicleForm({ vehicle = null }) {
         <Label>Features</Label>
         <div className="flex flex-wrap gap-2 mb-2">
           {formData.features.map((feature, index) => (
-            <div key={index} className="flex items-center gap-1 bg-slate-100 px-3 py-1 rounded-full text-sm">
+            <div
+              key={index}
+              className="flex items-center gap-1 bg-slate-100 px-3 py-1 rounded-full text-sm"
+            >
               <span>{feature}</span>
               <button
                 type="button"
@@ -320,7 +355,11 @@ export default function VehicleForm({ vehicle = null }) {
             onChange={(e) => setNewFeature(e.target.value)}
             placeholder="Add a feature (e.g. Bluetooth, Leather Seats)"
           />
-          <Button type="button" onClick={handleAddFeature} disabled={!newFeature.trim()}>
+          <Button
+            type="button"
+            onClick={handleAddFeature}
+            disabled={!newFeature.trim()}
+          >
             Add
           </Button>
         </div>
@@ -328,7 +367,10 @@ export default function VehicleForm({ vehicle = null }) {
 
       <div className="space-y-2">
         <Label htmlFor="status">Status</Label>
-        <Select value={formData.status} onValueChange={(value) => handleSelectChange("status", value)}>
+        <Select
+          value={formData.status}
+          onValueChange={(value) => handleSelectChange("status", value)}
+        >
           <SelectTrigger id="status">
             <SelectValue placeholder="Select status" />
           </SelectTrigger>
@@ -344,7 +386,10 @@ export default function VehicleForm({ vehicle = null }) {
         <Label htmlFor="images">Images</Label>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
           {imagePreviewUrls.map((url, index) => (
-            <div key={index} className="relative aspect-video bg-slate-100 rounded-md overflow-hidden">
+            <div
+              key={index}
+              className="relative aspect-video bg-slate-100 rounded-md overflow-hidden"
+            >
               <img
                 src={url || "/placeholder.svg"}
                 alt={`Vehicle ${index + 1}`}
@@ -378,7 +423,11 @@ export default function VehicleForm({ vehicle = null }) {
       </div>
 
       <div className="flex justify-end gap-2">
-        <Button type="button" variant="outline" onClick={() => router.push("/admin/vehicles")}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={() => router.push("/admin/vehicles")}
+        >
           Cancel
         </Button>
         <Button type="submit" disabled={isLoading}>
@@ -395,5 +444,5 @@ export default function VehicleForm({ vehicle = null }) {
         </Button>
       </div>
     </form>
-  )
+  );
 }

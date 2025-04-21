@@ -35,6 +35,7 @@ function AdminSidebar() {
     { icon: Users, label: "Customers", href: "/admin/customers" },
     { icon: FileText, label: "Blog Posts", href: "/admin/blog" },
     { icon: Car, label: "vehicles", href: "/admin/vehicles" },
+    { icon: Car, label: "Enquiries", href: "/admin/enquiries" },
     // { icon: Settings, label: "Settings", href: "/admin/settings" },
   ];
 
