@@ -85,10 +85,10 @@ export default async function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">${totalRevenue.toFixed(2)}</div>
-            <div className="flex items-center mt-1">
+            {/* <div className="flex items-center mt-1">
               <ArrowUpRight className="h-4 w-4 text-green-500 mr-1" />
               <p className="text-sm text-green-500">+12.5% from last month</p>
-            </div>
+            </div> */}
           </CardContent>
         </Card>
 
@@ -101,10 +101,10 @@ export default async function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{orderCount}</div>
-            <div className="flex items-center mt-1">
+            {/* <div className="flex items-center mt-1">
               <ArrowUpRight className="h-4 w-4 text-green-500 mr-1" />
               <p className="text-sm text-green-500">+8.2% from last month</p>
-            </div>
+            </div> */}
           </CardContent>
         </Card>
 
@@ -117,10 +117,10 @@ export default async function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{productCount}</div>
-            <div className="flex items-center mt-1">
+            {/* <div className="flex items-center mt-1">
               <ArrowUpRight className="h-4 w-4 text-green-500 mr-1" />
               <p className="text-sm text-green-500">+4.3% from last month</p>
-            </div>
+            </div> */}
           </CardContent>
         </Card>
 
@@ -133,10 +133,10 @@ export default async function AdminDashboard() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{userCount}</div>
-            <div className="flex items-center mt-1">
+            {/* <div className="flex items-center mt-1">
               <ArrowUpRight className="h-4 w-4 text-green-500 mr-1" />
               <p className="text-sm text-green-500">+6.8% from last month</p>
-            </div>
+            </div> */}
           </CardContent>
         </Card>
       </div>
