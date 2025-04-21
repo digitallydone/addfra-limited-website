@@ -446,7 +446,7 @@ export default function ProductsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[50px]">ID</TableHead>
+              {/* <TableHead className="w-[50px]">ID</TableHead> */}
               <TableHead>
                 <div className="flex items-center">
                   Product Name
@@ -481,7 +481,7 @@ export default function ProductsPage() {
             ) : (
               products.map((product) => (
                 <TableRow key={product.id}>
-                  <TableCell className="font-medium">{product.id}</TableCell>
+                  {/* <TableCell className="font-medium">{product.id}</TableCell> */}
                   <TableCell>{product.name}</TableCell>
                   <TableCell>{product.category}</TableCell>
                   <TableCell className="text-right">
