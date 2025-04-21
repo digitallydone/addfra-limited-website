@@ -80,11 +80,11 @@ export default async function AdminDashboard() {
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium text-slate-500">Total Revenue</CardTitle>
             <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center">
-              <DollarSign className="h-4 w-4 text-slate-700" />
+              {/* <DollarSign className="h-4 w-4 text-slate-700" /> */}GHS
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${totalRevenue.toFixed(2)}</div>
+            <div className="text-2xl font-bold">GHS {totalRevenue.toFixed(2)}</div>
             {/* <div className="flex items-center mt-1">
               <ArrowUpRight className="h-4 w-4 text-green-500 mr-1" />
               <p className="text-sm text-green-500">+12.5% from last month</p>
@@ -215,7 +215,7 @@ export default async function AdminDashboard() {
                     <div className="text-sm text-slate-500">{product.sales} units sold</div>
                   </div>
                   <div className="text-right">
-                    <div className="font-medium">${product.revenue.toFixed(2)}</div>
+                    <div className="font-medium">GHS {product.revenue.toFixed(2)}</div>
                     <TrendingUp className="h-4 w-4 text-green-500 ml-auto" />
                   </div>
                 </div>
