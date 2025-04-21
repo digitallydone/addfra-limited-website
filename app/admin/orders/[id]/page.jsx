@@ -40,18 +40,18 @@ export default async function AdminOrderDetailPage({ params }) {
           product: true,
         },
       },
-      notes: {
-        orderBy: {
-          createdAt: "desc",
-        },
-        include: {
-          user: {
-            select: {
-              name: true,
-            },
-          },
-        },
-      },
+      // notes: {
+      //   orderBy: {
+      //     createdAt: "desc",
+      //   },
+      //   include: {
+      //     user: {
+      //       select: {
+      //         name: true,
+      //       },
+      //     },
+      //   },
+      // },
     },
   })
 
@@ -98,7 +98,7 @@ export default async function AdminOrderDetailPage({ params }) {
           </Link>
           <h1 className="text-2xl font-bold">Order #{order.orderNumber}</h1>
         </div>
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <Button variant="outline" size="sm">
             <Printer className="h-4 w-4 mr-2" />
             Print Invoice
@@ -107,7 +107,7 @@ export default async function AdminOrderDetailPage({ params }) {
             <Mail className="h-4 w-4 mr-2" />
             Email Customer
           </Button>
-        </div>
+        </div> */}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

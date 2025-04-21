@@ -485,7 +485,7 @@ export default function ProductsPage() {
                   <TableCell>{product.name}</TableCell>
                   <TableCell>{product.category}</TableCell>
                   <TableCell className="text-right">
-                    ${product.price.toFixed(2)}
+                    GHs {product.price.toFixed(2)}
                   </TableCell>
                   <TableCell className="text-right">{product.stock}</TableCell>
                   <TableCell>

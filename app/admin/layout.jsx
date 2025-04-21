@@ -1,6 +1,16 @@
-import Link from "next/link"
-import { LayoutDashboard, Package, ShoppingCart, Users, Settings, FileText, LogOut, Menu } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import Link from "next/link";
+import {
+  LayoutDashboard,
+  Package,
+  ShoppingCart,
+  Users,
+  Settings,
+  FileText,
+  LogOut,
+  Menu,
+  Car,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function AdminLayout({ children }) {
   return (
@@ -14,7 +24,7 @@ export default function AdminLayout({ children }) {
         <main className="flex-1 p-6 overflow-auto">{children}</main>
       </div>
     </div>
-  )
+  );
 }
 
 function AdminSidebar() {
@@ -24,8 +34,9 @@ function AdminSidebar() {
     { icon: ShoppingCart, label: "Orders", href: "/admin/orders" },
     { icon: Users, label: "Customers", href: "/admin/customers" },
     { icon: FileText, label: "Blog Posts", href: "/admin/blog" },
-    { icon: Settings, label: "Settings", href: "/admin/settings" },
-  ]
+    { icon: Car, label: "vehicles", href: "/admin/vehicles" },
+    // { icon: Settings, label: "Settings", href: "/admin/settings" },
+  ];
 
   return (
     <aside className="hidden md:flex w-64 flex-col bg-slate-800 text-white">
@@ -39,7 +50,10 @@ function AdminSidebar() {
         <ul className="space-y-1">
           {menuItems.map((item, index) => (
             <li key={index}>
-              <Link href={item.href} className="flex items-center p-3 rounded-md hover:bg-slate-700 transition-colors">
+              <Link
+                href={item.href}
+                className="flex items-center p-3 rounded-md hover:bg-slate-700 transition-colors"
+              >
                 <item.icon className="h-5 w-5 mr-3" />
                 {item.label}
               </Link>
@@ -49,14 +63,17 @@ function AdminSidebar() {
       </nav>
       <div className="p-4 border-t border-slate-700">
         <Link href="/auth/login">
-          <Button variant="ghost" className="w-full justify-start text-white hover:bg-slate-700">
+          <Button
+            variant="ghost"
+            className="w-full justify-start text-white hover:bg-slate-700"
+          >
             <LogOut className="h-5 w-5 mr-3" />
             Logout
           </Button>
         </Link>
       </div>
     </aside>
-  )
+  );
 }
 
 function AdminHeader() {
@@ -75,6 +92,5 @@ function AdminHeader() {
         </div>
       </div>
     </header>
-  )
+  );
 }
-

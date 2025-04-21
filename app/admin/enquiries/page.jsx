@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Search, Plus, Edit, Eye, MoreHorizontal } from "lucide-react"
+import { Search, Eye, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -18,14 +18,15 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { redirect } from "next/navigation"
-import { getVehicles } from "@/app/actions/vehicle"
-import DeleteVehicleButton from "./delete-vehicle-button"
+import { getEnquiries } from "@/app/actions/enquiry"
+import EnquiryStatusButton from "./enquiry-status-button"
+import DeleteEnquiryButton from "./delete-enquiry-button"
 
-export default async function VehiclesPage({ searchParams }) {
+export default async function EnquiriesPage({ searchParams }) {
   // Check if user is admin
   const session = await getServerSession(authOptions)
   if (!session?.user || session.user.role !== "admin") {
-    redirect("/auth/login?callbackUrl=/admin/vehicles")
+    redirect("/auth/login?callbackUrl=/admin/enquiries")
   }
 
   // Extract query parameters
@@ -35,8 +36,8 @@ export default async function VehiclesPage({ searchParams }) {
   const search = searchParams.search || ""
   const sort = searchParams.sort || "newest"
 
-  // Get vehicles
-  const { vehicles, pagination } = await getVehicles({
+  // Get enquiries
+  const { enquiries, pagination } = await getEnquiries({
     page,
     limit,
     status,
@@ -49,13 +50,7 @@ export default async function VehiclesPage({ searchParams }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Vehicles</h1>
-        <Link href="/admin/vehicles/new">
-          <Button>
-            <Plus className="h-4 w-4 mr-2" />
-            Add Vehicle
-          </Button>
-        </Link>
+        <h1 className="text-2xl font-bold">Vehicle Enquiries</h1>
       </div>
 
       {/* Filters and Search */}
@@ -68,9 +63,9 @@ export default async function VehiclesPage({ searchParams }) {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="available">Available</SelectItem>
-                <SelectItem value="sold">Sold</SelectItem>
-                <SelectItem value="reserved">Reserved</SelectItem>
+                <SelectItem value="new">New</SelectItem>
+                <SelectItem value="contacted">Contacted</SelectItem>
+                <SelectItem value="closed">Closed</SelectItem>
               </SelectContent>
             </Select>
 
@@ -81,8 +76,8 @@ export default async function VehiclesPage({ searchParams }) {
               <SelectContent>
                 <SelectItem value="newest">Newest First</SelectItem>
                 <SelectItem value="oldest">Oldest First</SelectItem>
-                <SelectItem value="price-high">Price: High to Low</SelectItem>
-                <SelectItem value="price-low">Price: Low to High</SelectItem>
+                <SelectItem value="name-asc">Name: A to Z</SelectItem>
+                <SelectItem value="name-desc">Name: Z to A</SelectItem>
               </SelectContent>
             </Select>
 
@@ -96,7 +91,7 @@ export default async function VehiclesPage({ searchParams }) {
             <Input
               type="search"
               name="search"
-              placeholder="Search vehicles..."
+              placeholder="Search enquiries..."
               className="pl-9"
               defaultValue={search}
             />
@@ -107,30 +102,30 @@ export default async function VehiclesPage({ searchParams }) {
         </div>
       </div>
 
-      {/* Vehicles Table */}
+      {/* Enquiries Table */}
       <div className="border rounded-md">
         <Table>
           <TableHeader>
             <TableRow>
               <TableHead>Vehicle</TableHead>
-              <TableHead>Year</TableHead>
-              <TableHead>Price</TableHead>
+              <TableHead>Customer</TableHead>
+              <TableHead>Contact</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Added</TableHead>
+              <TableHead>Date</TableHead>
               <TableHead className="text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {vehicles.length > 0 ? (
-              vehicles.map((vehicle) => (
-                <TableRow key={vehicle.id}>
+            {enquiries.length > 0 ? (
+              enquiries.map((enquiry) => (
+                <TableRow key={enquiry.id}>
                   <TableCell>
                     <div className="flex items-center gap-3">
                       <div className="h-12 w-12 rounded-md bg-slate-100 overflow-hidden">
-                        {vehicle.images && vehicle.images.length > 0 ? (
+                        {enquiry.vehicle?.images && enquiry.vehicle.images.length > 0 ? (
                           <img
-                            src={vehicle.images[0] || "/placeholder.svg"}
-                            alt={`${vehicle.make} ${vehicle.model}`}
+                            src={enquiry.vehicle.images[0] || "/placeholder.svg"}
+                            alt={`${enquiry.vehicle.make} ${enquiry.vehicle.model}`}
                             className="h-full w-full object-cover"
                           />
                         ) : (
@@ -141,30 +136,33 @@ export default async function VehiclesPage({ searchParams }) {
                       </div>
                       <div>
                         <div className="font-medium">
-                          {vehicle.make} {vehicle.model}
+                          {enquiry.vehicle?.make} {enquiry.vehicle?.model}
                         </div>
-                        <div className="text-sm text-slate-500">
-                          {vehicle.transmission}, {vehicle.fuelType}
-                        </div>
+                        <div className="text-sm text-slate-500">{enquiry.vehicle?.year}</div>
                       </div>
                     </div>
                   </TableCell>
-                  <TableCell>{vehicle.year}</TableCell>
-                  <TableCell>${vehicle.price.toLocaleString()}</TableCell>
+                  <TableCell>
+                    <div className="font-medium">{enquiry.name}</div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="text-sm">{enquiry.email}</div>
+                    <div className="text-sm text-slate-500">{enquiry.phone}</div>
+                  </TableCell>
                   <TableCell>
                     <Badge
                       className={
-                        vehicle.status === "available"
-                          ? "bg-green-500"
-                          : vehicle.status === "reserved"
+                        enquiry.status === "new"
+                          ? "bg-blue-500"
+                          : enquiry.status === "contacted"
                             ? "bg-amber-500"
-                            : "bg-red-500"
+                            : "bg-green-500"
                       }
                     >
-                      {vehicle.status.charAt(0).toUpperCase() + vehicle.status.slice(1)}
+                      {enquiry.status.charAt(0).toUpperCase() + enquiry.status.slice(1)}
                     </Badge>
                   </TableCell>
-                  <TableCell>{new Date(vehicle.createdAt).toLocaleDateString()}</TableCell>
+                  <TableCell>{new Date(enquiry.createdAt).toLocaleDateString()}</TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -175,18 +173,13 @@ export default async function VehiclesPage({ searchParams }) {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem asChild>
-                          <Link href={`/vehicles/${vehicle.id}`} target="_blank">
+                          <Link href={`/admin/enquiries/${enquiry.id}`}>
                             <Eye className="h-4 w-4 mr-2" />
-                            View
+                            View Details
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                          <Link href={`/admin/vehicles/${vehicle.id}/edit`}>
-                            <Edit className="h-4 w-4 mr-2" />
-                            Edit
-                          </Link>
-                        </DropdownMenuItem>
-                        <DeleteVehicleButton id={vehicle.id} />
+                        <EnquiryStatusButton id={enquiry.id} currentStatus={enquiry.status} />
+                        <DeleteEnquiryButton id={enquiry.id} />
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -195,7 +188,7 @@ export default async function VehiclesPage({ searchParams }) {
             ) : (
               <TableRow>
                 <TableCell colSpan={6} className="text-center py-6 text-slate-500">
-                  No vehicles found
+                  No enquiries found
                 </TableCell>
               </TableRow>
             )}
@@ -209,14 +202,14 @@ export default async function VehiclesPage({ searchParams }) {
           <div className="text-sm text-slate-500">
             Showing <span className="font-medium">{Math.min((page - 1) * limit + 1, total)}</span> to{" "}
             <span className="font-medium">{Math.min(page * limit, total)}</span> of{" "}
-            <span className="font-medium">{total}</span> vehicles
+            <span className="font-medium">{total}</span> enquiries
           </div>
           <Pagination>
             <PaginationContent>
               {page > 1 && (
                 <PaginationItem>
                   <PaginationPrevious
-                    href={`/admin/vehicles?page=${page - 1}&limit=${limit}&status=${status}&search=${search}&sort=${sort}`}
+                    href={`/admin/enquiries?page=${page - 1}&limit=${limit}&status=${status}&search=${search}&sort=${sort}`}
                   />
                 </PaginationItem>
               )}
@@ -228,7 +221,7 @@ export default async function VehiclesPage({ searchParams }) {
                 return (
                   <PaginationItem key={pageNumber}>
                     <PaginationLink
-                      href={`/admin/vehicles?page=${pageNumber}&limit=${limit}&status=${status}&search=${search}&sort=${sort}`}
+                      href={`/admin/enquiries?page=${pageNumber}&limit=${limit}&status=${status}&search=${search}&sort=${sort}`}
                       isActive={isCurrentPage}
                     >
                       {pageNumber}
@@ -247,7 +240,7 @@ export default async function VehiclesPage({ searchParams }) {
                   {page < totalPages && (
                     <PaginationItem>
                       <PaginationLink
-                        href={`/admin/vehicles?page=${totalPages}&limit=${limit}&status=${status}&search=${search}&sort=${sort}`}
+                        href={`/admin/enquiries?page=${totalPages}&limit=${limit}&status=${status}&search=${search}&sort=${sort}`}
                       >
                         {totalPages}
                       </PaginationLink>
@@ -259,7 +252,7 @@ export default async function VehiclesPage({ searchParams }) {
               {page < totalPages && (
                 <PaginationItem>
                   <PaginationNext
-                    href={`/admin/vehicles?page=${page + 1}&limit=${limit}&status=${status}&search=${search}&sort=${sort}`}
+                    href={`/admin/enquiries?page=${page + 1}&limit=${limit}&status=${status}&search=${search}&sort=${sort}`}
                   />
                 </PaginationItem>
               )}

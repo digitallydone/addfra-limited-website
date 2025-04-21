@@ -1,42 +1,47 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { Menu, X, ShoppingCart, User } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { Badge } from "@/components/ui/badge"
-import { useMobile } from "@/hooks/use-mobile"
-import { useCart } from "@/context/cart-context"
-import { useSession } from "next-auth/react"
+import { useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Menu, X, ShoppingCart, User } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import { useMobile } from "@/hooks/use-mobile";
+import { useCart } from "@/context/cart-context";
+import { useSession } from "next-auth/react";
 
 const navigation = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
-  // { name: "Vehicles", href: "/vehicles" },
   { name: "Repairs", href: "/repairs" },
   // { name: "Projects", href: "/projects" },
-  // { name: "Blog", href: "/blog" },
   { name: "FAQ", href: "/faq" },
   { name: "Contact", href: "/contact" },
+  { name: "Vehicles", href: "/vehicles" },
   { name: "Shop", href: "/shop" },
-]
+  { name: "Blog", href: "/blog" },
+];
 
 export default function Header() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const pathname = usePathname()
-  const isMobile = useMobile()
-  const { itemCount } = useCart()
-  const { data: session } = useSession()
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const isMobile = useMobile();
+  const { itemCount } = useCart();
+  const { data: session } = useSession();
 
   // Determine if the current path is active
   const isActive = (path) => {
     if (path === "/") {
-      return pathname === path
+      return pathname === path;
     }
-    return pathname.startsWith(path)
-  }
+    return pathname.startsWith(path);
+  };
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
@@ -56,7 +61,9 @@ export default function Header() {
                 key={item.name}
                 href={item.href}
                 className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  isActive(item.href) ? "text-primary" : "text-slate-700 hover:text-primary hover:bg-slate-50"
+                  isActive(item.href)
+                    ? "text-primary"
+                    : "text-slate-700 hover:text-primary hover:bg-slate-50"
                 }`}
               >
                 {item.name}
@@ -100,7 +107,10 @@ export default function Header() {
                     </DropdownMenuItem>
                   )}
                   <DropdownMenuItem asChild>
-                    <Link href="/api/auth/signout" className="w-full cursor-pointer">
+                    <Link
+                      href="/api/auth/signout"
+                      className="w-full cursor-pointer"
+                    >
                       Logout
                     </Link>
                   </DropdownMenuItem>
@@ -113,7 +123,10 @@ export default function Header() {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link href="/auth/register" className="w-full cursor-pointer">
+                    <Link
+                      href="/auth/register"
+                      className="w-full cursor-pointer"
+                    >
                       Register
                     </Link>
                   </DropdownMenuItem>
@@ -130,7 +143,11 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden"
             >
-              {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {mobileMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </Button>
           )}
         </div>
@@ -158,6 +175,5 @@ export default function Header() {
         </div>
       )}
     </header>
-  )
+  );
 }
-

@@ -4,11 +4,12 @@ import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import prisma from "@/lib/prisma"
 import { formatDate } from "@/lib/utils"
-import { ArrowLeft, Mail, Edit, ShoppingBag } from "lucide-react"
+import { ArrowLeft, Edit, ShoppingBag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import EmailCustomerDialog from "./email-customer"
 
 export default async function CustomerDetailPage({ params }) {
   // Check if user is admin
@@ -33,7 +34,11 @@ export default async function CustomerDetailPage({ params }) {
       addresses: true,
       wishlist: {
         include: {
-          product: true,
+          items: {
+            include: {
+              product: true,
+            },
+          },
         },
       },
     },
@@ -65,10 +70,7 @@ export default async function CustomerDetailPage({ params }) {
           <h1 className="text-2xl font-bold">Customer Details</h1>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm">
-            <Mail className="h-4 w-4 mr-2" />
-            Email Customer
-          </Button>
+          {/* <EmailCustomerDialog customer={user} /> */}
           <Link href={`/admin/customers/${id}/edit`}>
             <Button size="sm">
               <Edit className="h-4 w-4 mr-2" />
@@ -123,7 +125,7 @@ export default async function CustomerDetailPage({ params }) {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-500">Wishlist Items</span>
-                  <span>{user.wishlist.length}</span>
+                  <span>{user.wishlist?.items?.length || 0}</span>
                 </div>
               </div>
             </CardContent>
@@ -230,9 +232,9 @@ export default async function CustomerDetailPage({ params }) {
                 </TabsContent>
 
                 <TabsContent value="wishlist" className="pt-4">
-                  {user.wishlist.length > 0 ? (
+                  {user.wishlist?.items?.length > 0 ? (
                     <div className="space-y-4">
-                      {user.wishlist.map((item) => (
+                      {user.wishlist.items.map((item) => (
                         <div key={item.id} className="flex items-start border-b pb-4 last:border-0 last:pb-0">
                           <div className="h-16 w-16 rounded-md overflow-hidden mr-4 bg-slate-100">
                             <img
@@ -245,7 +247,7 @@ export default async function CustomerDetailPage({ params }) {
                             <div className="flex justify-between">
                               <div>
                                 <h4 className="font-medium">{item.product?.name}</h4>
-                                <p className="text-sm text-slate-500">Added on {formatDate(item.createdAt)}</p>
+                                <p className="text-sm text-slate-500">Added on {formatDate(item.addedAt)}</p>
                               </div>
                               <div className="text-right">
                                 <p className="font-medium">${item.product?.price.toFixed(2)}</p>

@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Search, Plus, Edit, Trash, Eye, MoreHorizontal } from "lucide-react"
+import { Search, Plus, Edit, Eye, MoreHorizontal } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -18,7 +18,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { getServerSession } from "next-auth/next"
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { redirect } from "next/navigation"
-import prisma from "@/lib/prisma"
+import { getBlogPosts } from "@/app/actions/blog"
+import DeleteBlogPostButton from "./delete-blog-post-button"
 
 export default async function BlogPostsPage({ searchParams }) {
   // Check if user is admin
@@ -34,61 +35,16 @@ export default async function BlogPostsPage({ searchParams }) {
   const search = searchParams.search || ""
   const sort = searchParams.sort || "newest"
 
-  // Build filter conditions
-  const where = {}
-
-  if (status && status !== "all") {
-    where.status = status.toLowerCase()
-  }
-
-  if (search) {
-    where.OR = [
-      { title: { contains: search, mode: "insensitive" } },
-      { excerpt: { contains: search, mode: "insensitive" } },
-    ]
-  }
-
-  // Build sort options
-  let orderBy = {}
-
-  switch (sort) {
-    case "newest":
-      orderBy = { createdAt: "desc" }
-      break
-    case "oldest":
-      orderBy = { createdAt: "asc" }
-      break
-    case "title-asc":
-      orderBy = { title: "asc" }
-      break
-    case "title-desc":
-      orderBy = { title: "desc" }
-      break
-    default:
-      orderBy = { createdAt: "desc" }
-  }
-
-  // Calculate pagination
-  const skip = (page - 1) * limit
-
-  // Get blog posts with pagination
-  const posts = await prisma.blogPost.findMany({
-    where,
-    orderBy,
-    skip,
-    take: limit,
-    include: {
-      author: {
-        select: {
-          name: true,
-        },
-      },
-    },
+  // Get blog posts
+  const { posts, pagination } = await getBlogPosts({
+    page,
+    limit,
+    status,
+    search,
+    sort,
   })
 
-  // Get total count for pagination
-  const total = await prisma.blogPost.count({ where })
-  const totalPages = Math.ceil(total / limit)
+  const { total, totalPages } = pagination
 
   return (
     <div className="space-y-6">
@@ -201,10 +157,7 @@ export default async function BlogPostsPage({ searchParams }) {
                             Edit
                           </Link>
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="text-red-600">
-                          <Trash className="h-4 w-4 mr-2" />
-                          Delete
-                        </DropdownMenuItem>
+                        <DeleteBlogPostButton id={post.id} />
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>

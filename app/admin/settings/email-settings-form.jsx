@@ -258,7 +258,7 @@ export default function EmailSettingsForm() {
         </div>
       </div>
 
-      <div className="space-y-4">
+      {/* <div className="space-y-4">
         <h3 className="text-lg font-medium">Email Templates</h3>
 
         <div className="space-y-2">
@@ -274,7 +274,7 @@ export default function EmailSettingsForm() {
             Available variables: {{ order_number }}, {{ customer_name }}, {{ order_date }}, {{ order_total }}
           </p>
         </div>
-      </div>
+      </div> */}
 
       <div className="flex justify-end">
         <Button type="submit" disabled={isLoading}>

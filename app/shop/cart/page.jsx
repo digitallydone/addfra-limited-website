@@ -25,7 +25,7 @@ export default function CartPage() {
       setDiscount(discountAmount)
       toast({
         title: "Promo code applied",
-        description: `You saved $${discountAmount.toFixed(2)} with this code!`,
+        description: `You saved GHS ${discountAmount.toFixed(2)} with this code!`,
       })
     } else {
       setDiscount(0)
@@ -61,7 +61,7 @@ export default function CartPage() {
                         />
                         <div className="flex-1">
                           <h3 className="font-medium">{item.name}</h3>
-                          <p className="text-sm text-slate-500">Unit Price: ${item.price.toFixed(2)}</p>
+                          <p className="text-sm text-slate-500">Unit Price: GHS {item.price.toFixed(2)}</p>
                         </div>
                         <div className="flex items-center space-x-2">
                           <Button
@@ -83,7 +83,7 @@ export default function CartPage() {
                           </Button>
                         </div>
                         <div className="text-right">
-                          <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
+                          <p className="font-medium">GHS {(item.price * item.quantity).toFixed(2)}</p>
                           <Button
                             variant="ghost"
                             size="sm"
@@ -116,22 +116,22 @@ export default function CartPage() {
                 <CardContent className="space-y-4">
                   <div className="flex justify-between">
                     <span>Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span>GHS {subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping</span>
-                    <span>${shipping.toFixed(2)}</span>
+                    <span>GHS {shipping.toFixed(2)}</span>
                   </div>
                   {discount > 0 && (
                     <div className="flex justify-between text-green-600">
                       <span>Discount</span>
-                      <span>-${discount.toFixed(2)}</span>
+                      <span>- GHS {discount.toFixed(2)}</span>
                     </div>
                   )}
                   <Separator />
                   <div className="flex justify-between font-bold text-lg">
                     <span>Total</span>
-                    <span>${total.toFixed(2)}</span>
+                    <span>GHS {total.toFixed(2)}</span>
                   </div>
 
                   <div className="pt-4">

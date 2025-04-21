@@ -591,7 +591,7 @@ export default function CheckoutPage() {
                               {item.name} x {item.quantity}
                             </span>
                             <span>
-                              ${(item.price * item.quantity).toFixed(2)}
+                            GHS {(item.price * item.quantity).toFixed(2)}
                             </span>
                           </div>
                         ))}
@@ -657,7 +657,7 @@ export default function CheckoutPage() {
                     <span>
                       {item.name} x {item.quantity}
                     </span>
-                    <span>${(item.price * item.quantity).toFixed(2)}</span>
+                    <span>GHS {(item.price * item.quantity).toFixed(2)}</span>
                   </div>
                 ))}
 
@@ -665,22 +665,22 @@ export default function CheckoutPage() {
 
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>GHS {subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span>${shipping.toFixed(2)}</span>
+                  <span>GHS {shipping.toFixed(2)}</span>
                 </div>
                 {tax > 0 && (
                   <div className="flex justify-between">
                     <span>Tax</span>
-                    <span>${tax.toFixed(2)}</span>
+                    <span>GHS {tax.toFixed(2)}</span>
                   </div>
                 )}
                 <Separator />
                 <div className="flex justify-between font-bold text-lg">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>GHS {total.toFixed(2)}</span>
                 </div>
               </CardContent>
             </Card>
