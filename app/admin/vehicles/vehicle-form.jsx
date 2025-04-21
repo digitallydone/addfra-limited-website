@@ -120,8 +120,8 @@ export default function VehicleForm({ vehicle = null }) {
           // const uploadResult = await uploadImage(file)
           const uploadResult = await uploadToCloudinary(file);
 
-          if (uploadResult.success) {
-            uploadedImageUrls.push(uploadResult.url);
+          if (uploadResult) {
+            uploadedImageUrls.push(uploadResult.secure_url);
           } else {
             throw new Error("Failed to upload image");
           }
@@ -218,7 +218,7 @@ export default function VehicleForm({ vehicle = null }) {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="space-y-2">
-          <Label htmlFor="price">Price ($)</Label>
+          <Label htmlFor="price">Price (GHS)</Label>
           <Input
             id="price"
             name="price"

@@ -75,15 +75,27 @@ export default function BlogPostForm({ post = null, userId }) {
     e.preventDefault();
     setIsLoading(true);
 
+       // Create an array of promises for each file upload
+      //  const uploadPromises = Array.from(files).map(async (file) => {
+      //   const cloudinaryResponse = await uploadToCloudinary(file);
+
+      //   // Return both URL and public ID for tracking
+      //   return {
+      //     url: cloudinaryResponse.secure_url,
+      //     publicId: cloudinaryResponse.public_id,
+      //   };
+      // });
+
     try {
+
       // Upload image if selected
       let featuredImage = formData.featuredImage;
       if (imageFile) {
         // const uploadResult = await uploadImage(imageFile)
         const uploadResult = await uploadToCloudinary(imageFile);
 
-        if (uploadResult.success) {
-          featuredImage = uploadResult.url;
+        if (uploadResult) {
+          featuredImage = uploadResult.secure_url;
         } else {
           throw new Error("Failed to upload image");
         }
