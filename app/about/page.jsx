@@ -256,7 +256,7 @@ export default function AboutPage() {
                   </div>
                   <div className="md:pl-12">
                     <img
-                      src="/team1.jpg?height=300&width=400"
+                      src="/abour-222.jpg?height=300&width=400"
                       alt="Company founding"
                       className="rounded-lg shadow-md"
                     />
@@ -272,7 +272,7 @@ export default function AboutPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="md:text-right md:pr-12 md:order-1 order-2">
                     <img
-                      src="/trunk-1st.jpg?height=300&width=400"
+                      src="/shop-img.jpg?height=300&width=400"
                       alt="First refrigerated truck"
                       className="rounded-lg shadow-md md:ml-auto"
                     />
