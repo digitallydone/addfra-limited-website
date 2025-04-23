@@ -19,12 +19,12 @@ import { useSession } from "next-auth/react";
 const navigation = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
+  { name: "Shop", href: "/shop" },
+  { name: "Vehicles", href: "/vehicles" },
   { name: "Repairs", href: "/repairs" },
   // { name: "Projects", href: "/projects" },
   { name: "FAQ", href: "/faq" },
   { name: "Contact", href: "/contact" },
-  { name: "Vehicles", href: "/vehicles" },
-  { name: "Shop", href: "/shop" },
   { name: "Blog", href: "/blog" },
 ];
 
