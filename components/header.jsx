@@ -48,8 +48,9 @@ export default function Header() {
       <nav className="container mx-auto px-4 flex items-center justify-between py-4">
         <div className="flex items-center">
           <Link href="/" className="flex items-center">
-            <span className="text-2xl font-bold text-primary">ADDFRA</span>
-            <span className="text-xl font-medium ml-1">Limited</span>
+          <img src="/logo.jpg" className="h-16" alt="" />
+            {/* <span className="text-2xl font-bold text-primary">ADDFRA</span> */}
+            {/* <span className="text-xl font-medium ml-1">Limited</span> */}
           </Link>
         </div>
 
