@@ -1,3 +1,4 @@
+// Path: app\about\page.jsx
 import Link from "next/link";
 import { ArrowRight, CheckCircle, Users, Award, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -5,13 +6,13 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export default function AboutPage() {
   return (
-    <main className="flex min-h-screen flex-col">
+    <main className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative h-[40vh] w-full bg-gradient-to-r from-slate-900 to-slate-800 flex items-center">
         <div className="absolute inset-0 opacity-30 bg-[url('/worker-about1.jpg?height=800&width=1600')] bg-cover bg-center"></div>
-        <div className="container mx-auto px-4 z-10">
+        <div className="container z-10 px-4 mx-auto">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            <h1 className="mb-4 text-4xl font-bold text-white md:text-5xl">
               About ADDFRA Limited
             </h1>
             <p className="text-xl text-slate-200">
@@ -24,25 +25,56 @@ export default function AboutPage() {
 
       {/* Our Story */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="container px-4 mx-auto">
+          <div className="grid items-center grid-cols-1 gap-12 md:grid-cols-2">
             <div>
-              <h2 className="text-3xl font-bold mb-6 text-slate-900">
+              <h2 className="mb-6 text-3xl font-bold text-slate-900">
                 Our Story
               </h2>
-              <p className="text-lg text-slate-700 mb-6">
-                Founded in 2010, ADDFRA Limited began as a small workshop
-                specializing in vehicle repairs. Over the years, we have grown
-                into a leading automobile customization company in Ghana,
-                serving clients both locally and internationally.
+              <p className="mb-6 text-lg text-slate-700">
+                ADDFRA LTD began in 2011, focusing on high-quality truck bodies
+                and insulated boxes. We partnered with CARRIER TRANSICOLD EUROPE
+                (France) as their sole distributor and official service center
+                in Ghana, with our technicians trained by their experts.
               </p>
-              <p className="text-lg text-slate-700 mb-6">
+              <p className="mb-6 text-lg text-slate-700">
+                In 2016, we became a Limited Liability Company. We've served
+                clients in Togo, Benin, Nigeria, and Sierra Leone, and now
+                produce up to 500 vehicles annually with a team of over 60
+                staff.
+              </p>
+
+              {/*        <p className="mb-6 text-lg text-slate-700">
+                ADDFRA LTD was established in the year 2011 as an enterprise.
+                Based on quality improvement on our special truck bodies and
+                also into insulated boxes we entered into a partnership
+                agreement with CARRIER TRANSICOLD EUROPE (France) as the sole
+                distributor & official service center for CARRIER TRANSICOLD
+                Transport refrigeration system in Ghana with well-trained
+                technicians trained by our partners from CARRIER TRANSICOLD
+                EUROPE (FRANCE).
+              </p>
+              <p className="mb-6 text-lg text-slate-700">
+                In 2016, we registered as a Limited Liability Company. We have
+                built truck bodies and refrigeration units for clients in other
+                countries like Togo, Benin, Nigeria, and Sierra Leone. With our
+                current production capacity of 500 vehicles per year, we have
+                added over 60 employees (Both permanent and contract workers) to
+                our workforce.
+              </p> */}
+              {/*  <p className="mb-6 text-lg text-slate-700">
+                Founded in 2011, ADDFRA Limited began as a small workshop,
+                specializing in vehicle body fabrications. Over the years, we
+                have grown into a leading automobile customization company in
+                Ghana, serving clients both locally and internationally.
+              </p>
+              <p className="mb-6 text-lg text-slate-700">
                 Our journey has been driven by a passion for innovation and a
-                commitment to quality. We identified a gap in the market for
-                specialized vehicles, particularly refrigerated trucks and
-                trailers, and set out to fill this need with custom-built
-                solutions that meet the highest standards.
-              </p>
+                committed to delivering quality services. We identified a gap in
+                the market for specialized vehicles, particularly trucks bodies,
+                and set out to fill this need with custom-built solutions that
+                meet the highest standards.
+              </p> */}
               <p className="text-lg text-slate-700">
                 Today, ADDFRA Limited is recognized as a trusted partner for
                 businesses and individuals seeking customized automobile
@@ -51,9 +83,10 @@ export default function AboutPage() {
                 but exceed our clients' expectations.
               </p>
             </div>
-            <div className="rounded-lg overflow-hidden shadow-xl">
+            <div className="overflow-hidden rounded-lg shadow-xl">
               <img
-                src="/worker-about2.jpg?height=600&width=800"
+                // src="/worker-about2.jpg?height=600&width=800"
+                src="/worker-about3.jpg?height=600&width=800"
                 alt="ADDFRA workshop"
                 className="w-full h-auto"
               />
@@ -64,13 +97,13 @@ export default function AboutPage() {
 
       {/* Mission & Vision */}
       <section className="py-20 bg-slate-50">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <Card className="bg-white shadow-lg p-8">
-              <h3 className="text-2xl font-bold mb-4 text-primary">
+        <div className="container px-4 mx-auto">
+          <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
+            <Card className="p-8 bg-white shadow-lg">
+              <h3 className="mb-4 text-2xl font-bold text-primary">
                 Our Mission
               </h3>
-              <p className="text-lg text-slate-700 mb-6">
+              <p className="mb-6 text-lg text-slate-700">
                 To provide high-quality, customized automobile solutions that
                 meet the specific needs of our clients, while maintaining the
                 highest standards of craftsmanship, innovation, and customer
@@ -104,11 +137,11 @@ export default function AboutPage() {
               </ul>
             </Card>
 
-            <Card className="bg-white shadow-lg p-8">
-              <h3 className="text-2xl font-bold mb-4 text-primary">
+            <Card className="p-8 bg-white shadow-lg">
+              <h3 className="mb-4 text-2xl font-bold text-primary">
                 Our Vision
               </h3>
-              <p className="text-lg text-slate-700 mb-6">
+              <p className="mb-6 text-lg text-slate-700">
                 To be the leading provider of customized automobile solutions in
                 Africa, recognized for our innovation, quality, and commitment
                 to customer satisfaction.
@@ -146,18 +179,18 @@ export default function AboutPage() {
 
       {/* Our Values */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center text-slate-900">
+        <div className="container px-4 mx-auto">
+          <h2 className="mb-12 text-3xl font-bold text-center text-slate-900">
             Our Core Values
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow text-center p-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <Card className="p-8 text-center transition-shadow bg-white shadow-lg hover:shadow-xl">
               <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Award className="h-8 w-8 text-primary" />
+                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10">
+                  <Award className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold mb-4">Excellence</h3>
+                <h3 className="mb-4 text-xl font-bold">Excellence</h3>
                 <p className="text-slate-700">
                   We strive for excellence in everything we do, from the quality
                   of our materials to the precision of our craftsmanship and the
@@ -166,12 +199,12 @@ export default function AboutPage() {
               </CardContent>
             </Card>
 
-            <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow text-center p-8">
+            <Card className="p-8 text-center transition-shadow bg-white shadow-lg hover:shadow-xl">
               <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Users className="h-8 w-8 text-primary" />
+                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10">
+                  <Users className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold mb-4">Integrity</h3>
+                <h3 className="mb-4 text-xl font-bold">Integrity</h3>
                 <p className="text-slate-700">
                   We conduct our business with honesty, transparency, and
                   ethical practices, building trust with our clients, partners,
@@ -180,12 +213,12 @@ export default function AboutPage() {
               </CardContent>
             </Card>
 
-            <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow text-center p-8">
+            <Card className="p-8 text-center transition-shadow bg-white shadow-lg hover:shadow-xl">
               <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <Clock className="h-8 w-8 text-primary" />
+                <div className="flex items-center justify-center w-16 h-16 mx-auto mb-6 rounded-full bg-primary/10">
+                  <Clock className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-xl font-bold mb-4">Innovation</h3>
+                <h3 className="mb-4 text-xl font-bold">Innovation</h3>
                 <p className="text-slate-700">
                   We embrace innovation and continuously seek new ways to
                   improve our designs, processes, and services to deliver the
@@ -199,19 +232,19 @@ export default function AboutPage() {
 
       {/* Team Section */}
       {/* <section className="py-20 bg-slate-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center text-slate-900">Our Leadership Team</h2>
+        <div className="container px-4 mx-auto">
+          <h2 className="mb-12 text-3xl font-bold text-center text-slate-900">Our Leadership Team</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
             Team Member 1
-            <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div className="overflow-hidden bg-white rounded-lg shadow-lg">
               <div className="h-64 overflow-hidden">
-                <img src="/placeholder.svg?height=400&width=300" alt="CEO" className="w-full h-full object-cover" />
+                <img src="/placeholder.svg?height=400&width=300" alt="CEO" className="object-cover w-full h-full" />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-1">Daniel Addo</h3>
-                <p className="text-primary mb-4">Founder & CEO</p>
-                <p className="text-slate-700 text-sm">
+                <h3 className="mb-1 text-xl font-bold">Daniel Addo</h3>
+                <p className="mb-4 text-primary">Founder & CEO</p>
+                <p className="text-sm text-slate-700">
                   With over 20 years of experience in the automotive industry, Daniel leads our company with vision and
                   expertise.
                 </p>
@@ -219,14 +252,14 @@ export default function AboutPage() {
             </div>
 
             Team Member 2
-            <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div className="overflow-hidden bg-white rounded-lg shadow-lg">
               <div className="h-64 overflow-hidden">
-                <img src="/placeholder.svg?height=400&width=300" alt="CTO" className="w-full h-full object-cover" />
+                <img src="/placeholder.svg?height=400&width=300" alt="CTO" className="object-cover w-full h-full" />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-1">Francis Mensah</h3>
-                <p className="text-primary mb-4">Chief Technical Officer</p>
-                <p className="text-slate-700 text-sm">
+                <h3 className="mb-1 text-xl font-bold">Francis Mensah</h3>
+                <p className="mb-4 text-primary">Chief Technical Officer</p>
+                <p className="text-sm text-slate-700">
                   Francis oversees all technical aspects of our vehicle customization, bringing innovation to every
                   project.
                 </p>
@@ -234,36 +267,36 @@ export default function AboutPage() {
             </div>
 
             Team Member 3
-            <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div className="overflow-hidden bg-white rounded-lg shadow-lg">
               <div className="h-64 overflow-hidden">
                 <img
                   src="/placeholder.svg?height=400&width=300"
                   alt="Operations Director"
-                  className="w-full h-full object-cover"
+                  className="object-cover w-full h-full"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-1">Abena Frimpong</h3>
-                <p className="text-primary mb-4">Operations Director</p>
-                <p className="text-slate-700 text-sm">
+                <h3 className="mb-1 text-xl font-bold">Abena Frimpong</h3>
+                <p className="mb-4 text-primary">Operations Director</p>
+                <p className="text-sm text-slate-700">
                   Abena ensures smooth operations across all departments, maintaining our high standards of quality.
                 </p>
               </div>
             </div>
 
             Team Member 4
-            <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+            <div className="overflow-hidden bg-white rounded-lg shadow-lg">
               <div className="h-64 overflow-hidden">
                 <img
                   src="/placeholder.svg?height=400&width=300"
                   alt="Sales Manager"
-                  className="w-full h-full object-cover"
+                  className="object-cover w-full h-full"
                 />
               </div>
               <div className="p-6">
-                <h3 className="text-xl font-bold mb-1">Kwame Osei</h3>
-                <p className="text-primary mb-4">Sales & Marketing Director</p>
-                <p className="text-slate-700 text-sm">
+                <h3 className="mb-1 text-xl font-bold">Kwame Osei</h3>
+                <p className="mb-4 text-primary">Sales & Marketing Director</p>
+                <p className="text-sm text-slate-700">
                   Kwame leads our sales and marketing efforts, building strong relationships with clients across Africa.
                 </p>
               </div>
@@ -274,36 +307,36 @@ export default function AboutPage() {
 
       {/* Milestones */}
       <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-12 text-center text-slate-900">
+        <div className="container px-4 mx-auto">
+          <h2 className="mb-12 text-3xl font-bold text-center text-slate-900">
             Our Journey
           </h2>
 
           <div className="relative">
             {/* Timeline line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-primary/20"></div>
+            <div className="absolute w-1 h-full transform -translate-x-1/2 left-1/2 bg-primary/20"></div>
 
             {/* Timeline items */}
             <div className="space-y-12">
-              {/* 2010 */}
+              {/* 2011 */}
               <div className="relative">
-                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                <div className="absolute flex items-center justify-center w-8 h-8 transform -translate-x-1/2 -translate-y-1/2 rounded-full left-1/2 bg-primary">
                   <div className="w-4 h-4 bg-white rounded-full"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                   <div className="md:text-right md:pr-12">
-                    <h3 className="text-xl font-bold text-primary">2010</h3>
-                    <h4 className="text-lg font-semibold mb-2">
+                    <h3 className="text-xl font-bold text-primary">2011</h3>
+                    <h4 className="mb-2 text-lg font-semibold">
                       Company Founded
                     </h4>
                     <p className="text-slate-700">
-                      ADDFRA Limited was established as a small vehicle repair
+                      ADDFRA Limited was established as a small fabrication
                       workshop in Accra, Ghana.
                     </p>
                   </div>
-                  <div className="md:pl-12">
+                    <div className="md:pl-12">
                     <img
-                      src="/abour-222.jpg?height=300&width=400"
+                      src="/our-journey-1.jpg?height=300&width=400"
                       alt="Company founding"
                       className="rounded-lg shadow-md"
                     />
@@ -313,20 +346,20 @@ export default function AboutPage() {
 
               {/* 2013 */}
               <div className="relative">
-                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                <div className="absolute flex items-center justify-center w-8 h-8 transform -translate-x-1/2 -translate-y-1/2 rounded-full left-1/2 bg-primary">
                   <div className="w-4 h-4 bg-white rounded-full"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="md:text-right md:pr-12 md:order-1 order-2">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                  {/*  <div className="order-2 md:text-right md:pr-12 md:order-1">
                     <img
                       src="/shop-img.jpg?height=300&width=400"
                       alt="First refrigerated truck"
                       className="rounded-lg shadow-md md:ml-auto"
                     />
-                  </div>
-                  <div className="md:pl-12 md:order-2 order-1">
+                  </div> */}
+                  <div className="order-1 md:pl-12 md:order-2">
                     <h3 className="text-xl font-bold text-primary">2013</h3>
-                    <h4 className="text-lg font-semibold mb-2">
+                    <h4 className="mb-2 text-lg font-semibold">
                       First Custom Refrigerated Truck
                     </h4>
                     <p className="text-slate-700">
@@ -339,13 +372,13 @@ export default function AboutPage() {
 
               {/* 2016 */}
               <div className="relative">
-                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                <div className="absolute flex items-center justify-center w-8 h-8 transform -translate-x-1/2 -translate-y-1/2 rounded-full left-1/2 bg-primary">
                   <div className="w-4 h-4 bg-white rounded-full"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                   <div className="md:text-right md:pr-12">
                     <h3 className="text-xl font-bold text-primary">2016</h3>
-                    <h4 className="text-lg font-semibold mb-2">
+                    <h4 className="mb-2 text-lg font-semibold">
                       Expanded Facility
                     </h4>
                     <p className="text-slate-700">
@@ -353,32 +386,32 @@ export default function AboutPage() {
                       and expanded our team of skilled technicians.
                     </p>
                   </div>
-                  <div className="md:pl-12">
+                  {/*  <div className="md:pl-12">
                     <img
                       src="/site-facilty1.jpg?height=300&width=400"
                       alt="Expanded facility"
                       className="rounded-lg shadow-md"
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
               {/* 2019 */}
               <div className="relative">
-                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                <div className="absolute flex items-center justify-center w-8 h-8 transform -translate-x-1/2 -translate-y-1/2 rounded-full left-1/2 bg-primary">
                   <div className="w-4 h-4 bg-white rounded-full"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="md:text-right md:pr-12 md:order-1 order-2">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                  {/*   <div className="order-2 md:text-right md:pr-12 md:order-1">
                     <img
                       src="/team-int1.jpg?height=300&width=400"
                       alt="International expansion"
                       className="rounded-lg shadow-md md:ml-auto"
                     />
-                  </div>
-                  <div className="md:pl-12 md:order-2 order-1">
+                  </div> */}
+                  <div className="order-1 md:pl-12 md:order-2">
                     <h3 className="text-xl font-bold text-primary">2019</h3>
-                    <h4 className="text-lg font-semibold mb-2">
+                    <h4 className="mb-2 text-lg font-semibold">
                       International Expansion
                     </h4>
                     <p className="text-slate-700">
@@ -392,13 +425,13 @@ export default function AboutPage() {
 
               {/* 2022 */}
               <div className="relative">
-                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                <div className="absolute flex items-center justify-center w-8 h-8 transform -translate-x-1/2 -translate-y-1/2 rounded-full left-1/2 bg-primary">
                   <div className="w-4 h-4 bg-white rounded-full"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
                   <div className="md:text-right md:pr-12">
                     <h3 className="text-xl font-bold text-primary">2022</h3>
-                    <h4 className="text-lg font-semibold mb-2">
+                    <h4 className="mb-2 text-lg font-semibold">
                       E-commerce Launch
                     </h4>
                     <p className="text-slate-700">
@@ -406,32 +439,32 @@ export default function AboutPage() {
                       accessories, and tools to customers across Africa.
                     </p>
                   </div>
-                  <div className="md:pl-12">
+                  {/*   <div className="md:pl-12">
                     <img
                       src="/ecom-p.jpg?height=300&width=400"
                       alt="E-commerce launch"
                       className="rounded-lg shadow-md"
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
               {/* Today */}
               <div className="relative">
-                <div className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+                <div className="absolute flex items-center justify-center w-8 h-8 transform -translate-x-1/2 -translate-y-1/2 rounded-full left-1/2 bg-primary">
                   <div className="w-4 h-4 bg-white rounded-full"></div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                  <div className="md:text-right md:pr-12 md:order-1 order-2">
+                <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
+                  {/*     <div className="order-2 md:text-right md:pr-12 md:order-1">
                     <img
                       src="/trunk-h.jpg?height=300&width=400"
                       alt="Present day"
                       className="rounded-lg shadow-md md:ml-auto"
                     />
-                  </div>
-                  <div className="md:pl-12 md:order-2 order-1">
+                  </div> */}
+                  <div className="order-1 md:pl-12 md:order-2">
                     <h3 className="text-xl font-bold text-primary">Today</h3>
-                    <h4 className="text-lg font-semibold mb-2">
+                    <h4 className="mb-2 text-lg font-semibold">
                       Leading the Industry
                     </h4>
                     <p className="text-slate-700">
@@ -448,10 +481,10 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-primary text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Work With Us?</h2>
-          <p className="text-xl mb-8 max-w-2xl mx-auto">
+      <section className="py-16 text-white bg-primary">
+        <div className="container px-4 mx-auto text-center">
+          <h2 className="mb-6 text-3xl font-bold">Ready to Work With Us?</h2>
+          <p className="max-w-2xl mx-auto mb-8 text-xl">
             Contact our team today to discuss your custom vehicle needs or to
             learn more about our services.
           </p>
@@ -461,7 +494,7 @@ export default function AboutPage() {
               variant="secondary"
               className="bg-white text-primary hover:bg-slate-100"
             >
-              Get in Touch <ArrowRight className="ml-2 h-4 w-4" />
+              Get in Touch <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </Link>
         </div>

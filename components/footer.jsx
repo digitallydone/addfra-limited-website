@@ -1,3 +1,4 @@
+// Path: components\footer.jsx
 import Link from "next/link";
 import {
   Facebook,
@@ -13,9 +14,9 @@ import { Input } from "@/components/ui/input";
 
 export default function Footer() {
   return (
-    <footer className="bg-slate-900 text-white">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="text-white bg-slate-900">
+      <div className="container px-4 py-12 mx-auto">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           {/* Company Info */}
           <div className="space-y-4">
             <h3 className="text-xl font-bold">ADDFRA Limited</h3>
@@ -34,7 +35,7 @@ export default function Footer() {
                   size="icon"
                   className="hover:text-primary"
                 >
-                  <Facebook className="h-5 w-5" />
+                  <Facebook className="w-5 h-5" />
                 </Button>
               </Link>
               <Link
@@ -47,7 +48,7 @@ export default function Footer() {
                   size="icon"
                   className="hover:text-primary"
                 >
-                  <Twitter className="h-5 w-5" />
+                  <Twitter className="w-5 h-5" />
                 </Button>
               </Link>
               <Link
@@ -60,7 +61,7 @@ export default function Footer() {
                   size="icon"
                   className="hover:text-primary"
                 >
-                  <Instagram className="h-5 w-5" />
+                  <Instagram className="w-5 h-5" />
                 </Button>
               </Link>
               <Link
@@ -73,7 +74,7 @@ export default function Footer() {
                   size="icon"
                   className="hover:text-primary"
                 >
-                  <Linkedin className="h-5 w-5" />
+                  <Linkedin className="w-5 h-5" />
                 </Button>
               </Link>
             </div>
@@ -86,7 +87,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/about"
-                  className="text-slate-300 hover:text-primary transition-colors"
+                  className="transition-colors text-slate-300 hover:text-primary"
                 >
                   About Us
                 </Link>
@@ -94,7 +95,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/vehicles"
-                  className="text-slate-300 hover:text-primary transition-colors"
+                  className="transition-colors text-slate-300 hover:text-primary"
                 >
                   Vehicles
                 </Link>
@@ -102,7 +103,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/repairs"
-                  className="text-slate-300 hover:text-primary transition-colors"
+                  className="transition-colors text-slate-300 hover:text-primary"
                 >
                   Repair Services
                 </Link>
@@ -110,7 +111,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/shop"
-                  className="text-slate-300 hover:text-primary transition-colors"
+                  className="transition-colors text-slate-300 hover:text-primary"
                 >
                   Shop
                 </Link>
@@ -118,7 +119,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/blog"
-                  className="text-slate-300 hover:text-primary transition-colors"
+                  className="transition-colors text-slate-300 hover:text-primary"
                 >
                   Blog
                 </Link>
@@ -126,7 +127,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/contact"
-                  className="text-slate-300 hover:text-primary transition-colors"
+                  className="transition-colors text-slate-300 hover:text-primary"
                 >
                   Contact Us
                 </Link>
@@ -149,11 +150,15 @@ export default function Footer() {
                 <span className="text-slate-300">Accra, Ghana</span>
               </li>
               <li className="flex items-center">
-                {/* <Phone className="h-5 w-5 mr-2 text-primary shrink-0" /> */}
-                <span className="text-slate-300">+233 243858008</span>
+                {/* <Phone className="w-5 h-5 mr-2 text-primary shrink-0" /> */}
+                <span className="text-slate-300">+233 55 282 2437</span>
               </li>
               <li className="flex items-center">
-                {/* <Mail className="h-5 w-5 mr-2 text-primary shrink-0" /> */}
+                {/* <Phone className="w-5 h-5 mr-2 text-primary shrink-0" /> */}
+                <span className="text-slate-300">+233 24 385 8008</span>
+              </li>
+              <li className="flex items-center">
+                {/* <Mail className="w-5 h-5 mr-2 text-primary shrink-0" /> */}
                 <span className="text-slate-300">info@addfra.com</span>
               </li>
               <li className="flex items-center">
@@ -172,14 +177,14 @@ export default function Footer() {
               <Input
                 type="email"
                 placeholder="Your email address"
-                className="bg-slate-800 border-slate-700 text-white"
+                className="text-white bg-slate-800 border-slate-700"
               />
               <Button className="w-full">Subscribe</Button>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-slate-800 mt-12 pt-8 text-center text-slate-400">
+        <div className="pt-8 mt-12 text-center border-t border-slate-800 text-slate-400">
           <p>
             © {new Date().getFullYear()} ADDFRA Limited. All rights reserved.
           </p>
