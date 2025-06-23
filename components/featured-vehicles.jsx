@@ -1,4 +1,5 @@
 "use client"
+// Path: components\featured-vehicles.jsx
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
@@ -18,7 +19,7 @@ export default function FeaturedVehicles() {
     const fetchVehicles = async () => {
       try {
         const { products } = await getProducts({
-          category: "vehicles",
+          // category: "vehicles",
           status: "active",
           limit: 6,
         })

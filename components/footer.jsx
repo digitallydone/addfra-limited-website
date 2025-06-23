@@ -8,186 +8,169 @@ import {
   Mail,
   Phone,
   MapPin,
+  Clock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 export default function Footer() {
   return (
-    <footer className="text-white bg-slate-900">
-      <div className="container px-4 py-12 mx-auto">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
+    <footer className="bg-gray-900 text-gray-300">
+      <div className="container px-4 py-16 mx-auto">
+        <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
           {/* Company Info */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold">ADDFRA Limited</h3>
-            <p className="text-slate-300">
+          <div className="space-y-6">
+            <div className="flex items-center">
+              <img 
+                src="/logo.jpg" 
+                className="h-10 w-auto mr-3" 
+                alt="ADDFRA Logo"
+              />
+              <span className="text-xl font-bold text-white">ADDFRA</span>
+            </div>
+            <p className="leading-relaxed">
               Specializing in customized automobiles, refrigerated trucks,
-              trailers, and vans.
+              trailers, and vans with premium quality and service.
             </p>
             <div className="flex space-x-4">
-              <Link
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="hover:text-primary"
+              {[
+                { icon: Facebook, url: "https://facebook.com" },
+                { icon: Twitter, url: "https://twitter.com" },
+                { icon: Instagram, url: "https://instagram.com" },
+                { icon: Linkedin, url: "https://linkedin.com" },
+              ].map((social, index) => (
+                <Link
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-full bg-gray-800 hover:bg-primary hover:text-white transition-colors"
                 >
-                  <Facebook className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Link
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="hover:text-primary"
-                >
-                  <Twitter className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Link
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="hover:text-primary"
-                >
-                  <Instagram className="w-5 h-5" />
-                </Button>
-              </Link>
-              <Link
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="hover:text-primary"
-                >
-                  <Linkedin className="w-5 h-5" />
-                </Button>
-              </Link>
+                  <social.icon className="w-5 h-5" />
+                </Link>
+              ))}
             </div>
           </div>
 
           {/* Quick Links */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/about"
-                  className="transition-colors text-slate-300 hover:text-primary"
-                >
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/vehicles"
-                  className="transition-colors text-slate-300 hover:text-primary"
-                >
-                  Vehicles
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/repairs"
-                  className="transition-colors text-slate-300 hover:text-primary"
-                >
-                  Repair Services
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/shop"
-                  className="transition-colors text-slate-300 hover:text-primary"
-                >
-                  Shop
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/blog"
-                  className="transition-colors text-slate-300 hover:text-primary"
-                >
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/contact"
-                  className="transition-colors text-slate-300 hover:text-primary"
-                >
-                  Contact Us
-                </Link>
-              </li>
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold text-white uppercase tracking-wider">
+              Quick Links
+            </h3>
+            <ul className="space-y-3">
+              {[
+                { name: "About Us", href: "/about" },
+                { name: "Vehicles", href: "/vehicles" },
+                { name: "Repair Services", href: "/repairs" },
+                { name: "Shop", href: "/shop" },
+                { name: "Blog", href: "/blog" },
+                { name: "Contact Us", href: "/contact" },
+              ].map((link) => (
+                <li key={link.name}>
+                  <Link
+                    href={link.href}
+                    className="transition-colors hover:text-primary flex items-center"
+                  >
+                    <span className="w-2 h-2 bg-primary rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity"></span>
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold">Contact Us</h3>
-            <ul className="space-y-3">
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold text-white uppercase tracking-wider">
+              Contact Info
+            </h3>
+            <ul className="space-y-4">
               <li className="flex items-start">
-                {/* <MapPin className="block h-5 w-5 mr-2 text-primary shrink-0 mt-0.5" /> */}
-                <span className="text-slate-300"> Dansoman road Mataheko</span>
+                <MapPin className="flex-shrink-0 w-5 h-5 mt-1 text-primary" />
+                <div className="ml-3">
+                  <p className="text-sm leading-relaxed">
+                    Dansoman Road, Mataheko
+                    <br />
+                    Akwei Link
+                    <br />
+                    Accra, Ghana
+                  </p>
+                </div>
+              </li>
+              <li className="flex items-center">
+                <Phone className="flex-shrink-0 w-5 h-5 text-primary" />
+                <div className="ml-3 space-y-1">
+                  <a href="tel:+233552822437" className="block hover:text-primary transition-colors">
+                    +233 55 282 2437
+                  </a>
+                  <a href="tel:+233243858008" className="block hover:text-primary transition-colors">
+                    +233 24 385 8008
+                  </a>
+                </div>
+              </li>
+              <li className="flex items-center">
+                <Mail className="flex-shrink-0 w-5 h-5 text-primary" />
+                <div className="ml-3 space-y-1">
+                  <a href="mailto:info@addfra.com" className="block hover:text-primary transition-colors">
+                    info@addfra.com
+                  </a>
+                  <a href="mailto:addfra2@yahoo.com" className="block hover:text-primary transition-colors">
+                    addfra2@yahoo.com
+                  </a>
+                </div>
               </li>
               <li className="flex items-start">
-                <span className="text-slate-300"> Akwei Link</span>
-              </li>
-              <li className="flex items-start">
-                <span className="text-slate-300">Accra, Ghana</span>
-              </li>
-              <li className="flex items-center">
-                {/* <Phone className="w-5 h-5 mr-2 text-primary shrink-0" /> */}
-                <span className="text-slate-300">+233 55 282 2437</span>
-              </li>
-              <li className="flex items-center">
-                {/* <Phone className="w-5 h-5 mr-2 text-primary shrink-0" /> */}
-                <span className="text-slate-300">+233 24 385 8008</span>
-              </li>
-              <li className="flex items-center">
-                {/* <Mail className="w-5 h-5 mr-2 text-primary shrink-0" /> */}
-                <span className="text-slate-300">info@addfra.com</span>
-              </li>
-              <li className="flex items-center">
-                <span className="text-slate-300"> addfra2@yahoo.com</span>
+                <Clock className="flex-shrink-0 w-5 h-5 mt-1 text-primary" />
+                <div className="ml-3">
+                  <p className="text-sm">Mon-Fri: 8:00 AM - 5:00 PM</p>
+                  <p className="text-sm">Sat: 9:00 AM - 1:00 PM</p>
+                </div>
               </li>
             </ul>
           </div>
 
           {/* Newsletter */}
-          <div className="space-y-4">
-            <h3 className="text-xl font-bold">Newsletter</h3>
-            <p className="text-slate-300">
-              Subscribe to our newsletter for the latest updates and offers.
+          <div className="space-y-6">
+            <h3 className="text-lg font-semibold text-white uppercase tracking-wider">
+              Newsletter
+            </h3>
+            <p className="leading-relaxed">
+              Subscribe to our newsletter for the latest updates, offers, and automotive tips.
             </p>
-            <div className="flex flex-col space-y-2">
+            <form className="space-y-3">
               <Input
                 type="email"
                 placeholder="Your email address"
-                className="text-white bg-slate-800 border-slate-700"
+                className="bg-gray-800 border-gray-700 text-white focus:ring-primary focus:border-primary"
+                required
               />
-              <Button className="w-full">Subscribe</Button>
-            </div>
+              <Button 
+                type="submit" 
+                className="w-full bg-primary hover:bg-primary/90 transition-colors"
+              >
+                Subscribe
+              </Button>
+            </form>
           </div>
         </div>
 
-        <div className="pt-8 mt-12 text-center border-t border-slate-800 text-slate-400">
-          <p>
-            © {new Date().getFullYear()} ADDFRA Limited. All rights reserved.
-          </p>
+        <div className="pt-12 mt-12 border-t border-gray-800">
+          <div className="flex flex-col items-center justify-between md:flex-row">
+            <p className="text-sm">
+              © {new Date().getFullYear()} ADDFRA Limited. All rights reserved.
+            </p>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <Link href="/privacy" className="text-sm hover:text-primary transition-colors">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="text-sm hover:text-primary transition-colors">
+                Terms of Service
+              </Link>
+              <Link href="/sitemap" className="text-sm hover:text-primary transition-colors">
+                Sitemap
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
