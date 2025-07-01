@@ -23,16 +23,16 @@ const carouselSlides = [
     image: "/trunk-sm.jpg",
     cta: "Get Quote",
   },
-  {
-    id: 3,
-    title: "Commercial Vans",
-    description: "Reliable transport for your delivery needs.",
-    image: "/trunk-sm.jpg",
-    cta: "Explore Options",
-  },
+  // {
+  //   id: 3,
+  //   title: "Commercial Vans",
+  //   description: "Reliable transport for your delivery needs.",
+  //   image: "/trunk-sm.jpg",
+  //   cta: "Explore Options",
+  // },
   {
     id: 4,
-    title: "Metal fabrication",
+    title: "General Metal Fabrication",
     description: "Expert metal fabrication for all your automotive needs.",
     image: "/trunk-sm.jpg",
     cta: "Learn More",
@@ -74,7 +74,7 @@ export function HeroCarousel() {
 
   return (
     <section className="relative h-[40vh] w-full overflow-hidden">
-      <div className="h-full w-full relative">
+      <div className="relative w-full h-full">
         {carouselSlides.map((slide, index) => (
           <div
             key={slide.id}
@@ -85,12 +85,12 @@ export function HeroCarousel() {
             {/* Overlay and Image */}
             <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-slate-800/80"></div>
             <div
-              className="absolute inset-0 bg-cover bg-center opacity-40"
+              className="absolute inset-0 bg-center bg-cover opacity-40"
               style={{ backgroundImage: `url(${slide.image})` }}
             ></div>
 
             {/* Content */}
-            <div className="container px-4 mx-auto h-full flex items-center z-10 relative">
+            <div className="container relative z-10 flex items-center h-full px-4 mx-auto">
               <div className="max-w-3xl">
                 <h1 className="mb-4 text-4xl font-bold text-white md:text-6xl">
                   {slide.title}
@@ -108,7 +108,7 @@ export function HeroCarousel() {
       </div>
 
       {/* Dots */}
-      <div className="absolute bottom-8 left-0 right-0 z-20 flex justify-center gap-2">
+      <div className="absolute left-0 right-0 z-20 flex justify-center gap-2 bottom-8">
         {carouselSlides.map((_, index) => (
           <button
             key={index}
@@ -126,14 +126,14 @@ export function HeroCarousel() {
       {/* Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 p-2 text-white/80 hover:text-white transition-colors"
+        className="absolute z-20 p-2 transition-colors -translate-y-1/2 left-4 top-1/2 text-white/80 hover:text-white"
         aria-label="Previous slide"
       >
         <ChevronLeft className="w-8 h-8" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 p-2 text-white/80 hover:text-white transition-colors"
+        className="absolute z-20 p-2 transition-colors -translate-y-1/2 right-4 top-1/2 text-white/80 hover:text-white"
         aria-label="Next slide"
       >
         <ChevronRight className="w-8 h-8" />
