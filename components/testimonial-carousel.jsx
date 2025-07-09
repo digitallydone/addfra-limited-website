@@ -1,4 +1,5 @@
 "use client"
+// Path: components\testimonial-carousel.jsx
 
 import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight, Star } from "lucide-react"
@@ -68,25 +69,25 @@ export default function TestimonialCarousel() {
   const handleMouseLeave = () => setAutoplay(true)
 
   return (
-    <div className="relative max-w-4xl mx-auto" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div className="container relative mx-auto" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="overflow-hidden">
         <div
           className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {testimonials.map((testimonial) => (
-            <Card key={testimonial.id} className="w-full flex-shrink-0 bg-white shadow-lg mx-2">
+            <Card key={testimonial.id} className="flex-shrink-0 w-full mx-2 bg-white shadow-lg">
               <CardContent className="p-8">
                 <div className="flex items-center mb-6">
-                  <Avatar className="h-12 w-12 mr-4">
+                  <Avatar className="w-12 h-12 mr-4">
                     <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
                     <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <h4 className="font-bold text-lg">{testimonial.name}</h4>
+                    <h4 className="text-lg font-bold">{testimonial.name}</h4>
                     <p className="text-slate-600">{testimonial.company}</p>
                   </div>
-                  <div className="ml-auto flex">
+                  <div className="flex ml-auto">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
@@ -95,7 +96,7 @@ export default function TestimonialCarousel() {
                     ))}
                   </div>
                 </div>
-                <p className="text-slate-700 italic">"{testimonial.text}"</p>
+                <p className="italic text-slate-700">"{testimonial.text}"</p>
               </CardContent>
             </Card>
           ))}
@@ -106,20 +107,20 @@ export default function TestimonialCarousel() {
         variant="outline"
         size="icon"
         onClick={prevSlide}
-        className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 rounded-full bg-white shadow-md z-10"
+        className="absolute left-0 z-10 -translate-x-1/2 -translate-y-1/2 bg-white rounded-full shadow-md top-1/2"
       >
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className="w-4 h-4" />
       </Button>
       <Button
         variant="outline"
         size="icon"
         onClick={nextSlide}
-        className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 rounded-full bg-white shadow-md z-10"
+        className="absolute right-0 z-10 translate-x-1/2 -translate-y-1/2 bg-white rounded-full shadow-md top-1/2"
       >
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight className="w-4 h-4" />
       </Button>
 
-      <div className="flex justify-center mt-6 gap-2">
+      <div className="flex justify-center gap-2 mt-6">
         {testimonials.map((_, index) => (
           <button
             key={index}

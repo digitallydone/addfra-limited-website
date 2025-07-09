@@ -1,3 +1,4 @@
+// Path: app\layout.jsx
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers/providers";
@@ -21,7 +22,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <CartHydration>
             <Header />
-            {children}
+            <div className="bg-gray-50">{children}</div>
             <Footer />
           </CartHydration>
         </Providers>
@@ -29,4 +30,3 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
-

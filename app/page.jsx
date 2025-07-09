@@ -20,6 +20,7 @@ import TestimonialCarousel from "@/components/testimonial-carousel";
 import FeaturedVehicles from "@/components/featured-vehicles";
 import VehiclesComponent from "@/components/Vihecle-component";
 import { HeroCarousel } from "@/components/Hero";
+import ServicesCarousel from "@/components/ServicesCarousel";
 
 export default function Home() {
   return (
@@ -58,8 +59,10 @@ export default function Home() {
 
       <VehiclesComponent />
 
+      <ServicesCarousel />
+
        {/* Services Section */}
-      <section className="py-20 bg-slate-50">
+      {/* <section className="py-20 bg-slate-50">
         <div className="container px-4 mx-auto">
           <div className="mb-16 text-center">
             <h2 className="mb-4 text-3xl font-bold text-slate-900">
@@ -159,7 +162,7 @@ export default function Home() {
             </Card>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Introduction Section */}
       <section className="py-20 bg-white">
@@ -228,7 +231,7 @@ export default function Home() {
       </section> */}
 
       {/* Testimonials */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-gray-50">
         <div className="container px-4 mx-auto">
           <div className="mb-16 text-center">
             <h2 className="mb-4 text-3xl font-bold text-slate-900">
