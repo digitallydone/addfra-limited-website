@@ -247,7 +247,7 @@ export default function ContactPage() {
                 Can I visit your workshop?
               </h3>
               <p className="text-slate-700">
-                Yes, clients are welcome to visit our workshop by appointment.
+                Yes, clients are welcome to visit our workshop.
                 This gives you the opportunity to see our facilities, meet our
                 team, and discuss your requirements in person.
               </p>
