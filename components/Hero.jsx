@@ -20,7 +20,7 @@ const carouselSlides = [
     title: "Custom Trailers",
     description: "Tailored to your specific business requirements.",
     // image: "/carousel/custom-trailer.jpg",
-    image: "/trunk-sm.jpg",
+    image: "/tru-nk-sm.jpg",
     cta: "Get Quote",
   },
   // {
