@@ -25,11 +25,50 @@ import ServicesCarousel from "@/components/ServicesCarousel";
 export default function Home() {
   return (
     <main className="flex flex-col min-h-screen">
-      <HeroCarousel/>
+      <HeroCarousel />
+
+      {/* Introduction Section */}
+      <section className="py-20 bg-white">
+        <div className="container px-4 mx-auto">
+          <div className="grid items-center grid-cols-1 gap-12 md:grid-cols-2">
+            <div>
+              <h2 className="mb-6 text-3xl font-bold text-slate-900">
+                Ghana's Premier Automobile Customization Company
+              </h2>
+              <p className="mb-6 text-lg text-slate-700">
+                At ADDFRA Limited, we specialize in designing and building
+                customized automobiles that meet the specific needs of our
+                clients. With years of experience and a commitment to quality,
+                we deliver exceptional vehicles that exceed expectations.
+              </p>
+              <p className="mb-8 text-lg text-slate-700">
+                Our expertise spans refrigerated trucks, specialized trailers,
+                and custom vans, all built to the highest standards of quality
+                and durability.
+              </p>
+              <Link href="/about">
+                <Button
+                  variant="outline"
+                  className="border-primary text-primary hover:bg-primary hover:text-white"
+                >
+                  Learn More About Us
+                </Button>
+              </Link>
+            </div>
+            <div className="overflow-hidden rounded-lg shadow-xl">
+              <img
+                src="/trunk1.jpg"
+                alt="ADDFRA workshop"
+                className="w-full h-auto"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Hero Section */}
 
-     {/*  <section className="relative h-[80vh] w-full bg-gradient-to-r from-slate-900 to-slate-800 flex items-center">
+      {/*  <section className="relative h-[80vh] w-full bg-gradient-to-r from-slate-900 to-slate-800 flex items-center">
         <div className="absolute inset-0 opacity-30 bg-[url('/trunk-sm.jpg?height=1080&width=1920')] bg-cover bg-center"></div>
         <div className="container z-10 px-4 mx-auto">
           <div className="max-w-3xl">
@@ -56,12 +95,11 @@ export default function Home() {
         </div>
       </section> */}
 
-
       <VehiclesComponent />
 
       <ServicesCarousel />
 
-       {/* Services Section */}
+      {/* Services Section */}
       {/* <section className="py-20 bg-slate-50">
         <div className="container px-4 mx-auto">
           <div className="mb-16 text-center">
@@ -163,47 +201,6 @@ export default function Home() {
           </div>
         </div>
       </section> */}
-
-      {/* Introduction Section */}
-      <section className="py-20 bg-white">
-        <div className="container px-4 mx-auto">
-          <div className="grid items-center grid-cols-1 gap-12 md:grid-cols-2">
-            <div>
-              <h2 className="mb-6 text-3xl font-bold text-slate-900">
-                Ghana's Premier Automobile Customization Company
-              </h2>
-              <p className="mb-6 text-lg text-slate-700">
-                At ADDFRA Limited, we specialize in designing and building
-                customized automobiles that meet the specific needs of our
-                clients. With years of experience and a commitment to quality,
-                we deliver exceptional vehicles that exceed expectations.
-              </p>
-              <p className="mb-8 text-lg text-slate-700">
-                Our expertise spans refrigerated trucks, specialized trailers,
-                and custom vans, all built to the highest standards of quality
-                and durability.
-              </p>
-              <Link href="/about">
-                <Button
-                  variant="outline"
-                  className="border-primary text-primary hover:bg-primary hover:text-white"
-                >
-                  Learn More About Us
-                </Button>
-              </Link>
-            </div>
-            <div className="overflow-hidden rounded-lg shadow-xl">
-              <img
-                src="/trunk1.jpg"
-                alt="ADDFRA workshop"
-                className="w-full h-auto"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-     
 
       {/* Featured Vehicles */}
       {/* <section className="py-20 bg-white">
