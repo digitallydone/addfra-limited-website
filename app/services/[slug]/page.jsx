@@ -1,5 +1,5 @@
 // Path: app\services\[slug]\page.jsx
-// app/services/[slug]/page.jsx
+
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { services } from "@/lib/services";
