@@ -7,7 +7,7 @@ import { z } from "zod";
 
 import prisma from "@/lib/prisma";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { verifyPaystackPayment } from "@/lib/1paystack";
+import { verifyPaystackPayment } from "@/lib/paystack";
 // import bcrypt from "bcryptjs"
 
 // Define validation schema

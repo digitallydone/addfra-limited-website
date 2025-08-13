@@ -4,7 +4,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
-import { initializePaystack, generatePaystackReference } from "@/lib/1paystack"
+import { initializePaystack, generatePaystackReference } from "@/lib/paystack"
 
 export default function PaystackCheckout({
   amount,
