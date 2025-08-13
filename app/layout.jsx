@@ -1,10 +1,9 @@
 // Path: app\layout.jsx
-import { Inter } from "next/font/google";
-import "./globals.css";
-import { Providers } from "@/components/providers/providers";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
 import CartHydration from "@/components/cart-hydration";
+import Footer from "@/components/footer";
+import Header from "@/components/header";
+import { Providers } from "@/components/providers/providers";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
