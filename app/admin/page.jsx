@@ -1,7 +1,7 @@
 // Path: app\admin\page.jsx
 import Link from "next/link"
-// import { Package, ShoppingCart, Users, DollarSign, TrendingUp, Clock, ArrowUpRight } from "lucide-react"
-// import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Package, ShoppingCart, Users, DollarSign, TrendingUp, Clock, ArrowUpRight } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import prisma from "@/lib/prisma"
