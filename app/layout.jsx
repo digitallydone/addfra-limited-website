@@ -20,12 +20,12 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          {/* <CartHydration> */}
+          <CartHydration>
             <Header />
-            <div className="bg-gray-50">{children}</div>
+            {/* <div className="bg-gray-50">{children}</div> */}
             <Footer />
           </CartHydration>
-        </Providers>
+        {/* </Providers> */}
       </body>
     </html>
   );
