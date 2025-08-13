@@ -29,7 +29,7 @@ import ProductCard from "../../components/ProductCard";
 export default function ShopPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  // const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [pagination, setPagination] = useState(null);
   const [loading, setLoading] = useState(true);
   const [searchInput, setSearchInput] = useState("");
