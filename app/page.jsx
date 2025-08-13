@@ -19,7 +19,7 @@ import {
 import TestimonialCarousel from "@/components/testimonial-carousel";
 import FeaturedVehicles from "@/components/featured-vehicles";
 import VehiclesComponent from "@/components/Vihecle-component";
-// import { HeroCarousel } from "@/components/Hero";
+import { HeroCarousel } from "@/components/Hero";
 import ServicesCarousel from "@/components/ServicesCarousel";
 
 export default function Home() {
