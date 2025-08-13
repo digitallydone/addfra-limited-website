@@ -1,26 +1,13 @@
 // Path: app\page.jsx
-import Link from "next/link";
-import {
-  ArrowRight,
-  Truck,
-  PenToolIcon as Tools,
-  ShoppingBag,
-  Phone,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import TestimonialCarousel from "@/components/testimonial-carousel";
-import FeaturedVehicles from "@/components/featured-vehicles";
-import VehiclesComponent from "@/components/Vihecle-component";
 import { HeroCarousel } from "@/components/Hero";
 import ServicesCarousel from "@/components/ServicesCarousel";
+import TestimonialCarousel from "@/components/testimonial-carousel";
+import { Button } from "@/components/ui/button";
+// import VehiclesComponent from "@/components/Vihecle-component";
+import {
+  Phone
+} from "lucide-react";
+import Link from "next/link";
 
 export default function Home() {
   return (
