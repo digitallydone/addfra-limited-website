@@ -3,7 +3,7 @@ import { HeroCarousel } from "@/components/Hero";
 import ServicesCarousel from "@/components/ServicesCarousel";
 import TestimonialCarousel from "@/components/testimonial-carousel";
 import { Button } from "@/components/ui/button";
-// import VehiclesComponent from "@/components/Vihecle-component";
+import VehiclesComponent from "@/components/Vihecle-component";
 import {
   Phone
 } from "lucide-react";
