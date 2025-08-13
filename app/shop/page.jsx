@@ -24,7 +24,7 @@ import { ChevronDown, Filter, Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import ProductCard from "../../components/ProductCard";
+// import ProductCard from "../../components/ProductCard";
 
 export default function ShopPage() {
   const router = useRouter();
