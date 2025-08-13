@@ -1,24 +1,24 @@
 // Path: app\admin\services\page.jsx
 "use client";
-import React, { useState, useEffect } from "react";
-import { uploadToCloudinary, deleteFromCloudinary } from "@/lib/cloudinary";
-import { createService, getServices, updateService, deleteService } from "./actions";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { X, Edit,MailMinus, Trash2, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Textarea } from "@/components/ui/textarea";
+import { deleteFromCloudinary, uploadToCloudinary } from "@/lib/cloudinary";
+import { Edit, Plus, Trash2, X } from "lucide-react";
 import Image from "next/image";
-import { toast } from "sonner";  
+import { useEffect, useState } from "react";
+import { createService, deleteService, getServices, updateService } from "./actions";
+// import { toast } from "sonner";  
 
 
 
 export default function AdminServicePage({ initialServices = [] }) {
 
-
+    
   const [services, setServices] = useState(initialServices);
   const [form, setForm] = useState({ 
     title: "", 
