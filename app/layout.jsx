@@ -22,10 +22,10 @@ export default function RootLayout({ children }) {
         <Providers>
           <CartHydration>
             <Header />
-            {/* <div className="bg-gray-50">{children}</div> */}
+            <div className="bg-gray-50">{children}</div>
             <Footer />
           </CartHydration>
-        {/* </Providers> */}
+        </Providers>
       </body>
     </html>
   );
