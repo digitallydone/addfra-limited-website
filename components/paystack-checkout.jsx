@@ -1,9 +1,10 @@
 "use client"
+// Path: components\paystack-checkout.jsx
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
-import { initializePaystack, generatePaystackReference } from "@/lib/paystack"
+import { initializePaystack, generatePaystackReference } from "@/lib/1paystack"
 
 export default function PaystackCheckout({
   amount,

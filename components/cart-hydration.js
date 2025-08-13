@@ -1,3 +1,4 @@
+// Path: components\cart-hydration.js
 // components/cart-hydration.js
 import { getCartItems } from "@/lib/cart"
 import { CartProvider } from "@/context/cart-context"
