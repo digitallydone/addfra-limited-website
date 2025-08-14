@@ -1,3 +1,4 @@
+// Path: app\admin\layout.jsx
 import Link from "next/link";
 import {
   LayoutDashboard,
@@ -36,6 +37,7 @@ function AdminSidebar() {
     { icon: FileText, label: "Blog Posts", href: "/admin/blog" },
     { icon: Car, label: "vehicles", href: "/admin/vehicles" },
     { icon: Car, label: "Enquiries", href: "/admin/enquiries" },
+    { icon: Settings, label: "Services", href: "/admin/services" },
     // { icon: Settings, label: "Settings", href: "/admin/settings" },
   ];
 

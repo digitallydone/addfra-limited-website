@@ -1,8 +1,20 @@
 // Path: app\admin\services\page.jsx
 "use client";
+import {
+  createService,
+  deleteService,
+  getServices,
+  updateService,
+} from "@/app/actions/services";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,19 +24,14 @@ import { Edit, Plus, Trash2, X } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { createService, deleteService, getServices, updateService } from "./actions";
-
-
 
 export default function AdminServicePage({ initialServices = [] }) {
-
-    
   const [services, setServices] = useState(initialServices);
-  const [form, setForm] = useState({ 
-    title: "", 
-    description: "", 
-    image: [], 
-    details: [""] 
+  const [form, setForm] = useState({
+    title: "",
+    description: "",
+    image: [],
+    details: [""],
   });
   const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -54,11 +61,11 @@ export default function AdminServicePage({ initialServices = [] }) {
       const uploaded = [];
       for (const file of files) {
         // Validate file type
-        if (!file.type.startsWith('image/')) {
+        if (!file.type.startsWith("image/")) {
           toast.error(`${file.name} is not a valid image file`);
           continue;
         }
-        
+
         // Validate file size (e.g., 5MB limit)
         if (file.size > 5 * 1024 * 1024) {
           toast.error(`${file.name} is too large. Maximum size is 5MB`);
@@ -68,7 +75,7 @@ export default function AdminServicePage({ initialServices = [] }) {
         const res = await uploadToCloudinary(file);
         uploaded.push({
           secure_url: res.secure_url,
-          public_id: res.public_id
+          public_id: res.public_id,
         });
       }
 
@@ -89,10 +96,10 @@ export default function AdminServicePage({ initialServices = [] }) {
       if (imageToRemove.public_id) {
         await deleteFromCloudinary(imageToRemove.public_id);
       }
-      
+
       setForm((prev) => ({
         ...prev,
-        image: prev.image.filter((_, i) => i !== index)
+        image: prev.image.filter((_, i) => i !== index),
       }));
       toast.success("Image removed successfully");
     } catch (error) {
@@ -104,27 +111,27 @@ export default function AdminServicePage({ initialServices = [] }) {
   function addDetail() {
     setForm((prev) => ({
       ...prev,
-      details: [...prev.details, ""]
+      details: [...prev.details, ""],
     }));
   }
 
   function updateDetail(index, value) {
     setForm((prev) => ({
       ...prev,
-      details: prev.details.map((detail, i) => i === index ? value : detail)
+      details: prev.details.map((detail, i) => (i === index ? value : detail)),
     }));
   }
 
   function removeDetail(index) {
     setForm((prev) => ({
       ...prev,
-      details: prev.details.filter((_, i) => i !== index)
+      details: prev.details.filter((_, i) => i !== index),
     }));
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    
+
     // Validation
     if (!form.title.trim()) {
       toast.error("Service title is required");
@@ -140,11 +147,11 @@ export default function AdminServicePage({ initialServices = [] }) {
       const serviceData = {
         title: form.title.trim(),
         description: form.description.trim(),
-        image: form.image.map(img => ({
+        image: form.image.map((img) => ({
           secure_url: img.secure_url,
-          public_id: img.public_id || ""
+          public_id: img.public_id || "",
         })),
-        details: form.details.filter(detail => detail.trim() !== "")
+        details: form.details.filter((detail) => detail.trim() !== ""),
       };
 
       if (editingId) {
@@ -161,7 +168,9 @@ export default function AdminServicePage({ initialServices = [] }) {
       setActiveTab("list");
     } catch (error) {
       console.error("Error saving service:", error);
-      toast.error(editingId ? "Failed to update service" : "Failed to create service");
+      toast.error(
+        editingId ? "Failed to update service" : "Failed to create service"
+      );
     } finally {
       setLoading(false);
     }
@@ -177,7 +186,8 @@ export default function AdminServicePage({ initialServices = [] }) {
       title: service.title,
       description: service.description || "",
       image: service.image || [],
-      details: service.details && service.details.length > 0 ? service.details : [""]
+      details:
+        service.details && service.details.length > 0 ? service.details : [""],
     });
     setEditingId(service.id);
     setActiveTab("create");
@@ -201,10 +211,12 @@ export default function AdminServicePage({ initialServices = [] }) {
   return (
     <div className="container mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Service Management</h1>
-      
+
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList>
-          <TabsTrigger value="list">All Services ({services.length})</TabsTrigger>
+          <TabsTrigger value="list">
+            All Services ({services.length})
+          </TabsTrigger>
           <TabsTrigger value="create">
             {editingId ? "Edit Service" : "Create Service"}
           </TabsTrigger>
@@ -222,7 +234,10 @@ export default function AdminServicePage({ initialServices = [] }) {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {services.map((service) => (
-                <Card key={service.id} className="shadow-md hover:shadow-lg transition-shadow">
+                <Card
+                  key={service.id}
+                  className="shadow-md hover:shadow-lg transition-shadow"
+                >
                   <CardHeader>
                     <CardTitle className="flex items-center justify-between">
                       <span>{service.title}</span>
@@ -261,19 +276,25 @@ export default function AdminServicePage({ initialServices = [] }) {
                         ))}
                       </div>
                     )}
-                    
+
                     {/* Description */}
                     <p className="text-sm text-muted-foreground mb-3">
                       {service.description}
                     </p>
-                    
+
                     {/* Details */}
                     {service.details && service.details.length > 0 && (
                       <div className="space-y-1">
-                        <Label className="text-xs font-semibold">Details:</Label>
+                        <Label className="text-xs font-semibold">
+                          Details:
+                        </Label>
                         <div className="flex flex-wrap gap-1">
                           {service.details.map((detail, i) => (
-                            <Badge key={i} variant="secondary" className="text-xs">
+                            <Badge
+                              key={i}
+                              variant="secondary"
+                              className="text-xs"
+                            >
                               {detail}
                             </Badge>
                           ))}
@@ -308,7 +329,9 @@ export default function AdminServicePage({ initialServices = [] }) {
                     type="text"
                     placeholder="Enter service title"
                     value={form.title}
-                    onChange={(e) => setForm({ ...form, title: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, title: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -320,7 +343,9 @@ export default function AdminServicePage({ initialServices = [] }) {
                     id="description"
                     placeholder="Enter service description"
                     value={form.description}
-                    onChange={(e) => setForm({ ...form, description: e.target.value })}
+                    onChange={(e) =>
+                      setForm({ ...form, description: e.target.value })
+                    }
                     rows={4}
                     required
                   />
@@ -338,9 +363,11 @@ export default function AdminServicePage({ initialServices = [] }) {
                     disabled={loading}
                   />
                   {loading && (
-                    <p className="text-sm text-muted-foreground">Uploading images...</p>
+                    <p className="text-sm text-muted-foreground">
+                      Uploading images...
+                    </p>
                   )}
-                  
+
                   {/* Image Previews */}
                   {form.image.length > 0 && (
                     <div className="grid grid-cols-3 gap-2 mt-3">
@@ -377,7 +404,7 @@ export default function AdminServicePage({ initialServices = [] }) {
                       Add Detail
                     </Button>
                   </div>
-                  
+
                   <div className="space-y-2">
                     {form.details.map((detail, i) => (
                       <div key={i} className="flex gap-2">
@@ -404,7 +431,11 @@ export default function AdminServicePage({ initialServices = [] }) {
                 {/* Submit Buttons */}
                 <div className="flex gap-3 pt-4">
                   <Button type="submit" disabled={loading}>
-                    {loading ? "Saving..." : (editingId ? "Update Service" : "Create Service")}
+                    {loading
+                      ? "Saving..."
+                      : editingId
+                      ? "Update Service"
+                      : "Create Service"}
                   </Button>
                   <Button
                     type="button"

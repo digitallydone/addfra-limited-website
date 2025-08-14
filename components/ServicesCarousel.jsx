@@ -1,72 +1,37 @@
 // Path: components\ServicesCarousel.jsx
+
 "use client";
-import React from "react";
+
 import Link from "next/link";
 import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { services } from "@/lib/services";
+import "slick-carousel/slick/slick.css";
 
-// const services = [
-//   {
-//     title: "Bulk Fuel Tankers",
-//     image: "/images/fuel-tanker.jpg",
-//     description:
-//       "Custom-designed fuel tankers built to meet safety and efficiency standards for transport.",
-//     link: "/services/bulk-fuel-tankers",
-//   },
-//   {
-//     title: "Cold Rooms",
-//     image: "/images/cold-room.jpg",
-//     description:
-//       "Durable, energy-efficient cold storage rooms ideal for food and pharmaceutical storage.",
-//     link: "/services/cold-rooms",
-//   },
-//   {
-//     title: "Flat Bed Semi Trailers",
-//     image: "/images/flatbed.jpg",
-//     description:
-//       "Reliable and strong flatbed trailers for transporting large and heavy-duty loads.",
-//     link: "/services/flat-bed-semi-trailers",
-//   },
-//   {
-//     title: "House Metal Burglary",
-//     image: "/images/burglary.jpg",
-//     description:
-//       "Secure and stylish metal burglary solutions including doors and window bars.",
-//     link: "/services/house-metal-burglary",
-//   },
-//   {
-//     title: "Refrigerated Truck Bodies",
-//     image: "/images/refrigerated-truck.jpg",
-//     description:
-//       "Insulated truck bodies for transporting perishable goods under controlled temperatures.",
-//     link: "/services/refrigerated-truck-bodies",
-//   },
-//   {
-//     title: "Signboards And Billboards",
-//     image: "/images/billboard.jpg",
-//     description:
-//       "High-impact signboards and billboards designed to increase brand visibility.",
-//     link: "/services/signboards-billboards",
-//   },
-//   {
-//     title: "Truck Body Building",
-//     image: "/images/truck-body.jpg",
-//     description:
-//       "Custom-built truck bodies tailored for logistics, construction, and more.",
-//     link: "/services/truck-body-building",
-//   },
-//   {
-//     title: "Water Tanker Fabrication",
-//     image: "/images/water-tanker.jpg",
-//     description:
-//       "Robust water tankers engineered for industrial, commercial, and agricultural use.",
-//     link: "/services/water-tanker-fabrication",
-//   },
-// ];
+import { getServices } from "@/app/actions/services";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function ServicesCarousel() {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch services on component mount
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
+  async function fetchServices() {
+    try {
+      setLoading(true);
+      const fetchedServices = await getServices();
+      setServices(fetchedServices);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+      toast.error("Failed to fetch services");
+    } finally {
+      setLoading(false);
+    }
+  }
   const settings = {
     dots: true,
     infinite: true,
@@ -142,7 +107,7 @@ export default function ServicesCarousel() {
           <div key={index} className="px-2">
             <div className="h-full mx-2 overflow-hidden bg-white rounded-lg shadow-lg">
               <img
-                src={service.image}
+                src={service.image[0] || "/placeholder-image.jpg"}
                 alt={service.title}
                 className="object-cover w-full h-48"
               />
