@@ -14,24 +14,26 @@ export async function createService(data) {
     }
 
     const slug = slugify(data.title, { lower: true, strict: true });
-    
+
     // Check if slug already exists
     const existingService = await prisma.service.findUnique({
-      where: { slug }
+      where: { slug },
     });
-    
+
     if (existingService) {
       throw new Error("A service with this title already exists");
     }
 
     // Process images - ensure they're stored as strings
-    const imageUrls = Array.isArray(data.image) 
-      ? data.image.map(img => typeof img === 'string' ? img : img.secure_url)
+    const imageUrls = Array.isArray(data.image)
+      ? data.image.map((img) =>
+          typeof img === "string" ? img : img.secure_url
+        )
       : [];
 
     // Filter out empty details
-    const details = Array.isArray(data.details) 
-      ? data.details.filter(detail => detail && detail.trim() !== "")
+    const details = Array.isArray(data.details)
+      ? data.details.filter((detail) => detail && detail.trim() !== "")
       : [];
 
     const service = await prisma.service.create({
@@ -56,7 +58,7 @@ export async function createService(data) {
 export async function getServices() {
   try {
     const services = await prisma.service.findMany({
-      orderBy: { createdAt: "desc" }
+      orderBy: { createdAt: "desc" },
     });
     return services;
   } catch (error) {
@@ -69,7 +71,7 @@ export async function getServices() {
 export async function getServiceById(id) {
   try {
     const service = await prisma.service.findUnique({
-      where: { id }
+      where: { id },
     });
     return service;
   } catch (error) {
@@ -82,14 +84,10 @@ export async function getServiceById(id) {
 export async function getServiceBySlug(slug) {
   try {
     const service = await prisma.service.findUnique({
-      where: { slug }
+      where: { slug },
     });
 
-    console.log('====================================');
-    console.log(service);
-    console.log('====================================');
     return service;
-    
   } catch (error) {
     console.error("Error fetching service by slug:", error);
     throw error;
@@ -106,7 +104,7 @@ export async function updateService(id, data) {
 
     // Get the current service
     const currentService = await prisma.service.findUnique({
-      where: { id }
+      where: { id },
     });
 
     if (!currentService) {
@@ -114,26 +112,28 @@ export async function updateService(id, data) {
     }
 
     const slug = slugify(data.title, { lower: true, strict: true });
-    
+
     // Check if slug already exists (excluding current service)
     if (slug !== currentService.slug) {
       const existingService = await prisma.service.findUnique({
-        where: { slug }
+        where: { slug },
       });
-      
+
       if (existingService) {
         throw new Error("A service with this title already exists");
       }
     }
 
     // Process images - ensure they're stored as strings
-    const imageUrls = Array.isArray(data.image) 
-      ? data.image.map(img => typeof img === 'string' ? img : img.secure_url)
+    const imageUrls = Array.isArray(data.image)
+      ? data.image.map((img) =>
+          typeof img === "string" ? img : img.secure_url
+        )
       : [];
 
     // Filter out empty details
-    const details = Array.isArray(data.details) 
-      ? data.details.filter(detail => detail && detail.trim() !== "")
+    const details = Array.isArray(data.details)
+      ? data.details.filter((detail) => detail && detail.trim() !== "")
       : [];
 
     const service = await prisma.service.update({
@@ -160,15 +160,15 @@ export async function updateService(id, data) {
 export async function deleteService(id) {
   try {
     const service = await prisma.service.findUnique({
-      where: { id }
+      where: { id },
     });
 
     if (!service) {
       throw new Error("Service not found");
     }
 
-    await prisma.service.delete({ 
-      where: { id } 
+    await prisma.service.delete({
+      where: { id },
     });
 
     revalidatePath("/admin/services");
@@ -184,17 +184,17 @@ export async function deleteService(id) {
 export async function deleteMultipleServices(ids) {
   try {
     const services = await prisma.service.findMany({
-      where: { id: { in: ids } }
+      where: { id: { in: ids } },
     });
 
     await prisma.service.deleteMany({
-      where: { id: { in: ids } }
+      where: { id: { in: ids } },
     });
 
     revalidatePath("/admin/services");
-    
+
     // Revalidate individual service pages
-    services.forEach(service => {
+    services.forEach((service) => {
       revalidatePath(`/services/${service.slug}`);
     });
 
@@ -209,28 +209,28 @@ export async function deleteMultipleServices(ids) {
 export async function searchServices(query, options = {}) {
   try {
     const { limit = 10, offset = 0 } = options;
-    
+
     const services = await prisma.service.findMany({
       where: {
         OR: [
-          { title: { contains: query, mode: 'insensitive' } },
-          { description: { contains: query, mode: 'insensitive' } },
-          { details: { hasSome: [query] } }
-        ]
+          { title: { contains: query, mode: "insensitive" } },
+          { description: { contains: query, mode: "insensitive" } },
+          { details: { hasSome: [query] } },
+        ],
       },
       orderBy: { createdAt: "desc" },
       take: limit,
-      skip: offset
+      skip: offset,
     });
 
     const total = await prisma.service.count({
       where: {
         OR: [
-          { title: { contains: query, mode: 'insensitive' } },
-          { description: { contains: query, mode: 'insensitive' } },
-          { details: { hasSome: [query] } }
-        ]
-      }
+          { title: { contains: query, mode: "insensitive" } },
+          { description: { contains: query, mode: "insensitive" } },
+          { details: { hasSome: [query] } },
+        ],
+      },
     });
 
     return { services, total };
