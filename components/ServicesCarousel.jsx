@@ -102,33 +102,39 @@ export default function ServicesCarousel() {
         </p>
       </div>
 
-      <Slider {...settings}>
-        {services.map((service, index) => (
-          <div key={index} className="px-2">
-            <div className="h-full mx-2 overflow-hidden bg-white rounded-lg shadow-lg">
-              <img
-                src={service.image[0] || "/placeholder-image.jpg"}
-                alt={service.title}
-                className="object-cover w-full h-48"
-              />
-              <div className="p-4">
-                <h3 className="mb-2 text-xl font-bold text-gray-800 line-clamp-2">
-                  {service.title}
-                </h3>
-                <p className="mb-4 text-sm text-gray-600 line-clamp-3">
-                  {service.description}
-                </p>
-                <Link
-                  href={`/services/${service.slug}` || "#"}
-                  className="inline-block px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded hover:bg-blue-700"
-                >
-                  Learn More
-                </Link>
+      {loading ? (
+        <p>Loading...</p>
+      ) : services.length === 0 ? (
+        <p>No services found</p>
+      ) : (
+        <Slider {...settings}>
+          {services.map((service, index) => (
+            <div key={index} className="px-2">
+              <div className="h-full mx-2 overflow-hidden bg-white rounded-lg shadow-lg">
+                <img
+                  src={service.image[0] || "/placeholder-image.jpg"}
+                  alt={service.title}
+                  className="object-cover w-full h-48"
+                />
+                <div className="p-4">
+                  <h3 className="mb-2 text-xl font-bold text-gray-800 line-clamp-2">
+                    {service.title}
+                  </h3>
+                  <p className="mb-4 text-sm text-gray-600 line-clamp-3">
+                    {service.description}
+                  </p>
+                  <Link
+                    href={`/services/${service.slug}` || "#"}
+                    className="inline-block px-4 py-2 text-white transition-colors duration-200 bg-blue-600 rounded hover:bg-blue-700"
+                  >
+                    Learn More
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </Slider>
+          ))}
+        </Slider>
+      )}
     </div>
   );
 }

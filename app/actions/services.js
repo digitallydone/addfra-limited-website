@@ -1,7 +1,4 @@
 // Path: app\actions\services.js
-
-
-// Path: app\admin\services\actions.js
 "use server";
 
 import { prisma } from "@/lib/prisma";
@@ -87,7 +84,12 @@ export async function getServiceBySlug(slug) {
     const service = await prisma.service.findUnique({
       where: { slug }
     });
+
+    console.log('====================================');
+    console.log(service);
+    console.log('====================================');
     return service;
+    
   } catch (error) {
     console.error("Error fetching service by slug:", error);
     throw error;
