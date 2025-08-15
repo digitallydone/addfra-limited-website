@@ -334,13 +334,13 @@ export default function AboutPage() {
                       workshop in Accra, Ghana.
                     </p>
                   </div>
-                    <div className="md:pl-12">
+                  {/* <div className="md:pl-12">
                     <img
                       src="/our-journey-1.jpg?height=300&width=400"
                       alt="Company founding"
                       className="rounded-lg shadow-md"
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
 
