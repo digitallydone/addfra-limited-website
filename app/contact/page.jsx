@@ -17,7 +17,7 @@ export default function ContactPage() {
     <main className="flex flex-col min-h-screen">
       {/* Hero Section */}
       <section className="relative h-[40vh] w-full bg-gradient-to-r from-slate-900 to-slate-800 flex items-center">
-        <div className="absolute inset-0 opacity-30 bg-[url('/contact-us.jpg?height=800&width=1600')] bg-cover bg-center"></div>
+        <div className="absolute inset-0 opacity-30 bg-[url('/contact-us.png?height=800&width=1600')] bg-cover bg-center"></div>
         <div className="container z-10 px-4 mx-auto">
           <div className="max-w-3xl">
             <h1 className="mb-4 text-4xl font-bold text-white md:text-5xl">

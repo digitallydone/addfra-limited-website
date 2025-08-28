@@ -1,8 +1,5 @@
 // Path: components\Hero.jsx
 
-
-// Path: components/Hero.jsx
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -16,6 +13,7 @@ const carouselSlides = [
     description:
       "Temperature-controlled transport solutions for perishable goods.",
     image: "/carousel/refrigerated-truck.jpg",
+    link: "/services",
     cta: "View Fleet",
   },
   {
@@ -23,6 +21,7 @@ const carouselSlides = [
     title: "Custom Trailers",
     description: "Tailored to your specific business requirements.",
     image: "/carousel/custom-trailer.jpg",
+    link: "/contact",
     cta: "Get Quote",
   },
   {
@@ -30,6 +29,7 @@ const carouselSlides = [
     title: "General Metal Fabrication",
     description: "Expert metal fabrication for all your automotive needs.",
     image: "/carousel/metal.png",
+    link: "/services",
     cta: "Learn More",
   },
   {
@@ -37,6 +37,7 @@ const carouselSlides = [
     title: "Maintenance Services",
     description: "Keep your fleet running smoothly with our expert care.",
     image: "/carousel/maintenance.jpg",
+    link: "/services",
     cta: "Our Services",
   },
   {
@@ -44,6 +45,7 @@ const carouselSlides = [
     title: "24/7 Support",
     description: "We're always here when you need assistance.",
     image: "/carousel/support.jpg",
+    link: "/contact",
     cta: "Contact Us",
   },
 ];
@@ -62,7 +64,9 @@ export function HeroCarousel() {
   const nextSlide = () =>
     setCurrent((prev) => (prev + 1) % carouselSlides.length);
   const prevSlide = () =>
-    setCurrent((prev) => (prev - 1 + carouselSlides.length) % carouselSlides.length);
+    setCurrent(
+      (prev) => (prev - 1 + carouselSlides.length) % carouselSlides.length
+    );
 
   const slide = carouselSlides[current];
 
@@ -79,9 +83,7 @@ export function HeroCarousel() {
       {/* Content */}
       <div className="relative z-10 flex items-center h-full px-4 container mx-auto">
         <div className="max-w-3xl text-white">
-          <h1 className="mb-4 text-4xl font-bold md:text-6xl">
-            {slide.title}
-          </h1>
+          <h1 className="mb-4 text-4xl font-bold md:text-6xl">{slide.title}</h1>
           <p className="mb-8 text-lg md:text-xl text-slate-200">
             {slide.description}
           </p>
@@ -98,7 +100,9 @@ export function HeroCarousel() {
             key={index}
             onClick={() => goTo(index)}
             className={`w-3 h-3 rounded-full transition-all ${
-              current === index ? "bg-white scale-110" : "bg-white/50 hover:bg-white/70"
+              current === index
+                ? "bg-white scale-110"
+                : "bg-white/50 hover:bg-white/70"
             }`}
             aria-label={`Go to slide ${index + 1}`}
           />
