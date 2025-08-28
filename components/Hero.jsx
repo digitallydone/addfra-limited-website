@@ -5,6 +5,7 @@
 import { useEffect, useState } from "react";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
+import Link from "next/link";
 
 const carouselSlides = [
   {
@@ -87,8 +88,11 @@ export function HeroCarousel() {
           <p className="mb-8 text-lg md:text-xl text-slate-200">
             {slide.description}
           </p>
+
           <Button size="lg" className="bg-primary hover:bg-primary/90">
-            {slide.cta} <ArrowRight className="w-4 h-4 ml-2" />
+            <Link href={slide.link}>
+              {slide.cta} <ArrowRight className="w-4 h-4 ml-2" />
+            </Link>
           </Button>
         </div>
       </div>
